@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNB Agent Conversion Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<style>
+:root {
+  --bb-yellow: #FFE180;
+  --bb-cream: #FFF6D8;
+  --bb-gold: #FFD54D;
+  --bb-brown: #522A10;
+  --bb-brown-light: #633F28;
+  --bb-pink: #F1AEAF;
+  --bb-berry: #A43260;
+  --bb-berry-dark: #80254A;
+  --bb-blue: #9BC3FE;
+  --bb-navy: #10507C;
+  --bb-coral: #ED6961;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bb-cream);
+  color: var(--bb-brown);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.header {
+  background: var(--bb-yellow);
+  border-bottom: 3px solid var(--bb-gold);
+  padding: 20px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-left h1 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--bb-brown);
+}
+.header-left .subtitle {
+  font-size: 13px;
+  color: var(--bb-brown-light);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.last-updated {
+  font-size: 12px;
+  color: var(--bb-brown-light);
+}
+.period-toggle {
+  display: flex;
+  background: rgba(82,42,16,0.1);
+  border-radius: 8px;
+  padding: 3px;
+}
+.period-toggle button {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.period-toggle button.active {
+  background: #fff;
+  color: var(--bb-berry);
+  box-shadow: 0 1px 3px rgba(82,42,16,0.15);
+}
+.nav-tabs {
+  background: #fff;
+  display: flex;
+  gap: 0;
+  padding: 0 32px;
+  border-bottom: 1px solid rgba(82,42,16,0.1);
+  overflow-x: auto;
+}
+.nav-tabs button {
+  padding: 14px 20px;
+  border: none;
+  background: none;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-tabs button:hover { color: var(--bb-brown); }
+.nav-tabs button.active {
+  color: var(--bb-berry);
+  border-bottom-color: var(--bb-berry);
+}
+.main-content {
+  padding: 24px 32px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+  border-left: 4px solid var(--bb-gold);
+}
+.kpi-card .kpi-label {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.kpi-card .kpi-value {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--bb-brown);
+}
+.kpi-card .kpi-sub {
+  font-size: 12px;
+  color: var(--bb-brown-light);
+  margin-top: 4px;
+}
+.chart-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+  margin-bottom: 24px;
+}
+.chart-container h3 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bb-brown);
+  margin-bottom: 16px;
+}
+.chart-wrapper {
+  position: relative;
+  height: 350px;
+}
+.performer-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.performer-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+}
+.performer-card.good { border-left: 4px solid #2E7D32; }
+.performer-card.bad { border-left: 4px solid var(--bb-coral); }
+.performer-card h4 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.performer-card .name { font-size: 18px; font-weight: 700; }
+.performer-card .rate { font-size: 14px; color: var(--bb-brown-light); margin-top: 4px; }
+.data-table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.data-table-wrapper h3 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bb-brown);
+  padding: 20px 24px 12px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--bb-brown);
+  color: var(--bb-brown);
+  cursor: pointer;
+}
+td { padding: 10px 16px; border-bottom: 1px solid rgba(82,42,16,0.08); }
+tr:hover td { background: var(--bb-cream); }
+.good-row { background: rgba(46,125,50,0.05); }
+.bad-row { background: rgba(237,105,97,0.05); }
+.agent-picker-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+  margin-bottom: 24px;
+}
+.agent-picker-container h4 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bb-brown);
+  margin-bottom: 12px;
+}
+.agent-checkboxes { display: flex; flex-wrap: wrap; gap: 8px; }
+.agent-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--bb-cream);
+  border: 1px solid rgba(82,42,16,0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bb-brown);
+  transition: all 0.15s;
+}
+.agent-checkbox-label:hover { border-color: var(--bb-berry); }
+.agent-checkbox-label input[type="checkbox"] { accent-color: var(--bb-berry); }
+.agent-checkbox-label.checked { background: rgba(164,50,96,0.08); border-color: var(--bb-berry); color: var(--bb-berry-dark); }
+.picker-actions { margin-top: 10px; display: flex; gap: 8px; }
+.picker-actions button {
+  padding: 4px 12px;
+  border: 1px solid rgba(82,42,16,0.15);
+  background: #fff;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  cursor: pointer;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+}
+.picker-actions button:hover { border-color: var(--bb-berry); color: var(--bb-berry); }
+.view-toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.view-toggle {
+  display: flex;
+  background: rgba(82,42,16,0.06);
+  border-radius: 8px;
+  padding: 3px;
+}
+.view-toggle button {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bb-brown-light);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.view-toggle button.active { background: #fff; color: var(--bb-berry); box-shadow: 0 1px 3px rgba(82,42,16,0.1); }
+.agent-dropdown {
+  padding: 6px 12px;
+  border: 1px solid rgba(82,42,16,0.15);
+  border-radius: 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  color: var(--bb-brown);
+  background: #fff;
+  cursor: pointer;
+}
+.trend-table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(82,42,16,0.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.trend-table-wrapper h3 {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 20px 24px 12px;
+}
+.table-scroll { overflow-x: auto; padding: 0 0 8px; }
+.table-scroll table { min-width: 800px; }
+.min-vol-note { font-size: 11px; color: var(--bb-brown-light); font-style: italic; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>BNB Agent Conversion Dashboard</h1>
+    <div class="subtitle">Spoken-to Lead Performance Analysis</div>
+  </div>
+  <div class="header-right">
+    <div class="last-updated" id="lastUpdated">Last updated: --</div>
+    <div class="period-toggle" id="periodToggle">
+      <button class="active" data-period="weekly" onclick="setPeriod('weekly')">Weekly</button>
+      <button data-period="monthly" onclick="setPeriod('monthly')">Monthly</button>
+    </div>
+    <div class="period-toggle" id="dateSourceToggle" style="margin-left:8px;">
+      <button class="active" data-source="import" onclick="setDateSource('import')">Import Date</button>
+      <button data-source="last_call" onclick="setDateSource('last_call')">Last Call Date</button>
+    </div>
+  </div>
+</div>
+
+<div class="nav-tabs" id="navTabs">
+  <button class="active" data-tab="overview" onclick="setTab('overview')">Overview</button>
+  <button data-tab="rankings" onclick="setTab('rankings')">Agent Rankings</button>
+  <button data-tab="trends" onclick="setTab('trends')">Conversion Trends</button>
+  <button data-tab="outcomes" onclick="setTab('outcomes')">Outcome Breakdown</button>
+  <button data-tab="convertible" onclick="setTab('convertible')">Convertible Deep Dive</button>
+  <button data-tab="listid" onclick="setTab('listid')">List ID Analysis</button>
+</div>
+
+<div class="main-content">
+  <div class="tab-panel active" id="tab-overview">
+    <div class="kpi-row" id="kpiRow"></div>
+    <div class="performer-row" id="performerRow"></div>
+    <div class="chart-container">
+      <h3>Team Conversion Rate Trend</h3>
+      <div class="chart-wrapper"><canvas id="overviewTrendChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-rankings">
+    <div class="min-vol-note">Showing agents with 30+ spoken-to leads. Trend = latest period CVR vs previous period CVR.</div>
+    <div class="data-table-wrapper">
+      <h3>Agent Performance Rankings (Full Period Aggregate)</h3>
+      <div class="table-scroll">
+        <table id="rankingsTable">
+          <thead><tr>
+            <th onclick="sortRankings('rank')" style="cursor:pointer;">Rank &#8597;</th>
+            <th onclick="sortRankings('name')" style="cursor:pointer;">Agent &#8597;</th>
+            <th onclick="sortRankings('spoken')" style="cursor:pointer;">Spoken To &#8597;</th>
+            <th onclick="sortRankings('sales')" style="cursor:pointer;">Sales &#8597;</th>
+            <th onclick="sortRankings('rate')" style="cursor:pointer;">CVR &#8597;</th>
+            <th onclick="sortRankings('trend')" style="cursor:pointer;">Trend (wk vs wk) &#8597;</th>
+          </tr></thead>
+          <tbody id="rankingsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-trends">
+    <div class="trend-table-wrapper">
+      <h3>Conversion Rates by Period</h3>
+      <div class="table-scroll" id="trendTableScroll"></div>
+    </div>
+    <div class="agent-picker-container">
+      <h4>Select Agents to Chart</h4>
+      <div class="agent-checkboxes" id="trendAgentPicker"></div>
+      <div class="picker-actions">
+        <button onclick="trendSelectAll()">Select All</button>
+        <button onclick="trendSelectNone()">Clear All</button>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h3>Conversion Rate Trend (Selected Agents vs Team Average)</h3>
+      <div class="chart-wrapper"><canvas id="trendLineChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Leads Spoken To (Volume by Period)</h3>
+      <div class="chart-wrapper"><canvas id="volumeChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-outcomes">
+    <div class="view-toggle-bar">
+      <div class="view-toggle">
+        <button class="active" onclick="setOutcomeView('all')">All Agents</button>
+        <button onclick="setOutcomeView('single')">Per-Agent Time Series</button>
+      </div>
+      <select class="agent-dropdown" id="outcomeAgentSelect" style="display:none;" onchange="renderOutcomeChart()"></select>
+    </div>
+    <div class="chart-container">
+      <h3 id="outcomeChartTitle">Outcome Distribution by Agent (Latest Period)</h3>
+      <div class="chart-wrapper" style="height:420px;"><canvas id="outcomeChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-convertible">
+    <div class="view-toggle-bar">
+      <div class="view-toggle">
+        <button class="active" onclick="setConvertView('all')">All Agents</button>
+        <button onclick="setConvertView('single')">Per-Agent Time Series</button>
+      </div>
+      <select class="agent-dropdown" id="convertAgentSelect" style="display:none;" onchange="renderConvertChart()"></select>
+    </div>
+    <div class="chart-container">
+      <h3 id="convertChartTitle">Convertible Sub-code Distribution by Agent (Latest Period)</h3>
+      <div class="chart-wrapper" style="height:420px;"><canvas id="convertChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-listid">
+    <div class="view-toggle-bar">
+      <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Select List ID:</label>
+      <select class="agent-dropdown" id="listIdSelect" onchange="renderListTab()"></select>
+    </div>
+    <div class="kpi-row" id="listKpiRow"></div>
+    <div class="chart-container">
+      <h3 id="listChartTitle">List Performance Over Time</h3>
+      <div class="chart-wrapper"><canvas id="listChart"></canvas></div>
+    </div>
+    <div class="data-table-wrapper">
+      <h3>All Lists Summary</h3>
+      <div class="table-scroll">
+        <table id="listTable">
+          <thead><tr><th>List ID</th><th>Spoken To</th><th>Sales</th><th>CVR</th><th>Bad Data</th><th>Bad Data %</th><th>Convertible</th></tr></thead>
+          <tbody id="listTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var REAL_DATA = null;
+
+function loadData() {
+  return fetch('./data.json')
+    .then(function(response) {
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return response.json();
+    })
+    .then(function(data) {
+      REAL_DATA = data;
+      return data;
+    })
+    .catch(function(err) {
+      console.warn("Could not load data.json:", err.message);
+      // Show a message if no data available
+      document.querySelector(".main-content").innerHTML = '<div style="text-align:center;padding:60px 20px;"><h2 style="color:var(--bb-brown);font-family:IBM Plex Sans Condensed,sans-serif;">Waiting for data</h2><p style="color:var(--bb-brown-light);margin-top:12px;">Run GitHub Actions to generate data.json, or place data.json in the same directory.</p></div>';
+      return null;
+    });
+}
+
+
+
+// Global state
+var currentPeriod = "weekly";
+var currentDateSource = "import";
+var currentTab = "overview";
+var outcomeView = "all";
+var convertView = "all";
+var selectedTrendAgents = {};
+var charts = {};
+var MIN_VOLUME = 30;
+
+var CONVERT_CODES = ["payissue","freezspace","health","callback","medifood","tooexp","fussy","ni"];
+var CONVERT_LABELS = ["PAYISSUE","FREEZSPACE","HEALTH","CALLBACK","MEDIFOOD","TOOEXP","FUSSY","NI"];
+var CONVERT_COLORS = ["#E63946","#457B9D","#2A9D8F","#E9C46A","#F4A261","#264653","#8338EC","#FF006E"];
+
+// Register datalabels plugin
+Chart.register(ChartDataLabels);
+Chart.defaults.set('plugins.datalabels', { display: false });
+
+function getData() { return REAL_DATA; }
+function getEntries() {
+  var d = getData();
+  if (currentDateSource === "last_call") {
+    return currentPeriod === "weekly" ? (d.weekly_last_call || d.weekly) : (d.monthly_last_call || d.monthly);
+  }
+  return currentPeriod === "weekly" ? d.weekly : d.monthly;
+}
+
+function setDateSource(src) {
+  currentDateSource = src;
+  var btns = document.querySelectorAll("#dateSourceToggle button");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle("active", btns[i].getAttribute("data-source") === src);
+  }
+  renderCurrentTab();
+}
+
+function getPeriods() {
+  var entries = getEntries();
+  var seen = {};
+  var periods = [];
+  for (var i = 0; i < entries.length; i++) {
+    if (!seen[entries[i].period_start]) {
+      seen[entries[i].period_start] = true;
+      periods.push(entries[i].period_start);
+    }
+  }
+  return periods.sort();
+}
+
+function getAgentNames() {
+  var entries = getEntries();
+  var totals = {};
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    if (!totals[e.agent_name]) totals[e.agent_name] = 0;
+    totals[e.agent_name] += e.total_spoken;
+  }
+  var agents = [];
+  for (var name in totals) {
+    if (totals[name] >= MIN_VOLUME) agents.push(name);
+  }
+  return agents.sort();
+}
+
+function getLatestPeriod() {
+  var periods = getPeriods();
+  return periods[periods.length - 1];
+}
+
+function getSecondLatestPeriod() {
+  var periods = getPeriods();
+  return periods.length > 1 ? periods[periods.length - 2] : null;
+}
+
+function getAgentDataForPeriod(agent, period) {
+  var entries = getEntries();
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].agent_name === agent && entries[i].period_start === period) return entries[i];
+  }
+  return null;
+}
+
+function getTeamTotalsForPeriod(period) {
+  var entries = getEntries();
+  var total = {total_spoken:0, sales:0, bad_data:0, convertible_total:0};
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].period_start === period) {
+      total.total_spoken += entries[i].total_spoken;
+      total.sales += entries[i].sales;
+      total.bad_data += entries[i].bad_data;
+      total.convertible_total += entries[i].convertible_total;
+    }
+  }
+  return total;
+}
+
+function formatPeriodLabel(period) {
+  var d = new Date(period + "T00:00:00");
+  var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return d.getDate() + " " + months[d.getMonth()];
+}
+
+function destroyChart(key) {
+  if (charts[key]) { charts[key].destroy(); charts[key] = null; }
+}
+
+function cvr(sales, total) { return total > 0 ? (sales / total * 100) : 0; }
+
+function getAgentAggregate(agentName) {
+  var entries = getEntries();
+  var agg = {agent_name: agentName, total_spoken:0, sales:0, bad_data:0, convertible_total:0, payissue:0, freezspace:0, health:0, callback:0, medifood:0, tooexp:0, fussy:0, ni:0};
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    if (e.agent_name !== agentName) continue;
+    agg.total_spoken += e.total_spoken;
+    agg.sales += e.sales;
+    agg.bad_data += e.bad_data;
+    agg.convertible_total += e.convertible_total;
+    agg.payissue += (e.payissue || 0);
+    agg.freezspace += (e.freezspace || 0);
+    agg.health += (e.health || 0);
+    agg.callback += (e.callback || 0);
+    agg.medifood += (e.medifood || 0);
+    agg.tooexp += (e.tooexp || 0);
+    agg.fussy += (e.fussy || 0);
+    agg.ni += (e.ni || 0);
+  }
+  return agg;
+}
+
+// ===== TAB & PERIOD SWITCHING =====
+function setPeriod(p) {
+  currentPeriod = p;
+  var btns = document.querySelectorAll("#periodToggle button");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle("active", btns[i].getAttribute("data-period") === p);
+  }
+  renderCurrentTab();
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  var btns = document.querySelectorAll("#navTabs button");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle("active", btns[i].getAttribute("data-tab") === tab);
+  }
+  var panels = document.querySelectorAll(".tab-panel");
+  for (var i = 0; i < panels.length; i++) {
+    panels[i].classList.toggle("active", panels[i].id === "tab-" + tab);
+  }
+  renderCurrentTab();
+}
+
+function renderCurrentTab() {
+  if (currentTab === "overview") renderOverview();
+  else if (currentTab === "rankings") renderRankings();
+  else if (currentTab === "trends") renderTrends();
+  else if (currentTab === "outcomes") renderOutcomeChart();
+  else if (currentTab === "convertible") renderConvertChart();
+  else if (currentTab === "listid") renderListTab();
+}
+
+// ===== TAB 1: OVERVIEW =====
+function renderOverview() {
+  // Full period aggregate for KPIs
+  var entries = getEntries();
+  var allSpoken = 0, allSales = 0;
+  for (var i = 0; i < entries.length; i++) { allSpoken += entries[i].total_spoken; allSales += entries[i].sales; }
+  var rate = cvr(allSales, allSpoken);
+  var periodLabel = currentPeriod === "weekly" ? "13 weeks" : "3 months";
+
+  document.getElementById("kpiRow").innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">Team Conversion Rate</div><div class="kpi-value">' + rate.toFixed(1) + '%</div><div class="kpi-sub">Sale / Spoken To (all ' + periodLabel + ')</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">Total Spoken To</div><div class="kpi-value">' + allSpoken.toLocaleString() + '</div><div class="kpi-sub">All leads contacted (' + periodLabel + ')</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">Total Sales</div><div class="kpi-value">' + allSales.toLocaleString() + '</div><div class="kpi-sub">Total conversions (' + periodLabel + ')</div></div>';
+
+  // Best and worst performers (full period aggregate)
+  var agents = getAgentNames();
+  var agentRates = [];
+  for (var i = 0; i < agents.length; i++) {
+    var agg = getAgentAggregate(agents[i]);
+    if (agg.total_spoken >= MIN_VOLUME) {
+      agentRates.push({name: agents[i], rate: cvr(agg.sales, agg.total_spoken), spoken: agg.total_spoken, sales: agg.sales});
+    }
+  }
+  agentRates.sort(function(a, b) { return b.rate - a.rate; });
+
+  var bestHtml = "";
+  var worstHtml = "";
+  if (agentRates.length > 0) {
+    var best = agentRates[0];
+    bestHtml = '<div class="performer-card good"><h4>Top Performer</h4><div class="name">' + best.name + '</div><div class="rate">' + best.rate.toFixed(1) + '% CVR (' + best.sales + '/' + best.spoken + ')</div></div>';
+    var worst = agentRates[agentRates.length - 1];
+    worstHtml = '<div class="performer-card bad"><h4>Needs Improvement</h4><div class="name">' + worst.name + '</div><div class="rate">' + worst.rate.toFixed(1) + '% CVR (' + worst.sales + '/' + worst.spoken + ')</div></div>';
+  }
+  document.getElementById("performerRow").innerHTML = bestHtml + worstHtml;
+
+  // Trend chart
+  var periods = getPeriods();
+  var labels = [];
+  var teamRates = [];
+  for (var i = 0; i < periods.length; i++) {
+    labels.push(formatPeriodLabel(periods[i]));
+    var t = getTeamTotalsForPeriod(periods[i]);
+    teamRates.push(Math.round(cvr(t.sales, t.total_spoken) * 10) / 10);
+  }
+
+  destroyChart("overviewTrend");
+  var ctx = document.getElementById("overviewTrendChart").getContext("2d");
+  charts["overviewTrend"] = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Team CVR %",
+        data: teamRates,
+        borderColor: "#A43260",
+        backgroundColor: "rgba(164,50,96,0.1)",
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: "#A43260"
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+        x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ===== TAB 2: RANKINGS =====
+function renderRankings() {
+  var latest = getLatestPeriod();
+  var prev = getSecondLatestPeriod();
+  var agents = getAgentNames();
+  var rows = [];
+
+  for (var i = 0; i < agents.length; i++) {
+    var agg = getAgentAggregate(agents[i]);
+    if (agg.total_spoken < MIN_VOLUME) continue;
+    var rate = cvr(agg.sales, agg.total_spoken);
+    // Trend: compare latest period CVR vs second-latest
+    var prevRate = null;
+    var latestD = getAgentDataForPeriod(agents[i], latest);
+    if (prev) {
+      var pd = getAgentDataForPeriod(agents[i], prev);
+      if (pd && pd.total_spoken >= 20 && latestD && latestD.total_spoken >= 20) {
+        prevRate = cvr(pd.sales, pd.total_spoken);
+        var latestRate = cvr(latestD.sales, latestD.total_spoken);
+        rows.push({name: agents[i], spoken: agg.total_spoken, sales: agg.sales, rate: rate, prevRate: prevRate, latestRate: latestRate});
+        continue;
+      }
+    }
+    rows.push({name: agents[i], spoken: agg.total_spoken, sales: agg.sales, rate: rate, prevRate: null, latestRate: null});
+  }
+
+  rankingsData = rows;
+  rankingSortCol = "rate";
+  rankingSortDir = -1;
+  renderRankingsFromData();
+}
+
+// ===== TAB 3: TRENDS =====
+function renderTrends() {
+  var agents = getAgentNames();
+  var periods = getPeriods();
+
+  // Build trend table
+  var tableHtml = '<table><thead><tr><th>Agent</th>';
+  for (var p = 0; p < periods.length; p++) { tableHtml += '<th style="text-align:center;">' + formatPeriodLabel(periods[p]) + '</th>'; }
+  tableHtml += '</tr></thead><tbody>';
+  for (var a = 0; a < agents.length; a++) {
+    tableHtml += '<tr><td><strong>' + agents[a] + '</strong></td>';
+    for (var p = 0; p < periods.length; p++) {
+      var d = getAgentDataForPeriod(agents[a], periods[p]);
+      if (d && d.total_spoken >= MIN_VOLUME) {
+        var r = cvr(d.sales, d.total_spoken);
+        tableHtml += '<td style="text-align:center;">' + r.toFixed(1) + '%</td>';
+      } else {
+        tableHtml += '<td style="text-align:center;color:#ccc;">-</td>';
+      }
+    }
+    tableHtml += '</tr>';
+  }
+  tableHtml += '</tbody></table>';
+  document.getElementById("trendTableScroll").innerHTML = tableHtml;
+
+  // Agent picker
+  var pickerHtml = "";
+  for (var a = 0; a < agents.length; a++) {
+    var checked = selectedTrendAgents[agents[a]] ? "checked" : "";
+    var cls = selectedTrendAgents[agents[a]] ? " checked" : "";
+    pickerHtml += '<label class="agent-checkbox-label' + cls + '"><input type="checkbox" ' + checked + ' onchange="toggleTrendAgent(\'' + agents[a] + '\', this)">' + agents[a] + '</label>';
+  }
+  document.getElementById("trendAgentPicker").innerHTML = pickerHtml;
+
+  // Line chart
+  var labels = [];
+  for (var p = 0; p < periods.length; p++) { labels.push(formatPeriodLabel(periods[p])); }
+
+  var datasets = [];
+  var colors = ["#A43260","#10507C","#2E7D32","#E63946","#457B9D","#F4A261","#264653","#8338EC","#FF006E","#2A9D8F","#E9C46A","#ED6961","#9BC3FE","#80254A","#633F28"];
+  var ci = 0;
+  for (var a = 0; a < agents.length; a++) {
+    if (!selectedTrendAgents[agents[a]]) continue;
+    var data = [];
+    for (var p = 0; p < periods.length; p++) {
+      var d = getAgentDataForPeriod(agents[a], periods[p]);
+      if (d && d.total_spoken >= MIN_VOLUME) data.push(Math.round(cvr(d.sales, d.total_spoken) * 10) / 10);
+      else data.push(null);
+    }
+    datasets.push({ label: agents[a], data: data, borderColor: colors[ci % colors.length], borderWidth: 2, tension: 0.3, pointRadius: 3, fill: false, spanGaps: true });
+    ci++;
+  }
+
+  // Team average line
+  var teamData = [];
+  for (var p = 0; p < periods.length; p++) {
+    var t = getTeamTotalsForPeriod(periods[p]);
+    teamData.push(Math.round(cvr(t.sales, t.total_spoken) * 10) / 10);
+  }
+  datasets.push({ label: "Team Average", data: teamData, borderColor: "rgba(82,42,16,0.4)", borderWidth: 2, borderDash: [6, 4], tension: 0.3, pointRadius: 0, fill: false });
+
+  destroyChart("trendLine");
+  var ctx = document.getElementById("trendLineChart").getContext("2d");
+  charts["trendLine"] = new Chart(ctx, {
+    type: "line",
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } }, datalabels: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+        x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Volume bar chart
+  var volLabels = [];
+  var volData = [];
+  for (var p = 0; p < periods.length; p++) {
+    volLabels.push(formatPeriodLabel(periods[p]));
+    var t = getTeamTotalsForPeriod(periods[p]);
+    volData.push(t.total_spoken);
+  }
+
+  destroyChart("volume");
+  var vctx = document.getElementById("volumeChart").getContext("2d");
+  charts["volume"] = new Chart(vctx, {
+    type: "bar",
+    data: {
+      labels: volLabels,
+      datasets: [{
+        label: "Leads Spoken To",
+        data: volData,
+        backgroundColor: "rgba(164,50,96,0.2)",
+        borderColor: "#A43260",
+        borderWidth: 1.5,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: { display: true, anchor: "end", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 11, weight: "bold" }, formatter: function(value) { return value.toLocaleString(); } }
+      },
+      scales: {
+        y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+        x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function toggleTrendAgent(name, cb) {
+  selectedTrendAgents[name] = cb.checked;
+  cb.parentElement.classList.toggle("checked", cb.checked);
+  renderTrends();
+}
+function trendSelectAll() { var agents = getAgentNames(); for (var i = 0; i < agents.length; i++) selectedTrendAgents[agents[i]] = true; renderTrends(); }
+function trendSelectNone() { selectedTrendAgents = {}; renderTrends(); }
+
+// Rankings sorting
+var rankingsData = [];
+var rankingSortCol = "rate";
+var rankingSortDir = -1; // -1 = descending
+
+function sortRankings(col) {
+  if (rankingSortCol === col) { rankingSortDir *= -1; }
+  else { rankingSortCol = col; rankingSortDir = (col === "name") ? 1 : -1; }
+  renderRankingsFromData();
+}
+
+function renderRankingsFromData() {
+  var rows = rankingsData.slice();
+  rows.sort(function(a, b) {
+    var va, vb;
+    if (rankingSortCol === "name") { va = a.name; vb = b.name; return va.localeCompare(vb) * rankingSortDir; }
+    if (rankingSortCol === "spoken") { va = a.spoken; vb = b.spoken; }
+    else if (rankingSortCol === "sales") { va = a.sales; vb = b.sales; }
+    else if (rankingSortCol === "rate") { va = a.rate; vb = b.rate; }
+    else if (rankingSortCol === "trend") { va = (a.latestRate !== null && a.prevRate !== null) ? a.latestRate - a.prevRate : -999; vb = (b.latestRate !== null && b.prevRate !== null) ? b.latestRate - b.prevRate : -999; }
+    else { va = a.rate; vb = b.rate; }
+    return (va - vb) * rankingSortDir;
+  });
+
+  var teamRate = 0;
+  var totalSpoken = 0, totalSales = 0;
+  for (var i = 0; i < rows.length; i++) { totalSpoken += rows[i].spoken; totalSales += rows[i].sales; }
+  teamRate = cvr(totalSales, totalSpoken);
+
+  var html = "";
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var cls = r.rate >= teamRate ? "good-row" : "bad-row";
+    var trend = "";
+    if (r.prevRate !== null && r.latestRate !== null) {
+      var diff = r.latestRate - r.prevRate;
+      if (diff > 1) trend = '<span style="color:#2E7D32;">&#9650; ' + diff.toFixed(1) + '</span>';
+      else if (diff < -1) trend = '<span style="color:#ED6961;">&#9660; ' + Math.abs(diff).toFixed(1) + '</span>';
+      else trend = '<span style="color:#633F28;">&#9644; ' + diff.toFixed(1) + '</span>';
+    }
+    html += '<tr class="' + cls + '"><td>' + (i+1) + '</td><td><strong>' + r.name + '</strong></td><td>' + r.spoken.toLocaleString() + '</td><td>' + r.sales + '</td><td><strong>' + r.rate.toFixed(1) + '%</strong></td><td>' + trend + '</td></tr>';
+  }
+  document.getElementById("rankingsBody").innerHTML = html;
+}
+
+// ===== TAB 4: OUTCOMES =====
+function setOutcomeView(view) {
+  outcomeView = view;
+  var btns = document.querySelectorAll("#tab-outcomes .view-toggle button");
+  btns[0].classList.toggle("active", view === "all");
+  btns[1].classList.toggle("active", view === "single");
+  document.getElementById("outcomeAgentSelect").style.display = view === "single" ? "inline-block" : "none";
+  if (view === "single") populateAgentDropdown("outcomeAgentSelect");
+  renderOutcomeChart();
+}
+
+function renderOutcomeChart() {
+  if (outcomeView === "all") renderOutcomeAll();
+  else renderOutcomeSingle();
+}
+
+function renderOutcomeAll() {
+  document.getElementById("outcomeChartTitle").textContent = "Outcome Distribution by Agent (Full Period)";
+  var agents = getAgentNames();
+  var agentData = [];
+  for (var i = 0; i < agents.length; i++) {
+    var agg = getAgentAggregate(agents[i]);
+    if (agg.total_spoken >= MIN_VOLUME) agentData.push(agg);
+  }
+  agentData.sort(function(a, b) { return cvr(b.sales, b.total_spoken) - cvr(a.sales, a.total_spoken); });
+
+  var labels = [];
+  var saleData = [], bdData = [], convData = [];
+  for (var i = 0; i < agentData.length; i++) {
+    var d = agentData[i];
+    labels.push(d.agent_name.split(" ")[0] + " " + d.agent_name.split(" ")[1].charAt(0) + ".");
+    var t = d.total_spoken || 1;
+    saleData.push(Math.round(d.sales / t * 1000) / 10);
+    bdData.push(Math.round(d.bad_data / t * 1000) / 10);
+    convData.push(Math.round(d.convertible_total / t * 1000) / 10);
+  }
+
+  destroyChart("outcome");
+  var ctx = document.getElementById("outcomeChart").getContext("2d");
+  charts["outcome"] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        { label: "Sale", data: saleData, backgroundColor: "#2E7D32", borderRadius: 2 },
+        { label: "Bad Data", data: bdData, backgroundColor: "#ED6961", borderRadius: 2 },
+        { label: "Convertible", data: convData, backgroundColor: "#F5A623", borderRadius: 2 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 8; },
+          color: "#fff",
+          font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" },
+          anchor: "center",
+          align: "center",
+          formatter: function(value) { return Math.round(value) + "%"; }
+        }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28", maxRotation: 45 }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+      }
+    }
+  });
+}
+
+function renderOutcomeSingle() {
+  var agentName = document.getElementById("outcomeAgentSelect").value;
+  document.getElementById("outcomeChartTitle").textContent = "Outcome Breakdown: " + agentName;
+  var periods = getPeriods();
+  var labels = [], saleData = [], bdData = [], convData = [];
+  for (var p = 0; p < periods.length; p++) {
+    var d = getAgentDataForPeriod(agentName, periods[p]);
+    if (!d || d.total_spoken < 10) continue;
+    labels.push(formatPeriodLabel(periods[p]));
+    var t = d.total_spoken || 1;
+    saleData.push(Math.round(d.sales / t * 1000) / 10);
+    bdData.push(Math.round(d.bad_data / t * 1000) / 10);
+    convData.push(Math.round(d.convertible_total / t * 1000) / 10);
+  }
+
+  destroyChart("outcome");
+  var ctx = document.getElementById("outcomeChart").getContext("2d");
+  charts["outcome"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: labels, datasets: [
+      { label: "Sale", data: saleData, backgroundColor: "#2E7D32", borderRadius: 2 },
+      { label: "Bad Data", data: bdData, backgroundColor: "#ED6961", borderRadius: 2 },
+      { label: "Convertible", data: convData, backgroundColor: "#F5A623", borderRadius: 2 }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } },
+        datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 8; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, anchor: "center", align: "center", formatter: function(value) { return Math.round(value) + "%"; } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+      }
+    }
+  });
+}
+
+// ===== TAB 5: CONVERTIBLE DEEP DIVE =====
+function setConvertView(view) {
+  convertView = view;
+  var btns = document.querySelectorAll("#tab-convertible .view-toggle button");
+  btns[0].classList.toggle("active", view === "all");
+  btns[1].classList.toggle("active", view === "single");
+  document.getElementById("convertAgentSelect").style.display = view === "single" ? "inline-block" : "none";
+  if (view === "single") populateAgentDropdown("convertAgentSelect");
+  renderConvertChart();
+}
+
+function renderConvertChart() {
+  if (convertView === "all") renderConvertAll();
+  else renderConvertSingle();
+}
+
+function renderConvertAll() {
+  document.getElementById("convertChartTitle").textContent = "Convertible Sub-code Distribution by Agent (Full Period)";
+  var agents = getAgentNames();
+  var agentData = [];
+  for (var i = 0; i < agents.length; i++) {
+    var agg = getAgentAggregate(agents[i]);
+    if (agg.convertible_total >= 10) agentData.push(agg);
+  }
+  agentData.sort(function(a, b) { return b.convertible_total - a.convertible_total; });
+
+  var labels = [];
+  var dataByCode = {};
+  for (var c = 0; c < CONVERT_CODES.length; c++) dataByCode[CONVERT_CODES[c]] = [];
+
+  for (var i = 0; i < agentData.length; i++) {
+    var d = agentData[i];
+    labels.push(d.agent_name.split(" ")[0] + " " + d.agent_name.split(" ")[1].charAt(0) + ".");
+    var ct = d.convertible_total || 1;
+    for (var c = 0; c < CONVERT_CODES.length; c++) {
+      dataByCode[CONVERT_CODES[c]].push(Math.round((d[CONVERT_CODES[c]] || 0) / ct * 1000) / 10);
+    }
+  }
+
+  var datasets = [];
+  for (var c = 0; c < CONVERT_CODES.length; c++) {
+    datasets.push({ label: CONVERT_LABELS[c], data: dataByCode[CONVERT_CODES[c]], backgroundColor: CONVERT_COLORS[c], borderRadius: 2 });
+  }
+
+  destroyChart("convert");
+  var ctx = document.getElementById("convertChart").getContext("2d");
+  charts["convert"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } },
+        datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 8; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, anchor: "center", align: "center", formatter: function(value) { return Math.round(value) + "%"; } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28", maxRotation: 45 }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+      }
+    }
+  });
+}
+
+function renderConvertSingle() {
+  var agentName = document.getElementById("convertAgentSelect").value;
+  document.getElementById("convertChartTitle").textContent = "Convertible Breakdown: " + agentName;
+  var periods = getPeriods();
+  var labels = [];
+  var dataByCode = {};
+  for (var c = 0; c < CONVERT_CODES.length; c++) dataByCode[CONVERT_CODES[c]] = [];
+
+  for (var p = 0; p < periods.length; p++) {
+    var d = getAgentDataForPeriod(agentName, periods[p]);
+    if (!d || d.convertible_total < 5) continue;
+    labels.push(formatPeriodLabel(periods[p]));
+    var ct = d.convertible_total || 1;
+    for (var c = 0; c < CONVERT_CODES.length; c++) {
+      dataByCode[CONVERT_CODES[c]].push(Math.round((d[CONVERT_CODES[c]] || 0) / ct * 1000) / 10);
+    }
+  }
+
+  var datasets = [];
+  for (var c = 0; c < CONVERT_CODES.length; c++) {
+    datasets.push({ label: CONVERT_LABELS[c], data: dataByCode[CONVERT_CODES[c]], backgroundColor: CONVERT_COLORS[c], borderRadius: 2 });
+  }
+
+  destroyChart("convert");
+  var ctx = document.getElementById("convertChart").getContext("2d");
+  charts["convert"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } },
+        datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 8; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, anchor: "center", align: "center", formatter: function(value) { return Math.round(value) + "%"; } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+      }
+    }
+  });
+}
+
+// ===== HELPERS =====
+function populateAgentDropdown(selectId) {
+  var sel = document.getElementById(selectId);
+  var agents = getAgentNames();
+  var currentVal = sel.value;
+  sel.innerHTML = "";
+  for (var i = 0; i < agents.length; i++) {
+    var opt = document.createElement("option");
+    opt.value = agents[i];
+    opt.textContent = agents[i];
+    sel.appendChild(opt);
+  }
+  if (currentVal) {
+    for (var i = 0; i < agents.length; i++) {
+      if (agents[i] === currentVal) { sel.value = currentVal; break; }
+    }
+  }
+}
+
+// ===== TAB 6: LIST ID ANALYSIS =====
+function renderListTab() {
+  var d = getData();
+  var lists = d.list_summary || [];
+  var listWeekly = d.list_weekly || [];
+
+  // Populate dropdown
+  var sel = document.getElementById("listIdSelect");
+  var currentVal = sel.value;
+  if (sel.options.length !== lists.length + 1) {
+    sel.innerHTML = '<option value="ALL">All Lists</option>';
+    for (var i = 0; i < lists.length; i++) {
+      var opt = document.createElement("option");
+      opt.value = lists[i].list_id;
+      opt.textContent = "List " + lists[i].list_id + " (" + lists[i].total_spoken.toLocaleString() + " leads)";
+      sel.appendChild(opt);
+    }
+  }
+  if (currentVal) sel.value = currentVal;
+  var selectedList = sel.value;
+
+  // Summary table (always show all lists)
+  var tableHtml = "";
+  for (var i = 0; i < lists.length; i++) {
+    var ls = lists[i];
+    var rate = ls.total_spoken > 0 ? (ls.sales / ls.total_spoken * 100) : 0;
+    var bdRate = ls.total_spoken > 0 ? (ls.bad_data / ls.total_spoken * 100) : 0;
+    var cls = rate >= 15 ? "good-row" : (rate < 10 ? "bad-row" : "");
+    tableHtml += '<tr class="' + cls + '"><td><strong>' + ls.list_id + '</strong></td><td>' + ls.total_spoken.toLocaleString() + '</td><td>' + ls.sales + '</td><td><strong>' + rate.toFixed(1) + '%</strong></td><td>' + ls.bad_data + '</td><td>' + bdRate.toFixed(1) + '%</td><td>' + ls.convertible_total + '</td></tr>';
+  }
+  document.getElementById("listTableBody").innerHTML = tableHtml;
+
+  // KPI cards for selected list
+  var kpiData;
+  if (selectedList === "ALL") {
+    kpiData = {total_spoken: 0, sales: 0, bad_data: 0, convertible_total: 0};
+    for (var i = 0; i < lists.length; i++) {
+      kpiData.total_spoken += lists[i].total_spoken;
+      kpiData.sales += lists[i].sales;
+      kpiData.bad_data += lists[i].bad_data;
+      kpiData.convertible_total += lists[i].convertible_total;
+    }
+  } else {
+    for (var i = 0; i < lists.length; i++) {
+      if (lists[i].list_id === selectedList) { kpiData = lists[i]; break; }
+    }
+  }
+  if (kpiData) {
+    var rate = kpiData.total_spoken > 0 ? (kpiData.sales / kpiData.total_spoken * 100) : 0;
+    var bdRate = kpiData.total_spoken > 0 ? (kpiData.bad_data / kpiData.total_spoken * 100) : 0;
+    document.getElementById("listKpiRow").innerHTML =
+      '<div class="kpi-card"><div class="kpi-label">CVR</div><div class="kpi-value">' + rate.toFixed(1) + '%</div><div class="kpi-sub">List ' + selectedList + '</div></div>' +
+      '<div class="kpi-card"><div class="kpi-label">Spoken To</div><div class="kpi-value">' + kpiData.total_spoken.toLocaleString() + '</div><div class="kpi-sub">Total leads</div></div>' +
+      '<div class="kpi-card"><div class="kpi-label">Bad Data Rate</div><div class="kpi-value">' + bdRate.toFixed(1) + '%</div><div class="kpi-sub">' + kpiData.bad_data + ' bad data leads</div></div>';
+  }
+
+  // Time series chart
+  var weekPeriods = [];
+  var seen = {};
+  for (var i = 0; i < listWeekly.length; i++) {
+    if (!seen[listWeekly[i].period_start]) {
+      seen[listWeekly[i].period_start] = true;
+      weekPeriods.push(listWeekly[i].period_start);
+    }
+  }
+  weekPeriods.sort();
+
+  var labels = [];
+  for (var p = 0; p < weekPeriods.length; p++) labels.push(formatPeriodLabel(weekPeriods[p]));
+
+  var datasets = [];
+  if (selectedList === "ALL") {
+    // Show CVR trend for top 3 lists
+    var topLists = lists.slice(0, 3);
+    var listColors = ["#A43260", "#10507C", "#2E7D32"];
+    for (var li = 0; li < topLists.length; li++) {
+      var lid = topLists[li].list_id;
+      var rateData = [];
+      for (var p = 0; p < weekPeriods.length; p++) {
+        var found = null;
+        for (var w = 0; w < listWeekly.length; w++) {
+          if (listWeekly[w].list_id === lid && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
+        }
+        if (found && found.total_spoken >= 10) rateData.push(Math.round(found.sales / found.total_spoken * 1000) / 10);
+        else rateData.push(null);
+      }
+      datasets.push({ label: "List " + lid, data: rateData, borderColor: listColors[li], borderWidth: 2, tension: 0.3, pointRadius: 3, fill: false, spanGaps: true });
+    }
+    document.getElementById("listChartTitle").textContent = "CVR Trend - Top 3 Lists";
+  } else {
+    // Show volume + CVR for selected list
+    var volData = [];
+    var rateData = [];
+    for (var p = 0; p < weekPeriods.length; p++) {
+      var found = null;
+      for (var w = 0; w < listWeekly.length; w++) {
+        if (listWeekly[w].list_id === selectedList && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
+      }
+      volData.push(found ? found.total_spoken : 0);
+      rateData.push(found && found.total_spoken >= 5 ? Math.round(found.sales / found.total_spoken * 1000) / 10 : null);
+    }
+    datasets.push({ label: "Spoken To", data: volData, type: "bar", backgroundColor: "rgba(164,50,96,0.2)", borderColor: "#A43260", borderWidth: 1.5, borderRadius: 4, yAxisID: "y" });
+    datasets.push({ label: "CVR %", data: rateData, type: "line", borderColor: "#2E7D32", borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: "#2E7D32", fill: false, spanGaps: true, yAxisID: "y1" });
+    document.getElementById("listChartTitle").textContent = "List " + selectedList + " - Volume & CVR Over Time";
+  }
+
+  destroyChart("listChart");
+  var ctx = document.getElementById("listChart").getContext("2d");
+  var chartOpts = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } }, datalabels: { display: false } },
+    scales: {
+      x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+      y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+    }
+  };
+  if (selectedList !== "ALL") {
+    chartOpts.scales.y = { beginAtZero: true, position: "left", title: { display: true, text: "Leads", font: { family: "IBM Plex Sans Condensed", size: 12 }, color: "#633F28" }, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } };
+    chartOpts.scales.y1 = { beginAtZero: true, position: "right", title: { display: true, text: "CVR %", font: { family: "IBM Plex Sans Condensed", size: 12 }, color: "#633F28" }, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { drawOnChartArea: false } };
+  } else {
+    chartOpts.scales.y.ticks = { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" };
+  }
+  charts["listChart"] = new Chart(ctx, { type: selectedList === "ALL" ? "line" : "bar", data: { labels: labels, datasets: datasets }, options: chartOpts });
+}
+
+// ===== INIT =====
+function init() {
+  var d = getData();
+  document.getElementById("lastUpdated").textContent = "Last updated: " + new Date(d.last_updated).toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  // Select top 5 agents for trend by default
+  var agents = getAgentNames();
+  var latest = getLatestPeriod();
+  var ranked = [];
+  for (var i = 0; i < agents.length; i++) {
+    var ad = getAgentDataForPeriod(agents[i], latest);
+    if (ad && ad.total_spoken >= MIN_VOLUME) ranked.push({name: agents[i], rate: cvr(ad.sales, ad.total_spoken)});
+  }
+  ranked.sort(function(a,b) { return b.rate - a.rate; });
+  for (var i = 0; i < Math.min(5, ranked.length); i++) selectedTrendAgents[ranked[i].name] = true;
+
+  renderOverview();
+}
+
+document.addEventListener("DOMContentLoaded", function() { loadData().then(function(d) { if (d) init(); }); });
+</script>
+</body>
+</html>
