@@ -394,6 +394,10 @@ tr:hover td { background: var(--bb-cream); }
       <h3>Leads Spoken To (Volume by Period)</h3>
       <div class="chart-wrapper"><canvas id="volumeChart"></canvas></div>
     </div>
+    <div class="chart-container">
+      <h3>Spoken To by Agent (Selected Agents)</h3>
+      <div class="chart-wrapper" style="height:400px;"><canvas id="agentVolumeChart"></canvas></div>
+    </div>
   </div>
 
   <div class="tab-panel" id="tab-outcomes">
@@ -408,6 +412,10 @@ tr:hover td { background: var(--bb-cream); }
       <h3 id="outcomeChartTitle">Outcome Distribution by Agent (Latest Period)</h3>
       <div class="chart-wrapper" style="height:420px;"><canvas id="outcomeChart"></canvas></div>
     </div>
+    <div class="chart-container">
+      <h3>Spoken To Counts by Agent</h3>
+      <div class="chart-wrapper" style="height:350px;"><canvas id="outcomeCountChart"></canvas></div>
+    </div>
   </div>
 
   <div class="tab-panel" id="tab-convertible">
@@ -419,8 +427,12 @@ tr:hover td { background: var(--bb-cream); }
       <select class="agent-dropdown" id="convertAgentSelect" style="display:none;" onchange="renderConvertChart()"></select>
     </div>
     <div class="chart-container">
-      <h3 id="convertChartTitle">Convertible Sub-code Distribution by Agent (Latest Period)</h3>
+      <h3 id="convertChartTitle">Convertible Sub-code Distribution by Agent (Full Period)</h3>
       <div class="chart-wrapper" style="height:420px;"><canvas id="convertChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Convertible Lead Counts by Agent</h3>
+      <div class="chart-wrapper" style="height:350px;"><canvas id="convertCountChart"></canvas></div>
     </div>
   </div>
 
@@ -431,8 +443,16 @@ tr:hover td { background: var(--bb-cream); }
     </div>
     <div class="kpi-row" id="listKpiRow"></div>
     <div class="chart-container">
+      <h3>Outcome Split by List</h3>
+      <div class="chart-wrapper" style="height:350px;"><canvas id="listOutcomeChart"></canvas></div>
+    </div>
+    <div class="chart-container">
       <h3 id="listChartTitle">List Performance Over Time</h3>
       <div class="chart-wrapper"><canvas id="listChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3 id="listOutcomeTimeTitle">Outcome Breakdown Over Time</h3>
+      <div class="chart-wrapper" style="height:380px;"><canvas id="listOutcomeTimeChart"></canvas></div>
     </div>
     <div class="data-table-wrapper">
       <h3>All Lists Summary</h3>
@@ -697,7 +717,7 @@ function renderOverview() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, datalabels: { display: false } },
+      plugins: { legend: { display: false }, datalabels: { display: true, anchor: "top", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, formatter: function(value) { return value + "%"; } } },
       scales: {
         y: { beginAtZero: true, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
         x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
@@ -717,19 +737,20 @@ function renderRankings() {
     var agg = getAgentAggregate(agents[i]);
     if (agg.total_spoken < MIN_VOLUME) continue;
     var rate = cvr(agg.sales, agg.total_spoken);
-    // Trend: compare latest period CVR vs second-latest
+    // Trend: find last 2 full weeks (30+ records) for this agent
     var prevRate = null;
-    var latestD = getAgentDataForPeriod(agents[i], latest);
-    if (prev) {
-      var pd = getAgentDataForPeriod(agents[i], prev);
-      if (pd && pd.total_spoken >= 20 && latestD && latestD.total_spoken >= 20) {
-        prevRate = cvr(pd.sales, pd.total_spoken);
-        var latestRate = cvr(latestD.sales, latestD.total_spoken);
-        rows.push({name: agents[i], spoken: agg.total_spoken, sales: agg.sales, rate: rate, prevRate: prevRate, latestRate: latestRate});
-        continue;
-      }
+    var latestRate = null;
+    var allPeriods = getPeriods();
+    var fullPeriods = [];
+    for (var p = allPeriods.length - 1; p >= 0 && fullPeriods.length < 2; p--) {
+      var pd = getAgentDataForPeriod(agents[i], allPeriods[p]);
+      if (pd && pd.total_spoken >= 30) fullPeriods.unshift(pd);
     }
-    rows.push({name: agents[i], spoken: agg.total_spoken, sales: agg.sales, rate: rate, prevRate: null, latestRate: null});
+    if (fullPeriods.length === 2) {
+      latestRate = cvr(fullPeriods[1].sales, fullPeriods[1].total_spoken);
+      prevRate = cvr(fullPeriods[0].sales, fullPeriods[0].total_spoken);
+    }
+    rows.push({name: agents[i], spoken: agg.total_spoken, sales: agg.sales, rate: rate, prevRate: prevRate, latestRate: latestRate});
   }
 
   rankingsData = rows;
@@ -807,7 +828,7 @@ function renderTrends() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } }, datalabels: { display: false } },
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, padding: 12, color: "#522A10" } }, datalabels: { display: true, anchor: "top", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" }, formatter: function(value) { if (value === null) return ""; return value + "%"; }, offset: 4 } },
       scales: {
         y: { beginAtZero: true, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
         x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
@@ -849,6 +870,35 @@ function renderTrends() {
       scales: {
         y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
         x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Agent volume stacked chart (selected agents)
+  var agentVolColors = ["#A43260","#10507C","#2E7D32","#E63946","#457B9D","#F4A261","#264653","#8338EC","#FF006E","#2A9D8F","#E9C46A","#ED6961","#9BC3FE","#80254A","#633F28"];
+  var avDatasets = [];
+  var avci = 0;
+  for (var a = 0; a < agents.length; a++) {
+    if (!selectedTrendAgents[agents[a]]) continue;
+    var avData = [];
+    for (var p = 0; p < periods.length; p++) {
+      var d = getAgentDataForPeriod(agents[a], periods[p]);
+      avData.push(d ? d.total_spoken : 0);
+    }
+    avDatasets.push({ label: agents[a], data: avData, backgroundColor: agentVolColors[avci % agentVolColors.length], borderRadius: 2 });
+    avci++;
+  }
+  destroyChart("agentVolume");
+  var avctx = document.getElementById("agentVolumeChart").getContext("2d");
+  charts["agentVolume"] = new Chart(avctx, {
+    type: "bar",
+    data: { labels: volLabels, datasets: avDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } }, datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 20; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" }, anchor: "center", align: "center" } },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
       }
     }
   });
@@ -919,8 +969,8 @@ function setOutcomeView(view) {
 }
 
 function renderOutcomeChart() {
-  if (outcomeView === "all") renderOutcomeAll();
-  else renderOutcomeSingle();
+  if (outcomeView === "all") { renderOutcomeAll(); renderOutcomeCountChart("all", null); }
+  else { renderOutcomeSingle(); renderOutcomeCountChart("single", document.getElementById("outcomeAgentSelect").value); }
 }
 
 function renderOutcomeAll() {
@@ -978,6 +1028,47 @@ function renderOutcomeAll() {
   });
 }
 
+function renderOutcomeCountChart(mode, agentName) {
+  var labels = [];
+  var spokenData = [];
+  var chartTitle = "Spoken To Counts by Agent";
+  if (mode === "single" && agentName) {
+    chartTitle = "Weekly Spoken To: " + agentName;
+    var periods = getPeriods();
+    for (var p = 0; p < periods.length; p++) {
+      var d = getAgentDataForPeriod(agentName, periods[p]);
+      if (d && d.total_spoken >= 10) {
+        labels.push(formatPeriodLabel(periods[p]));
+        spokenData.push(d.total_spoken);
+      }
+    }
+  } else {
+    var agents = getAgentNames();
+    var agentData = [];
+    for (var i = 0; i < agents.length; i++) {
+      var agg = getAgentAggregate(agents[i]);
+      if (agg.total_spoken >= MIN_VOLUME) agentData.push(agg);
+    }
+    agentData.sort(function(a, b) { return b.total_spoken - a.total_spoken; });
+    for (var i = 0; i < agentData.length; i++) {
+      labels.push(agentData[i].agent_name.split(" ")[0] + " " + agentData[i].agent_name.split(" ")[1].charAt(0) + ".");
+      spokenData.push(agentData[i].total_spoken);
+    }
+  }
+  document.getElementById("outcomeCountChart").parentElement.parentElement.querySelector("h3").textContent = chartTitle;
+  destroyChart("outcomeCount");
+  var ctx = document.getElementById("outcomeCountChart").getContext("2d");
+  charts["outcomeCount"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: labels, datasets: [{ label: "Spoken To", data: spokenData, backgroundColor: "rgba(164,50,96,0.25)", borderColor: "#A43260", borderWidth: 1.5, borderRadius: 4 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: { display: true, anchor: "end", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, formatter: function(v) { return v.toLocaleString(); } } },
+      scales: { x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28", maxRotation: 45 }, grid: { display: false } }, y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } } }
+    }
+  });
+}
+
 function renderOutcomeSingle() {
   var agentName = document.getElementById("outcomeAgentSelect").value;
   document.getElementById("outcomeChartTitle").textContent = "Outcome Breakdown: " + agentName;
@@ -1028,8 +1119,8 @@ function setConvertView(view) {
 }
 
 function renderConvertChart() {
-  if (convertView === "all") renderConvertAll();
-  else renderConvertSingle();
+  if (convertView === "all") { renderConvertAll(); renderConvertCountChart("all", null); }
+  else { renderConvertSingle(); renderConvertCountChart("single", document.getElementById("convertAgentSelect").value); }
 }
 
 function renderConvertAll() {
@@ -1075,6 +1166,47 @@ function renderConvertAll() {
         x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28", maxRotation: 45 }, grid: { display: false } },
         y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
       }
+    }
+  });
+}
+
+function renderConvertCountChart(mode, agentName) {
+  var labels = [];
+  var convData = [];
+  var chartTitle = "Convertible Lead Counts by Agent";
+  if (mode === "single" && agentName) {
+    chartTitle = "Weekly Convertible Leads: " + agentName;
+    var periods = getPeriods();
+    for (var p = 0; p < periods.length; p++) {
+      var d = getAgentDataForPeriod(agentName, periods[p]);
+      if (d && d.convertible_total >= 3) {
+        labels.push(formatPeriodLabel(periods[p]));
+        convData.push(d.convertible_total);
+      }
+    }
+  } else {
+    var agents = getAgentNames();
+    var agentData = [];
+    for (var i = 0; i < agents.length; i++) {
+      var agg = getAgentAggregate(agents[i]);
+      if (agg.convertible_total >= 10) agentData.push(agg);
+    }
+    agentData.sort(function(a, b) { return b.convertible_total - a.convertible_total; });
+    for (var i = 0; i < agentData.length; i++) {
+      labels.push(agentData[i].agent_name.split(" ")[0] + " " + agentData[i].agent_name.split(" ")[1].charAt(0) + ".");
+      convData.push(agentData[i].convertible_total);
+    }
+  }
+  document.getElementById("convertCountChart").parentElement.parentElement.querySelector("h3").textContent = chartTitle;
+  destroyChart("convertCount");
+  var ctx = document.getElementById("convertCountChart").getContext("2d");
+  charts["convertCount"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: labels, datasets: [{ label: "Convertible Leads", data: convData, backgroundColor: "rgba(245,166,35,0.3)", borderColor: "#F5A623", borderWidth: 1.5, borderRadius: 4 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: { display: true, anchor: "end", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, formatter: function(v) { return v.toLocaleString(); } } },
+      scales: { x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28", maxRotation: 45 }, grid: { display: false } }, y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } } }
     }
   });
 }
@@ -1146,7 +1278,6 @@ function renderListTab() {
   var lists = d.list_summary || [];
   var listWeekly = d.list_weekly || [];
 
-  // Populate dropdown
   var sel = document.getElementById("listIdSelect");
   var currentVal = sel.value;
   if (sel.options.length !== lists.length + 1) {
@@ -1161,7 +1292,7 @@ function renderListTab() {
   if (currentVal) sel.value = currentVal;
   var selectedList = sel.value;
 
-  // Summary table (always show all lists)
+  // Summary table
   var tableHtml = "";
   for (var i = 0; i < lists.length; i++) {
     var ls = lists[i];
@@ -1172,8 +1303,8 @@ function renderListTab() {
   }
   document.getElementById("listTableBody").innerHTML = tableHtml;
 
-  // KPI cards for selected list
-  var kpiData;
+  // KPI cards
+  var kpiData = null;
   if (selectedList === "ALL") {
     kpiData = {total_spoken: 0, sales: 0, bad_data: 0, convertible_total: 0};
     for (var i = 0; i < lists.length; i++) {
@@ -1184,17 +1315,55 @@ function renderListTab() {
     }
   } else {
     for (var i = 0; i < lists.length; i++) {
-      if (lists[i].list_id === selectedList) { kpiData = lists[i]; break; }
+      if (String(lists[i].list_id) === String(selectedList)) { kpiData = lists[i]; break; }
     }
   }
   if (kpiData) {
     var rate = kpiData.total_spoken > 0 ? (kpiData.sales / kpiData.total_spoken * 100) : 0;
     var bdRate = kpiData.total_spoken > 0 ? (kpiData.bad_data / kpiData.total_spoken * 100) : 0;
+    var listLabel = selectedList === "ALL" ? "All Lists" : "List " + selectedList;
     document.getElementById("listKpiRow").innerHTML =
-      '<div class="kpi-card"><div class="kpi-label">CVR</div><div class="kpi-value">' + rate.toFixed(1) + '%</div><div class="kpi-sub">List ' + selectedList + '</div></div>' +
+      '<div class="kpi-card"><div class="kpi-label">CVR</div><div class="kpi-value">' + rate.toFixed(1) + '%</div><div class="kpi-sub">' + listLabel + '</div></div>' +
       '<div class="kpi-card"><div class="kpi-label">Spoken To</div><div class="kpi-value">' + kpiData.total_spoken.toLocaleString() + '</div><div class="kpi-sub">Total leads</div></div>' +
-      '<div class="kpi-card"><div class="kpi-label">Bad Data Rate</div><div class="kpi-value">' + bdRate.toFixed(1) + '%</div><div class="kpi-sub">' + kpiData.bad_data + ' bad data leads</div></div>';
+      '<div class="kpi-card"><div class="kpi-label">Bad Data Rate</div><div class="kpi-value">' + bdRate.toFixed(1) + '%</div><div class="kpi-sub">' + kpiData.bad_data.toLocaleString() + ' bad data leads</div></div>';
   }
+
+  // Outcome stacked chart by list
+  var ocLists = [];
+  for (var i = 0; i < lists.length; i++) {
+    if (lists[i].total_spoken >= 10) ocLists.push(lists[i]);
+  }
+  ocLists.sort(function(a, b) { return b.total_spoken - a.total_spoken; });
+  var ocLabels = [], ocSale = [], ocBd = [], ocConv = [];
+  for (var i = 0; i < ocLists.length; i++) {
+    var l = ocLists[i];
+    ocLabels.push("List " + l.list_id);
+    var t = l.total_spoken || 1;
+    ocSale.push(Math.round(l.sales / t * 1000) / 10);
+    ocBd.push(Math.round(l.bad_data / t * 1000) / 10);
+    ocConv.push(Math.round(l.convertible_total / t * 1000) / 10);
+  }
+  destroyChart("listOutcome");
+  var loctx = document.getElementById("listOutcomeChart").getContext("2d");
+  charts["listOutcome"] = new Chart(loctx, {
+    type: "bar",
+    data: { labels: ocLabels, datasets: [
+      { label: "Sale", data: ocSale, backgroundColor: "#2E7D32", borderRadius: 2 },
+      { label: "Bad Data", data: ocBd, backgroundColor: "#ED6961", borderRadius: 2 },
+      { label: "Convertible", data: ocConv, backgroundColor: "#F5A623", borderRadius: 2 }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
+        datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 5; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 11, weight: "bold" }, anchor: "center", align: "center", formatter: function(v) { return Math.round(v) + "%"; } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+      }
+    }
+  });
 
   // Time series chart
   var weekPeriods = [];
@@ -1206,22 +1375,20 @@ function renderListTab() {
     }
   }
   weekPeriods.sort();
-
-  var labels = [];
-  for (var p = 0; p < weekPeriods.length; p++) labels.push(formatPeriodLabel(weekPeriods[p]));
+  var tsLabels = [];
+  for (var p = 0; p < weekPeriods.length; p++) tsLabels.push(formatPeriodLabel(weekPeriods[p]));
 
   var datasets = [];
   if (selectedList === "ALL") {
-    // Show CVR trend for top 3 lists
     var topLists = lists.slice(0, 3);
     var listColors = ["#A43260", "#10507C", "#2E7D32"];
     for (var li = 0; li < topLists.length; li++) {
-      var lid = topLists[li].list_id;
+      var lid = String(topLists[li].list_id);
       var rateData = [];
       for (var p = 0; p < weekPeriods.length; p++) {
         var found = null;
         for (var w = 0; w < listWeekly.length; w++) {
-          if (listWeekly[w].list_id === lid && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
+          if (String(listWeekly[w].list_id) === lid && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
         }
         if (found && found.total_spoken >= 10) rateData.push(Math.round(found.sales / found.total_spoken * 1000) / 10);
         else rateData.push(null);
@@ -1230,13 +1397,12 @@ function renderListTab() {
     }
     document.getElementById("listChartTitle").textContent = "CVR Trend - Top 3 Lists";
   } else {
-    // Show volume + CVR for selected list
     var volData = [];
     var rateData = [];
     for (var p = 0; p < weekPeriods.length; p++) {
       var found = null;
       for (var w = 0; w < listWeekly.length; w++) {
-        if (listWeekly[w].list_id === selectedList && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
+        if (String(listWeekly[w].list_id) === String(selectedList) && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
       }
       volData.push(found ? found.total_spoken : 0);
       rateData.push(found && found.total_spoken >= 5 ? Math.round(found.sales / found.total_spoken * 1000) / 10 : null);
@@ -1251,10 +1417,7 @@ function renderListTab() {
   var chartOpts = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } }, datalabels: { display: false } },
-    scales: {
-      x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
-      y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
-    }
+    scales: { x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } }, y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } } }
   };
   if (selectedList !== "ALL") {
     chartOpts.scales.y = { beginAtZero: true, position: "left", title: { display: true, text: "Leads", font: { family: "IBM Plex Sans Condensed", size: 12 }, color: "#633F28" }, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } };
@@ -1262,7 +1425,63 @@ function renderListTab() {
   } else {
     chartOpts.scales.y.ticks = { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" };
   }
-  charts["listChart"] = new Chart(ctx, { type: selectedList === "ALL" ? "line" : "bar", data: { labels: labels, datasets: datasets }, options: chartOpts });
+  chartOpts.plugins.datalabels = {
+      display: true,
+      color: "#522A10",
+      font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" },
+      anchor: "end",
+      align: "top",
+      offset: 2,
+      formatter: function(value, context) {
+        if (value === null || value === 0) return "";
+        if (context.dataset.yAxisID === "y1" || context.dataset.type === "line") return value + "%";
+        return value.toLocaleString();
+      }
+    };
+    charts["listChart"] = new Chart(ctx, { type: selectedList === "ALL" ? "line" : "bar", data: { labels: tsLabels, datasets: datasets }, options: chartOpts });
+
+  if (selectedList !== "ALL") {
+    var otLabels = [];
+    var otSale = [], otBd = [], otConv = [];
+    for (var p = 0; p < weekPeriods.length; p++) {
+      var found = null;
+      for (var w = 0; w < listWeekly.length; w++) {
+        if (String(listWeekly[w].list_id) === String(selectedList) && listWeekly[w].period_start === weekPeriods[p]) { found = listWeekly[w]; break; }
+      }
+      if (found && found.total_spoken >= 5) {
+        otLabels.push(formatPeriodLabel(weekPeriods[p]));
+        var t = found.total_spoken || 1;
+        otSale.push(Math.round(found.sales / t * 1000) / 10);
+        otBd.push(Math.round(found.bad_data / t * 1000) / 10);
+        otConv.push(Math.round(found.convertible_total / t * 1000) / 10);
+      }
+    }
+    document.getElementById("listOutcomeTimeTitle").textContent = "List " + selectedList + " - Outcome Breakdown by Week";
+    destroyChart("listOutcomeTime");
+    var lotctx = document.getElementById("listOutcomeTimeChart").getContext("2d");
+    charts["listOutcomeTime"] = new Chart(lotctx, {
+      type: "bar",
+      data: { labels: otLabels, datasets: [
+        { label: "Sale", data: otSale, backgroundColor: "#2E7D32", borderRadius: 2 },
+        { label: "Bad Data", data: otBd, backgroundColor: "#ED6961", borderRadius: 2 },
+        { label: "Convertible", data: otConv, backgroundColor: "#F5A623", borderRadius: 2 }
+      ]},
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
+          datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 8; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, anchor: "center", align: "center", formatter: function(v) { return Math.round(v) + "%"; } }
+        },
+        scales: {
+          x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+          y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } }
+        }
+      }
+    });
+  } else {
+    document.getElementById("listOutcomeTimeTitle").textContent = "Select a list to see weekly outcome breakdown";
+    destroyChart("listOutcomeTime");
+  }
 }
 
 // ===== INIT =====
