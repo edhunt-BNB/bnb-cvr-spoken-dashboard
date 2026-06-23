@@ -598,7 +598,7 @@ function destroyChart(key) {
 function cvr(sales, total) { return total > 0 ? (sales / total * 100) : 0; }
 
 function getAgentAggregate(agentName) {
-  var entries = getEntries();
+  var entries = getData().weekly;
   var agg = {agent_name: agentName, total_spoken:0, sales:0, bad_data:0, convertible_total:0, payissue:0, freezspace:0, health:0, callback:0, medifood:0, tooexp:0, fussy:0, ni:0};
   for (var i = 0; i < entries.length; i++) {
     var e = entries[i];
@@ -1380,7 +1380,8 @@ function renderListTab() {
 
   var datasets = [];
   if (selectedList === "ALL") {
-    var topLists = lists.slice(0, 3);
+    var sortedLists = lists.slice().sort(function(a, b) { return b.total_spoken - a.total_spoken; });
+    var topLists = sortedLists.slice(0, 3);
     var listColors = ["#A43260", "#10507C", "#2E7D32"];
     for (var li = 0; li < topLists.length; li++) {
       var lid = String(topLists[li].list_id);
