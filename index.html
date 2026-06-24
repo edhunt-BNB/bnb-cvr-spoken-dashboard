@@ -458,7 +458,7 @@ tr:hover td { background: var(--bb-cream); }
       <h3>All Lists Summary</h3>
       <div class="table-scroll">
         <table id="listTable">
-          <thead><tr><th>List ID</th><th>Spoken To</th><th>Sales</th><th>CVR</th><th>Bad Data</th><th>Bad Data %</th><th>Convertible</th></tr></thead>
+          <thead><tr><th onclick="sortListTable('list_id')" style="cursor:pointer;">List ID &#8597;</th><th onclick="sortListTable('total_spoken')" style="cursor:pointer;">Spoken To &#8597;</th><th onclick="sortListTable('sales')" style="cursor:pointer;">Sales &#8597;</th><th onclick="sortListTable('cvr')" style="cursor:pointer;">CVR &#8597;</th><th onclick="sortListTable('bad_data')" style="cursor:pointer;">Bad Data &#8597;</th><th onclick="sortListTable('bd_pct')" style="cursor:pointer;">Bad Data % &#8597;</th><th onclick="sortListTable('convertible_total')" style="cursor:pointer;">Convertible &#8597;</th><th onclick="sortListTable('conv_pct')" style="cursor:pointer;">Conv % &#8597;</th></tr></thead>
           <tbody id="listTableBody"></tbody>
         </table>
       </div>
@@ -1272,6 +1272,15 @@ function populateAgentDropdown(selectId) {
   }
 }
 
+var listSortCol = "total_spoken";
+var listSortDir = -1;
+
+function sortListTable(col) {
+  if (listSortCol === col) { listSortDir *= -1; }
+  else { listSortCol = col; listSortDir = (col === "list_id") ? 1 : -1; }
+  renderListTab();
+}
+
 // ===== TAB 6: LIST ID ANALYSIS =====
 function renderListTab() {
   var d = getData();
@@ -1292,14 +1301,25 @@ function renderListTab() {
   if (currentVal) sel.value = currentVal;
   var selectedList = sel.value;
 
-  // Summary table
+  // Summary table (sortable)
+  var sortedTableLists = lists.slice();
+  sortedTableLists.sort(function(a, b) {
+    var va, vb;
+    if (listSortCol === "list_id") { va = a.list_id; vb = b.list_id; return va.localeCompare(vb) * listSortDir; }
+    if (listSortCol === "cvr") { va = a.total_spoken > 0 ? a.sales / a.total_spoken : 0; vb = b.total_spoken > 0 ? b.sales / b.total_spoken : 0; }
+    else if (listSortCol === "bd_pct") { va = a.total_spoken > 0 ? a.bad_data / a.total_spoken : 0; vb = b.total_spoken > 0 ? b.bad_data / b.total_spoken : 0; }
+    else if (listSortCol === "conv_pct") { va = a.total_spoken > 0 ? a.convertible_total / a.total_spoken : 0; vb = b.total_spoken > 0 ? b.convertible_total / b.total_spoken : 0; }
+    else { va = a[listSortCol] || 0; vb = b[listSortCol] || 0; }
+    return (va - vb) * listSortDir;
+  });
   var tableHtml = "";
-  for (var i = 0; i < lists.length; i++) {
-    var ls = lists[i];
+  for (var i = 0; i < sortedTableLists.length; i++) {
+    var ls = sortedTableLists[i];
     var rate = ls.total_spoken > 0 ? (ls.sales / ls.total_spoken * 100) : 0;
     var bdRate = ls.total_spoken > 0 ? (ls.bad_data / ls.total_spoken * 100) : 0;
+    var convRate = ls.total_spoken > 0 ? (ls.convertible_total / ls.total_spoken * 100) : 0;
     var cls = rate >= 15 ? "good-row" : (rate < 10 ? "bad-row" : "");
-    tableHtml += '<tr class="' + cls + '"><td><strong>' + ls.list_id + '</strong></td><td>' + ls.total_spoken.toLocaleString() + '</td><td>' + ls.sales + '</td><td><strong>' + rate.toFixed(1) + '%</strong></td><td>' + ls.bad_data + '</td><td>' + bdRate.toFixed(1) + '%</td><td>' + ls.convertible_total + '</td></tr>';
+    tableHtml += '<tr class="' + cls + '"><td><strong>' + ls.list_id + '</strong></td><td>' + ls.total_spoken.toLocaleString() + '</td><td>' + ls.sales + '</td><td><strong>' + rate.toFixed(1) + '%</strong></td><td>' + ls.bad_data + '</td><td>' + bdRate.toFixed(1) + '%</td><td>' + ls.convertible_total + '</td><td>' + convRate.toFixed(1) + '%</td></tr>';
   }
   document.getElementById("listTableBody").innerHTML = tableHtml;
 
