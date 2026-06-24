@@ -483,7 +483,7 @@ tr:hover td { background: var(--bb-cream); }
       <div class="chart-wrapper" style="height:350px;"><canvas id="penBarChart"></canvas></div>
     </div>
     <div class="chart-container">
-      <h3>Lead Composition by List (Spoken / Not Spoken / N/A)</h3>
+      <h3>Lead Composition by List (Spoken vs Not Penetrated)</h3>
       <div class="chart-wrapper" style="height:380px;"><canvas id="penStackedChart"></canvas></div>
     </div>
     <div class="chart-container">
@@ -1682,21 +1682,20 @@ function renderPenTab() {
     type: "bar", data: { labels: barLabels, datasets: [{ label: "Penetration %", data: barData, backgroundColor: "rgba(164,50,96,0.3)", borderColor: "#A43260", borderWidth: 1.5, borderRadius: 4 }] },
     options: { responsive: true, maintainAspectRatio: false, indexAxis: "y",
       plugins: { legend: { display: false }, datalabels: { display: true, anchor: "end", align: "right", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 11, weight: "bold" }, formatter: function(v) { return v + "%"; } } },
-      scales: { x: { beginAtZero: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+      scales: { x: { beginAtZero: true, max: 60, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
         y: { ticks: { font: { family: "IBM Plex Sans", size: 12 }, color: "#522A10" }, grid: { display: false } } }
     }
   });
 
   // Stacked composition chart
   var sortedStack = lists.slice().sort(function(a,b) { return b.total_leads - a.total_leads; });
-  var sLabels = [], sSp = [], sNs = [], sNa = [];
+  var sLabels = [], sSp = [], sNs = [];
   for (var i = 0; i < sortedStack.length; i++) {
     if (sortedStack[i].total_leads >= 10) {
       var l = sortedStack[i]; var t = l.total_leads || 1;
       sLabels.push("List " + l.list_id);
       sSp.push(Math.round(l.spoken_to / t * 1000) / 10);
-      sNs.push(Math.round(l.not_spoken / t * 1000) / 10);
-      sNa.push(Math.round(l.na / t * 1000) / 10);
+      sNs.push(Math.round((t - l.spoken_to) / t * 1000) / 10);
     }
   }
   destroyChart("penStacked");
@@ -1704,8 +1703,7 @@ function renderPenTab() {
   charts["penStacked"] = new Chart(sctx, {
     type: "bar", data: { labels: sLabels, datasets: [
       { label: "Spoken To", data: sSp, backgroundColor: "#2E7D32", borderRadius: 2 },
-      { label: "Not Spoken", data: sNs, backgroundColor: "#ED6961", borderRadius: 2 },
-      { label: "N/A", data: sNa, backgroundColor: "#9ca3af", borderRadius: 2 }
+      { label: "Not Penetrated", data: sNs, backgroundColor: "#ED6961", borderRadius: 2 }
     ]},
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
@@ -1753,7 +1751,7 @@ function renderPenTab() {
   for (var i = 0; i < sortedTable.length; i++) {
     var l = sortedTable[i];
     var pen = l.total_leads > 0 ? (l.spoken_to / l.total_leads * 100) : 0;
-    var nsPct = l.total_leads > 0 ? (l.not_spoken / l.total_leads * 100) : 0;
+    var nsPct = l.total_leads > 0 ? ((l.total_leads - l.spoken_to) / l.total_leads * 100) : 0;
     var cls = pen >= 40 ? "good-row" : (pen < 25 ? "bad-row" : "");
     tblHtml += '<tr class="' + cls + '"><td><strong>' + l.list_id + '</strong></td><td>' + l.total_leads.toLocaleString() + '</td><td>' + l.spoken_to.toLocaleString() + '</td><td><strong>' + pen.toFixed(1) + '%</strong></td><td>' + l.not_spoken.toLocaleString() + '</td><td>' + nsPct.toFixed(1) + '%</td><td>' + l.na + '</td></tr>';
   }
