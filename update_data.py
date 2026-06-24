@@ -33,6 +33,9 @@ CONVERTIBLE_CODES = ["PAYISSUE", "FREEZSPACE", "HEALTH", "CALLBACK", "MEDIFOOD",
 
 FILTER_FORMULA = 'OR({Result Outcome}="Sale",{Result Outcome}="Bad Data",{Result Outcome}="Convertible")'
 
+# Lightweight fields for penetration pass (all records, no filter)
+PENETRATION_FIELDS = ["Original List ID", "Result Outcome", "import_date"]
+
 FIELDS = [
     "Agent First Name",
     "Agent Last Name",
@@ -402,6 +405,132 @@ def compute_cutoff_periods(today, num_weeks=13, num_months=3):
     return cutoff_weeks, cutoff_months
 
 
+def fetch_penetration_records(pat):
+    """Fetch ALL records (no outcome filter) for penetration calculation."""
+    records = []
+    offset = None
+    page_num = 0
+
+    fields_param = "&".join("fields[]=" + urllib.parse.quote(f) for f in PENETRATION_FIELDS)
+    base_url = (
+        "https://api.airtable.com/v0/"
+        + AIRTABLE_BASE_ID
+        + "/"
+        + urllib.parse.quote(AIRTABLE_TABLE_NAME)
+        + "?pageSize=100&"
+        + fields_param
+    )
+
+    headers = {
+        "Authorization": "Bearer " + pat,
+        "Content-Type": "application/json",
+    }
+
+    while True:
+        url = base_url
+        if offset:
+            url = url + "&offset=" + urllib.parse.quote(str(offset))
+
+        page_num += 1
+        if page_num % 20 == 1:
+            log("[Penetration] Fetching page " + str(page_num) + " (records so far: " + str(len(records)) + ")")
+
+        req = urllib.request.Request(url, headers=headers)
+
+        try:
+            with urllib.request.urlopen(req) as response:
+                data = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode("utf-8")
+            log("[Penetration] HTTP error " + str(e.code) + ": " + error_body)
+            raise
+
+        page_records = data.get("records", [])
+        records.extend(page_records)
+
+        offset = data.get("offset")
+        if not offset:
+            log("[Penetration] Fetch complete. Pages: " + str(page_num) + ", total records: " + str(len(records)))
+            break
+
+        time.sleep(0.25)
+
+    return records
+
+
+def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
+    """Aggregate penetration data: total leads per list, with weekly/monthly breakdown."""
+    list_totals = defaultdict(lambda: {"total_leads": 0, "spoken_to": 0, "not_spoken": 0, "na": 0})
+    list_weekly = defaultdict(lambda: {"total_leads": 0, "spoken_to": 0, "not_spoken": 0, "na": 0})
+    list_monthly = defaultdict(lambda: {"total_leads": 0, "spoken_to": 0, "not_spoken": 0, "na": 0})
+
+    for record in raw_records:
+        fields = record.get("fields", {})
+        list_id = fields.get("Original List ID")
+        list_id_str = str(list_id) if list_id else "Unknown"
+        outcome = (fields.get("Result Outcome") or "").strip()
+
+        is_spoken = outcome in SPOKEN_OUTCOMES
+        is_not_spoken = outcome == "Not Spoken"
+        is_na = outcome == "N/A"
+
+        # Overall totals
+        lt = list_totals[list_id_str]
+        lt["total_leads"] += 1
+        if is_spoken:
+            lt["spoken_to"] += 1
+        elif is_not_spoken:
+            lt["not_spoken"] += 1
+        elif is_na:
+            lt["na"] += 1
+
+        # Time series
+        import_date_str = (fields.get("import_date") or "").strip()
+        if not import_date_str:
+            continue
+        d = parse_date_utc(import_date_str)
+        if d is None:
+            continue
+
+        week_key = get_monday_of_week(d).isoformat()
+        month_key = datetime.date(d.year, d.month, 1).isoformat()
+
+        if week_key in cutoff_weeks:
+            wk = list_weekly[(list_id_str, week_key)]
+            wk["total_leads"] += 1
+            if is_spoken:
+                wk["spoken_to"] += 1
+            elif is_not_spoken:
+                wk["not_spoken"] += 1
+            elif is_na:
+                wk["na"] += 1
+
+        if month_key in cutoff_months:
+            mk = list_monthly[(list_id_str, month_key)]
+            mk["total_leads"] += 1
+            if is_spoken:
+                mk["spoken_to"] += 1
+            elif is_not_spoken:
+                mk["not_spoken"] += 1
+            elif is_na:
+                mk["na"] += 1
+
+    # Build output arrays
+    pen_totals = []
+    for lid, counts in sorted(list_totals.items(), key=lambda x: -x[1]["total_leads"]):
+        pen_totals.append({"list_id": lid, **counts})
+
+    pen_weekly = []
+    for (lid, wk), counts in sorted(list_weekly.items(), key=lambda x: (x[0][1], x[0][0])):
+        pen_weekly.append({"list_id": lid, "period_start": wk, **counts})
+
+    pen_monthly = []
+    for (lid, mk), counts in sorted(list_monthly.items(), key=lambda x: (x[0][1], x[0][0])):
+        pen_monthly.append({"list_id": lid, "period_start": mk, **counts})
+
+    return pen_totals, pen_weekly, pen_monthly
+
+
 def main():
     pat = os.environ.get("AIRTABLE_PAT")
     if not pat:
@@ -437,7 +566,7 @@ def main():
             parsed_records.append(parsed)
     log("Parsed: " + str(len(parsed_records)) + ", skipped: " + str(skipped))
 
-    log("Aggregating...")
+    log("Aggregating spoken-to data...")
     (
         weekly_data, monthly_data,
         weekly_lc_data, monthly_lc_data,
@@ -451,6 +580,16 @@ def main():
         today,
     )
 
+    # Penetration data: fetch ALL records (no filter)
+    log("Fetching ALL records for penetration data...")
+    pen_records = fetch_penetration_records(pat)
+    log("Aggregating penetration data...")
+    pen_totals, pen_weekly, pen_monthly = aggregate_penetration(pen_records, cutoff_weeks, cutoff_months)
+
+    output["list_penetration"] = pen_totals
+    output["penetration_weekly"] = pen_weekly
+    output["penetration_monthly"] = pen_monthly
+
     output_json = json.dumps(output, indent=2)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(output_json)
@@ -463,6 +602,9 @@ def main():
         + " monthly_last_call=" + str(len(output["monthly_last_call"]))
         + " list_summary=" + str(len(output["list_summary"]))
         + " list_weekly=" + str(len(output["list_weekly"]))
+        + " penetration=" + str(len(pen_totals))
+        + " pen_weekly=" + str(len(pen_weekly))
+        + " pen_monthly=" + str(len(pen_monthly))
     )
 
 
