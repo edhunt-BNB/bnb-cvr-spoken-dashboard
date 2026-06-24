@@ -341,6 +341,7 @@ tr:hover td { background: var(--bb-cream); }
   <button data-tab="outcomes" onclick="setTab('outcomes')">Outcome Breakdown</button>
   <button data-tab="convertible" onclick="setTab('convertible')">Convertible Deep Dive</button>
   <button data-tab="listid" onclick="setTab('listid')">List ID Analysis</button>
+  <button data-tab="penetration" onclick="setTab('penetration')">Penetration Data</button>
 </div>
 
 <div class="main-content">
@@ -460,6 +461,49 @@ tr:hover td { background: var(--bb-cream); }
         <table id="listTable">
           <thead><tr><th onclick="sortListTable('list_id')" style="cursor:pointer;">List ID &#8597;</th><th onclick="sortListTable('total_spoken')" style="cursor:pointer;">Spoken To &#8597;</th><th onclick="sortListTable('sales')" style="cursor:pointer;">Sales &#8597;</th><th onclick="sortListTable('cvr')" style="cursor:pointer;">CVR &#8597;</th><th onclick="sortListTable('bad_data')" style="cursor:pointer;">Bad Data &#8597;</th><th onclick="sortListTable('bd_pct')" style="cursor:pointer;">Bad Data % &#8597;</th><th onclick="sortListTable('convertible_total')" style="cursor:pointer;">Convertible &#8597;</th><th onclick="sortListTable('conv_pct')" style="cursor:pointer;">Conv % &#8597;</th></tr></thead>
           <tbody id="listTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-penetration">
+    <div class="view-toggle-bar">
+      <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Select List:</label>
+      <select class="agent-dropdown" id="penListSelect" onchange="renderPenTab()">
+        <option value="ALL">All Lists</option>
+      </select>
+    </div>
+    <div class="kpi-row" id="penKpiRow"></div>
+    <div class="chart-container">
+      <h3 id="penTrendTitle">Penetration Rate Trend</h3>
+      <div class="chart-wrapper"><canvas id="penTrendChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Penetration Rate by List</h3>
+      <div class="chart-wrapper" style="height:350px;"><canvas id="penBarChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3>Lead Composition by List (Spoken / Not Spoken / N/A)</h3>
+      <div class="chart-wrapper" style="height:380px;"><canvas id="penStackedChart"></canvas></div>
+    </div>
+    <div class="chart-container">
+      <h3 id="penVolumeTitle">Total Leads by List</h3>
+      <div class="chart-wrapper" style="height:350px;"><canvas id="penVolumeChart"></canvas></div>
+    </div>
+    <div class="data-table-wrapper">
+      <h3>Penetration Summary</h3>
+      <div class="table-scroll">
+        <table id="penTable">
+          <thead><tr>
+            <th onclick="sortPenTable('list_id')" style="cursor:pointer;">List ID &#8597;</th>
+            <th onclick="sortPenTable('total_leads')" style="cursor:pointer;">Total Leads &#8597;</th>
+            <th onclick="sortPenTable('spoken_to')" style="cursor:pointer;">Spoken To &#8597;</th>
+            <th onclick="sortPenTable('pen_pct')" style="cursor:pointer;">Penetration % &#8597;</th>
+            <th onclick="sortPenTable('not_spoken')" style="cursor:pointer;">Not Spoken &#8597;</th>
+            <th onclick="sortPenTable('ns_pct')" style="cursor:pointer;">Not Spoken % &#8597;</th>
+            <th onclick="sortPenTable('na')" style="cursor:pointer;">N/A &#8597;</th>
+          </tr></thead>
+          <tbody id="penTableBody"></tbody>
         </table>
       </div>
     </div>
@@ -649,6 +693,7 @@ function renderCurrentTab() {
   else if (currentTab === "outcomes") renderOutcomeChart();
   else if (currentTab === "convertible") renderConvertChart();
   else if (currentTab === "listid") renderListTab();
+  else if (currentTab === "penetration") renderPenTab();
 }
 
 // ===== TAB 1: OVERVIEW =====
@@ -1503,6 +1548,216 @@ function renderListTab() {
     document.getElementById("listOutcomeTimeTitle").textContent = "Select a list to see weekly outcome breakdown";
     destroyChart("listOutcomeTime");
   }
+}
+
+
+// ===== TAB 7: PENETRATION DATA =====
+var penSortCol = "total_leads";
+var penSortDir = -1;
+
+function sortPenTable(col) {
+  if (penSortCol === col) penSortDir *= -1;
+  else { penSortCol = col; penSortDir = (col === "list_id") ? 1 : -1; }
+  renderPenTab();
+}
+
+function getPenEntries() {
+  var d = getData();
+  if (!d.penetration_weekly) return [];
+  return currentPeriod === "weekly" ? d.penetration_weekly : (d.penetration_monthly || []);
+}
+
+function renderPenTab() {
+  var d = getData();
+  var lists = d.list_penetration || [];
+  var penEntries = getPenEntries();
+
+  // Populate dropdown
+  var sel = document.getElementById("penListSelect");
+  var currentVal = sel.value;
+  if (sel.options.length !== lists.length + 1) {
+    sel.innerHTML = '<option value="ALL">All Lists</option>';
+    for (var i = 0; i < lists.length; i++) {
+      var opt = document.createElement("option");
+      opt.value = lists[i].list_id;
+      opt.textContent = "List " + lists[i].list_id + " (" + lists[i].total_leads.toLocaleString() + " total leads)";
+      sel.appendChild(opt);
+    }
+  }
+  if (currentVal) sel.value = currentVal;
+  var selectedList = sel.value;
+
+  // KPIs
+  var kpi;
+  if (selectedList === "ALL") {
+    kpi = {total_leads:0, spoken_to:0, not_spoken:0, na:0};
+    for (var i = 0; i < lists.length; i++) { kpi.total_leads += lists[i].total_leads; kpi.spoken_to += lists[i].spoken_to; kpi.not_spoken += lists[i].not_spoken; kpi.na += lists[i].na; }
+  } else {
+    for (var i = 0; i < lists.length; i++) { if (String(lists[i].list_id) === String(selectedList)) { kpi = lists[i]; break; } }
+  }
+  if (kpi) {
+    var pen = kpi.total_leads > 0 ? (kpi.spoken_to / kpi.total_leads * 100) : 0;
+    var listLabel = selectedList === "ALL" ? "All Lists" : "List " + selectedList;
+    document.getElementById("penKpiRow").innerHTML =
+      '<div class="kpi-card"><div class="kpi-label">Penetration Rate</div><div class="kpi-value">' + pen.toFixed(1) + '%</div><div class="kpi-sub">' + listLabel + '</div></div>' +
+      '<div class="kpi-card"><div class="kpi-label">Total Leads</div><div class="kpi-value">' + kpi.total_leads.toLocaleString() + '</div><div class="kpi-sub">In system</div></div>' +
+      '<div class="kpi-card"><div class="kpi-label">Not Spoken</div><div class="kpi-value">' + kpi.not_spoken.toLocaleString() + '</div><div class="kpi-sub">' + (kpi.total_leads > 0 ? (kpi.not_spoken/kpi.total_leads*100).toFixed(1) : 0) + '% unreached</div></div>';
+  }
+
+  // Trend chart
+  var periods = [];
+  var seen = {};
+  for (var i = 0; i < penEntries.length; i++) {
+    if (!seen[penEntries[i].period_start]) { seen[penEntries[i].period_start] = true; periods.push(penEntries[i].period_start); }
+  }
+  periods.sort();
+  var tLabels = [];
+  for (var p = 0; p < periods.length; p++) tLabels.push(formatPeriodLabel(periods[p]));
+
+  var trendDatasets = [];
+  if (selectedList === "ALL") {
+    // Show top 3 lists + overall
+    var sortedL = lists.slice().sort(function(a,b) { return b.total_leads - a.total_leads; });
+    var topIds = sortedL.slice(0, 3).map(function(l) { return String(l.list_id); });
+    var tColors = ["#A43260", "#10507C", "#2E7D32"];
+    for (var li = 0; li < topIds.length; li++) {
+      var rd = [];
+      for (var p = 0; p < periods.length; p++) {
+        var found = null;
+        for (var e = 0; e < penEntries.length; e++) {
+          if (String(penEntries[e].list_id) === topIds[li] && penEntries[e].period_start === periods[p]) { found = penEntries[e]; break; }
+        }
+        rd.push(found && found.total_leads >= 10 ? Math.round(found.spoken_to / found.total_leads * 1000) / 10 : null);
+      }
+      trendDatasets.push({ label: "List " + topIds[li], data: rd, borderColor: tColors[li], borderWidth: 2.5, tension: 0.3, pointRadius: 4, fill: false, spanGaps: true });
+    }
+    // Overall average
+    var avgData = [];
+    for (var p = 0; p < periods.length; p++) {
+      var tl = 0, ts = 0;
+      for (var e = 0; e < penEntries.length; e++) {
+        if (penEntries[e].period_start === periods[p]) { tl += penEntries[e].total_leads; ts += penEntries[e].spoken_to; }
+      }
+      avgData.push(tl > 0 ? Math.round(ts / tl * 1000) / 10 : null);
+    }
+    trendDatasets.push({ label: "Overall", data: avgData, borderColor: "rgba(82,42,16,0.4)", borderWidth: 2, borderDash: [6,4], tension: 0.3, pointRadius: 0, fill: false });
+    document.getElementById("penTrendTitle").textContent = "Penetration Rate Trend - Top 3 Lists";
+  } else {
+    var rd = [];
+    for (var p = 0; p < periods.length; p++) {
+      var found = null;
+      for (var e = 0; e < penEntries.length; e++) {
+        if (String(penEntries[e].list_id) === String(selectedList) && penEntries[e].period_start === periods[p]) { found = penEntries[e]; break; }
+      }
+      rd.push(found && found.total_leads >= 5 ? Math.round(found.spoken_to / found.total_leads * 1000) / 10 : null);
+    }
+    trendDatasets.push({ label: "List " + selectedList + " Penetration", data: rd, borderColor: "#A43260", backgroundColor: "rgba(164,50,96,0.1)", borderWidth: 2.5, tension: 0.3, pointRadius: 4, fill: true, spanGaps: true });
+    document.getElementById("penTrendTitle").textContent = "List " + selectedList + " - Penetration Rate Over Time";
+  }
+
+  destroyChart("penTrend");
+  var ctx = document.getElementById("penTrendChart").getContext("2d");
+  charts["penTrend"] = new Chart(ctx, {
+    type: "line", data: { labels: tLabels, datasets: trendDatasets },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
+        datalabels: { display: true, anchor: "top", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" }, formatter: function(v) { return v === null ? "" : v + "%"; }, offset: 4 } },
+      scales: { y: { beginAtZero: true, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+        x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } } }
+    }
+  });
+
+  // Penetration bar chart (all lists)
+  var sortedBar = lists.slice().sort(function(a,b) { return (b.spoken_to/b.total_leads) - (a.spoken_to/a.total_leads); });
+  var barLabels = [], barData = [];
+  for (var i = 0; i < sortedBar.length; i++) {
+    if (sortedBar[i].total_leads >= 10) {
+      barLabels.push("List " + sortedBar[i].list_id);
+      barData.push(Math.round(sortedBar[i].spoken_to / sortedBar[i].total_leads * 1000) / 10);
+    }
+  }
+  destroyChart("penBar");
+  var bctx = document.getElementById("penBarChart").getContext("2d");
+  charts["penBar"] = new Chart(bctx, {
+    type: "bar", data: { labels: barLabels, datasets: [{ label: "Penetration %", data: barData, backgroundColor: "rgba(164,50,96,0.3)", borderColor: "#A43260", borderWidth: 1.5, borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: "y",
+      plugins: { legend: { display: false }, datalabels: { display: true, anchor: "end", align: "right", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 11, weight: "bold" }, formatter: function(v) { return v + "%"; } } },
+      scales: { x: { beginAtZero: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } },
+        y: { ticks: { font: { family: "IBM Plex Sans", size: 12 }, color: "#522A10" }, grid: { display: false } } }
+    }
+  });
+
+  // Stacked composition chart
+  var sortedStack = lists.slice().sort(function(a,b) { return b.total_leads - a.total_leads; });
+  var sLabels = [], sSp = [], sNs = [], sNa = [];
+  for (var i = 0; i < sortedStack.length; i++) {
+    if (sortedStack[i].total_leads >= 10) {
+      var l = sortedStack[i]; var t = l.total_leads || 1;
+      sLabels.push("List " + l.list_id);
+      sSp.push(Math.round(l.spoken_to / t * 1000) / 10);
+      sNs.push(Math.round(l.not_spoken / t * 1000) / 10);
+      sNa.push(Math.round(l.na / t * 1000) / 10);
+    }
+  }
+  destroyChart("penStacked");
+  var sctx = document.getElementById("penStackedChart").getContext("2d");
+  charts["penStacked"] = new Chart(sctx, {
+    type: "bar", data: { labels: sLabels, datasets: [
+      { label: "Spoken To", data: sSp, backgroundColor: "#2E7D32", borderRadius: 2 },
+      { label: "Not Spoken", data: sNs, backgroundColor: "#ED6961", borderRadius: 2 },
+      { label: "N/A", data: sNa, backgroundColor: "#9ca3af", borderRadius: 2 }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
+        datalabels: { display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 5; }, color: "#fff", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, anchor: "center", align: "center", formatter: function(v) { return Math.round(v) + "%"; } } },
+      scales: { x: { stacked: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: function(v) { return v + "%"; }, font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } } }
+    }
+  });
+
+  // Volume chart (total leads with spoken overlay)
+  var vLabels = [], vTotal = [], vSpoken = [];
+  for (var i = 0; i < sortedStack.length; i++) {
+    if (sortedStack[i].total_leads >= 10) {
+      vLabels.push("List " + sortedStack[i].list_id);
+      vTotal.push(sortedStack[i].total_leads);
+      vSpoken.push(sortedStack[i].spoken_to);
+    }
+  }
+  destroyChart("penVolume");
+  var vctx = document.getElementById("penVolumeChart").getContext("2d");
+  charts["penVolume"] = new Chart(vctx, {
+    type: "bar", data: { labels: vLabels, datasets: [
+      { label: "Total Leads", data: vTotal, backgroundColor: "rgba(82,42,16,0.12)", borderColor: "rgba(82,42,16,0.3)", borderWidth: 1, borderRadius: 4 },
+      { label: "Spoken To", data: vSpoken, backgroundColor: "rgba(164,50,96,0.4)", borderColor: "#A43260", borderWidth: 1, borderRadius: 4 }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { font: { family: "IBM Plex Sans", size: 11 }, boxWidth: 12, color: "#522A10" } },
+        datalabels: { display: true, anchor: "end", align: "top", color: "#522A10", font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" }, formatter: function(v) { return v.toLocaleString(); } } },
+      scales: { x: { ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { font: { family: "IBM Plex Sans", size: 11 }, color: "#633F28" }, grid: { color: "rgba(82,42,16,0.06)" } } }
+    }
+  });
+
+  // Table
+  var sortedTable = lists.slice();
+  sortedTable.sort(function(a, b) {
+    var va, vb;
+    if (penSortCol === "list_id") { return a.list_id.localeCompare(b.list_id) * penSortDir; }
+    if (penSortCol === "pen_pct") { va = a.total_leads > 0 ? a.spoken_to/a.total_leads : 0; vb = b.total_leads > 0 ? b.spoken_to/b.total_leads : 0; }
+    else if (penSortCol === "ns_pct") { va = a.total_leads > 0 ? a.not_spoken/a.total_leads : 0; vb = b.total_leads > 0 ? b.not_spoken/b.total_leads : 0; }
+    else { va = a[penSortCol] || 0; vb = b[penSortCol] || 0; }
+    return (va - vb) * penSortDir;
+  });
+  var tblHtml = "";
+  for (var i = 0; i < sortedTable.length; i++) {
+    var l = sortedTable[i];
+    var pen = l.total_leads > 0 ? (l.spoken_to / l.total_leads * 100) : 0;
+    var nsPct = l.total_leads > 0 ? (l.not_spoken / l.total_leads * 100) : 0;
+    var cls = pen >= 40 ? "good-row" : (pen < 25 ? "bad-row" : "");
+    tblHtml += '<tr class="' + cls + '"><td><strong>' + l.list_id + '</strong></td><td>' + l.total_leads.toLocaleString() + '</td><td>' + l.spoken_to.toLocaleString() + '</td><td><strong>' + pen.toFixed(1) + '%</strong></td><td>' + l.not_spoken.toLocaleString() + '</td><td>' + nsPct.toFixed(1) + '%</td><td>' + l.na + '</td></tr>';
+  }
+  document.getElementById("penTableBody").innerHTML = tblHtml;
 }
 
 // ===== INIT =====
