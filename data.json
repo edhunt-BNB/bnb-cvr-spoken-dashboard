@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-28T21:02:27Z",
+  "last_updated": "2026-07-28T21:43:03Z",
   "period_start": "2026-04-28",
   "period_end": "2026-07-28",
   "weekly": [
@@ -10151,13 +10151,6 @@
       "median_talk": 2.0
     },
     {
-      "agent": "Charlene Basbudak",
-      "code": "NI",
-      "count": 1,
-      "avg_talk": 150.0,
-      "median_talk": 150.0
-    },
-    {
       "agent": "Cian Rees",
       "code": "AGAM",
       "count": 19,
@@ -10289,13 +10282,6 @@
       "count": 3,
       "avg_talk": 51.3,
       "median_talk": 37.0
-    },
-    {
-      "agent": "Clementine Drake",
-      "code": "EXISTING",
-      "count": 1,
-      "avg_talk": 1728.0,
-      "median_talk": 1728.0
     },
     {
       "agent": "Daniel Collier",
@@ -10445,20 +10431,6 @@
       "median_talk": 18.5
     },
     {
-      "agent": "Donna Wallington",
-      "code": "NI",
-      "count": 1,
-      "avg_talk": 58.0,
-      "median_talk": 58.0
-    },
-    {
-      "agent": "Donna Wallington",
-      "code": "PAYISSUE",
-      "count": 1,
-      "avg_talk": 397.0,
-      "median_talk": 397.0
-    },
-    {
       "agent": "Hamzah Ali",
       "code": "AGAM",
       "count": 54,
@@ -10548,13 +10520,6 @@
       "count": 18,
       "avg_talk": 18.7,
       "median_talk": 17.0
-    },
-    {
-      "agent": "Harpremjyot Thethi",
-      "code": "DNC",
-      "count": 1,
-      "avg_talk": 659.0,
-      "median_talk": 659.0
     },
     {
       "agent": "Harry Worton",
@@ -10702,20 +10667,6 @@
       "count": 3,
       "avg_talk": 240.7,
       "median_talk": 101.0
-    },
-    {
-      "agent": "Ilyas Chentouf",
-      "code": "TOOEXP",
-      "count": 1,
-      "avg_talk": 237.0,
-      "median_talk": 237.0
-    },
-    {
-      "agent": "Jake Ring",
-      "code": "SALE",
-      "count": 1,
-      "avg_talk": 1201.0,
-      "median_talk": 1201.0
     },
     {
       "agent": "Jakub Rybczak",
@@ -12181,27 +12132,6 @@
       "median_talk": 69.0
     },
     {
-      "agent": "Mpumelelo Mkhize",
-      "code": "NI",
-      "count": 1,
-      "avg_talk": 39.0,
-      "median_talk": 39.0
-    },
-    {
-      "agent": "Rayat Ahmed",
-      "code": "AGAM",
-      "count": 1,
-      "avg_talk": 1.0,
-      "median_talk": 1.0
-    },
-    {
-      "agent": "Sheza Ahmed",
-      "code": "HANGUP",
-      "count": 1,
-      "avg_talk": 201.0,
-      "median_talk": 201.0
-    },
-    {
       "agent": "Simone Adams",
       "code": "AGAM",
       "count": 155,
@@ -12396,13 +12326,6 @@
       "count": 40,
       "avg_talk": 61.0,
       "median_talk": 12.5
-    },
-    {
-      "agent": "Susan Thomas",
-      "code": "EXISTING",
-      "count": 1,
-      "avg_talk": 198.0,
-      "median_talk": 198.0
     },
     {
       "agent": "Suzanne Ralston",
@@ -12744,7 +12667,7 @@
   "talk_time_team_code_baseline": [
     {
       "code": "AGAM",
-      "count": 2744,
+      "count": 2743,
       "avg_talk": 11.3,
       "median_talk": 4.0
     },
@@ -12768,9 +12691,9 @@
     },
     {
       "code": "DNC",
-      "count": 786,
-      "avg_talk": 49.4,
-      "median_talk": 30.5
+      "count": 785,
+      "avg_talk": 48.6,
+      "median_talk": 30.0
     },
     {
       "code": "DOGDIED",
@@ -12780,9 +12703,9 @@
     },
     {
       "code": "EXISTING",
-      "count": 2193,
-      "avg_talk": 135.3,
-      "median_talk": 87.0
+      "count": 2191,
+      "avg_talk": 134.6,
+      "median_talk": 86.0
     },
     {
       "code": "FREEZSPACE",
@@ -12798,8 +12721,8 @@
     },
     {
       "code": "HANGUP",
-      "count": 907,
-      "avg_talk": 35.5,
+      "count": 906,
+      "avg_talk": 35.3,
       "median_talk": 11.0
     },
     {
@@ -12828,7 +12751,7 @@
     },
     {
       "code": "NI",
-      "count": 6300,
+      "count": 6297,
       "avg_talk": 145.6,
       "median_talk": 76.0
     },
@@ -12852,9 +12775,9 @@
     },
     {
       "code": "PAYISSUE",
-      "count": 98,
-      "avg_talk": 718.2,
-      "median_talk": 559.5
+      "count": 97,
+      "avg_talk": 721.5,
+      "median_talk": 564.0
     },
     {
       "code": "REACTSALE",
@@ -12864,7 +12787,7 @@
     },
     {
       "code": "SALE",
-      "count": 3383,
+      "count": 3382,
       "avg_talk": 1148.4,
       "median_talk": 1102.0
     },
@@ -12894,7 +12817,7 @@
     },
     {
       "code": "TOOEXP",
-      "count": 2175,
+      "count": 2174,
       "avg_talk": 241.6,
       "median_talk": 222.0
     },
@@ -13075,18 +12998,6 @@
       "bin_300_plus": 0
     },
     {
-      "agent": "Charlene Basbudak",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 150.0,
-      "median_talk": 150.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 1,
-      "bin_300_plus": 0
-    },
-    {
       "agent": "Cian Rees",
       "outcome": "Bad Data",
       "count": 66,
@@ -13145,18 +13056,6 @@
       "bin_60_120": 2,
       "bin_120_300": 5,
       "bin_300_plus": 47
-    },
-    {
-      "agent": "Clementine Drake",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 1728.0,
-      "median_talk": 1728.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 1
     },
     {
       "agent": "Daniel Collier",
@@ -13231,18 +13130,6 @@
       "bin_300_plus": 0
     },
     {
-      "agent": "Donna Wallington",
-      "outcome": "Convertible",
-      "count": 2,
-      "avg_talk": 227.5,
-      "median_talk": 227.5,
-      "bin_0_30": 0,
-      "bin_30_60": 1,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 1
-    },
-    {
       "agent": "Hamzah Ali",
       "outcome": "Bad Data",
       "count": 45,
@@ -13301,18 +13188,6 @@
       "bin_60_120": 0,
       "bin_120_300": 1,
       "bin_300_plus": 21
-    },
-    {
-      "agent": "Harpremjyot Thethi",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 659.0,
-      "median_talk": 659.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 1
     },
     {
       "agent": "Harry Worton",
@@ -13385,30 +13260,6 @@
       "bin_60_120": 0,
       "bin_120_300": 0,
       "bin_300_plus": 0
-    },
-    {
-      "agent": "Ilyas Chentouf",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 237.0,
-      "median_talk": 237.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 1,
-      "bin_300_plus": 0
-    },
-    {
-      "agent": "Jake Ring",
-      "outcome": "Sale",
-      "count": 1,
-      "avg_talk": 1201.0,
-      "median_talk": 1201.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 1
     },
     {
       "agent": "Jakub Rybczak",
@@ -14047,42 +13898,6 @@
       "bin_300_plus": 0
     },
     {
-      "agent": "Mpumelelo Mkhize",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 39.0,
-      "median_talk": 39.0,
-      "bin_0_30": 0,
-      "bin_30_60": 1,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 0
-    },
-    {
-      "agent": "Rayat Ahmed",
-      "outcome": "Not Spoken",
-      "count": 1,
-      "avg_talk": 1.0,
-      "median_talk": 1.0,
-      "bin_0_30": 1,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 0,
-      "bin_300_plus": 0
-    },
-    {
-      "agent": "Sheza Ahmed",
-      "outcome": "N/A",
-      "count": 1,
-      "avg_talk": 201.0,
-      "median_talk": 201.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
-      "bin_60_120": 0,
-      "bin_120_300": 1,
-      "bin_300_plus": 0
-    },
-    {
       "agent": "Simone Adams",
       "outcome": "Bad Data",
       "count": 318,
@@ -14150,18 +13965,6 @@
       "median_talk": 81.0,
       "bin_0_30": 0,
       "bin_30_60": 1,
-      "bin_60_120": 0,
-      "bin_120_300": 1,
-      "bin_300_plus": 0
-    },
-    {
-      "agent": "Susan Thomas",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 198.0,
-      "median_talk": 198.0,
-      "bin_0_30": 0,
-      "bin_30_60": 0,
       "bin_60_120": 0,
       "bin_120_300": 1,
       "bin_300_plus": 0
@@ -14635,13 +14438,6 @@
       "avg_talk": 8.5
     },
     {
-      "agent": "Charlene Basbudak",
-      "attempts_bin": "1",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 150.0
-    },
-    {
       "agent": "Cian Rees",
       "attempts_bin": "1",
       "outcome": "Bad Data",
@@ -14787,13 +14583,6 @@
       "outcome": "Sale",
       "count": 17,
       "avg_talk": 895.6
-    },
-    {
-      "agent": "Clementine Drake",
-      "attempts_bin": "4",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 1728.0
     },
     {
       "agent": "Daniel Collier",
@@ -14964,20 +14753,6 @@
       "avg_talk": 18.0
     },
     {
-      "agent": "Donna Wallington",
-      "attempts_bin": "3",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 58.0
-    },
-    {
-      "agent": "Donna Wallington",
-      "attempts_bin": "5+",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 397.0
-    },
-    {
       "agent": "Hamzah Ali",
       "attempts_bin": "1",
       "outcome": "Bad Data",
@@ -15095,13 +14870,6 @@
       "outcome": "Sale",
       "count": 10,
       "avg_talk": 1155.2
-    },
-    {
-      "agent": "Harpremjyot Thethi",
-      "attempts_bin": "2",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 659.0
     },
     {
       "agent": "Harry Worton",
@@ -15291,20 +15059,6 @@
       "outcome": "Unknown",
       "count": 6,
       "avg_talk": 8.2
-    },
-    {
-      "agent": "Ilyas Chentouf",
-      "attempts_bin": "1",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 237.0
-    },
-    {
-      "agent": "Jake Ring",
-      "attempts_bin": "5+",
-      "outcome": "Sale",
-      "count": 1,
-      "avg_talk": 1201.0
     },
     {
       "agent": "Jakub Rybczak",
@@ -16917,27 +16671,6 @@
       "avg_talk": 3.0
     },
     {
-      "agent": "Mpumelelo Mkhize",
-      "attempts_bin": "4",
-      "outcome": "Convertible",
-      "count": 1,
-      "avg_talk": 39.0
-    },
-    {
-      "agent": "Rayat Ahmed",
-      "attempts_bin": "5+",
-      "outcome": "Not Spoken",
-      "count": 1,
-      "avg_talk": 1.0
-    },
-    {
-      "agent": "Sheza Ahmed",
-      "attempts_bin": "5+",
-      "outcome": "N/A",
-      "count": 1,
-      "avg_talk": 201.0
-    },
-    {
       "agent": "Simone Adams",
       "attempts_bin": "1",
       "outcome": "Bad Data",
@@ -17118,13 +16851,6 @@
       "outcome": "Unknown",
       "count": 2,
       "avg_talk": 81.0
-    },
-    {
-      "agent": "Susan Thomas",
-      "attempts_bin": "5+",
-      "outcome": "Bad Data",
-      "count": 1,
-      "avg_talk": 198.0
     },
     {
       "agent": "Suzanne Ralston",
@@ -17486,7 +17212,7 @@
     {
       "attempts_bin": "1",
       "outcome": "Convertible",
-      "count": 2309
+      "count": 2307
     },
     {
       "attempts_bin": "1",
@@ -17511,7 +17237,7 @@
     {
       "attempts_bin": "2",
       "outcome": "Bad Data",
-      "count": 722
+      "count": 721
     },
     {
       "attempts_bin": "2",
@@ -17546,7 +17272,7 @@
     {
       "attempts_bin": "3",
       "outcome": "Convertible",
-      "count": 1065
+      "count": 1064
     },
     {
       "attempts_bin": "3",
@@ -17571,12 +17297,12 @@
     {
       "attempts_bin": "4",
       "outcome": "Bad Data",
-      "count": 467
+      "count": 466
     },
     {
       "attempts_bin": "4",
       "outcome": "Convertible",
-      "count": 872
+      "count": 871
     },
     {
       "attempts_bin": "4",
@@ -17596,27 +17322,27 @@
     {
       "attempts_bin": "5+",
       "outcome": "Bad Data",
-      "count": 2164
+      "count": 2163
     },
     {
       "attempts_bin": "5+",
       "outcome": "Convertible",
-      "count": 3875
+      "count": 3874
     },
     {
       "attempts_bin": "5+",
       "outcome": "N/A",
-      "count": 946
+      "count": 945
     },
     {
       "attempts_bin": "5+",
       "outcome": "Not Spoken",
-      "count": 2638
+      "count": 2637
     },
     {
       "attempts_bin": "5+",
       "outcome": "Sale",
-      "count": 1077
+      "count": 1076
     },
     {
       "attempts_bin": "5+",
@@ -19572,13 +19298,6 @@
       "avg_talk": 11.0
     },
     {
-      "agent": "Clementine Drake",
-      "week": "2026-05-04",
-      "code": "EXISTING",
-      "count": 1,
-      "avg_talk": 1728.0
-    },
-    {
       "agent": "Daniel Collier",
       "week": "2026-05-11",
       "code": "AGAM",
@@ -20566,13 +20285,6 @@
       "avg_talk": 20.0
     },
     {
-      "agent": "Donna Wallington",
-      "week": "2026-06-15",
-      "code": "PAYISSUE",
-      "count": 1,
-      "avg_talk": 397.0
-    },
-    {
       "agent": "Hamzah Ali",
       "week": "2026-06-29",
       "code": "AGAM",
@@ -20844,13 +20556,6 @@
       "code": "WRONGNO",
       "count": 1,
       "avg_talk": 14.0
-    },
-    {
-      "agent": "Harpremjyot Thethi",
-      "week": "2026-05-25",
-      "code": "DNC",
-      "count": 1,
-      "avg_talk": 659.0
     },
     {
       "agent": "Harry Worton",
@@ -22013,20 +21718,6 @@
       "code": "XFER",
       "count": 1,
       "avg_talk": 71.0
-    },
-    {
-      "agent": "Ilyas Chentouf",
-      "week": "2026-07-06",
-      "code": "TOOEXP",
-      "count": 1,
-      "avg_talk": 237.0
-    },
-    {
-      "agent": "Jake Ring",
-      "week": "2026-05-04",
-      "code": "SALE",
-      "count": 1,
-      "avg_talk": 1201.0
     },
     {
       "agent": "Jakub Rybczak",
@@ -31262,20 +30953,6 @@
       "avg_talk": 236.0
     },
     {
-      "agent": "Rayat Ahmed",
-      "week": "2026-05-18",
-      "code": "AGAM",
-      "count": 1,
-      "avg_talk": 1.0
-    },
-    {
-      "agent": "Sheza Ahmed",
-      "week": "2026-06-15",
-      "code": "HANGUP",
-      "count": 1,
-      "avg_talk": 201.0
-    },
-    {
       "agent": "Simone Adams",
       "week": "2026-05-04",
       "code": "AGAM",
@@ -32562,13 +32239,6 @@
       "code": "XFER",
       "count": 1,
       "avg_talk": 3.0
-    },
-    {
-      "agent": "Susan Thomas",
-      "week": "2026-06-29",
-      "code": "EXISTING",
-      "count": 1,
-      "avg_talk": 198.0
     },
     {
       "agent": "Suzanne Ralston",
@@ -35301,14 +34971,6 @@
       "record_id": "recPLk6GXK1Os72AQ"
     },
     {
-      "date": "2026-06-15",
-      "agent": "Sheza Ahmed",
-      "code": "HANGUP",
-      "outcome": "N/A",
-      "talk": 201,
-      "record_id": "recx4nzIA2RTHedYE"
-    },
-    {
       "date": "2026-06-12",
       "agent": "Simone Adams",
       "code": "HANGUP",
@@ -35808,8 +35470,8 @@
       "code": "HANGUP",
       "count": 43,
       "agent_avg": 93.5,
-      "team_avg": 35.5,
-      "deviation_pct": 163.3,
+      "team_avg": 35.3,
+      "deviation_pct": 164.8,
       "direction": "high",
       "sample_records": [
         {
@@ -37122,8 +36784,8 @@
       "code": "HANGUP",
       "count": 9,
       "agent_avg": 5.1,
-      "team_avg": 35.5,
-      "deviation_pct": -85.6,
+      "team_avg": 35.3,
+      "deviation_pct": -85.5,
       "direction": "low",
       "sample_records": [
         {
@@ -37392,8 +37054,8 @@
       "code": "HANGUP",
       "count": 73,
       "agent_avg": 63.1,
-      "team_avg": 35.5,
-      "deviation_pct": 77.7,
+      "team_avg": 35.3,
+      "deviation_pct": 78.7,
       "direction": "high",
       "sample_records": [
         {
@@ -38379,8 +38041,8 @@
       "code": "HANGUP",
       "count": 66,
       "agent_avg": 10.1,
-      "team_avg": 35.5,
-      "deviation_pct": -71.6,
+      "team_avg": 35.3,
+      "deviation_pct": -71.5,
       "direction": "low",
       "sample_records": [
         {
@@ -39079,8 +38741,8 @@
       "code": "HANGUP",
       "count": 18,
       "agent_avg": 12.8,
-      "team_avg": 35.5,
-      "deviation_pct": -64.0,
+      "team_avg": 35.3,
+      "deviation_pct": -63.8,
       "direction": "low",
       "sample_records": [
         {
@@ -39974,8 +39636,8 @@
       "code": "HANGUP",
       "count": 81,
       "agent_avg": 55.6,
-      "team_avg": 35.5,
-      "deviation_pct": 56.5,
+      "team_avg": 35.3,
+      "deviation_pct": 57.4,
       "direction": "high",
       "sample_records": [
         {
@@ -40283,8 +39945,8 @@
       "code": "HANGUP",
       "count": 6,
       "agent_avg": 15.5,
-      "team_avg": 35.5,
-      "deviation_pct": -56.3,
+      "team_avg": 35.3,
+      "deviation_pct": -56.1,
       "direction": "low",
       "sample_records": [
         {
@@ -40564,8 +40226,8 @@
       "code": "HANGUP",
       "count": 91,
       "agent_avg": 16.0,
-      "team_avg": 35.5,
-      "deviation_pct": -54.9,
+      "team_avg": 35.3,
+      "deviation_pct": -54.7,
       "direction": "low",
       "sample_records": [
         {
@@ -40925,8 +40587,8 @@
       "code": "PAYISSUE",
       "count": 35,
       "agent_avg": 330.2,
-      "team_avg": 718.2,
-      "deviation_pct": -54.0,
+      "team_avg": 721.5,
+      "deviation_pct": -54.2,
       "direction": "low",
       "sample_records": [
         {
@@ -41259,8 +40921,8 @@
       "code": "HANGUP",
       "count": 78,
       "agent_avg": 16.4,
-      "team_avg": 35.5,
-      "deviation_pct": -53.9,
+      "team_avg": 35.3,
+      "deviation_pct": -53.6,
       "direction": "low",
       "sample_records": [
         {
@@ -41578,8 +41240,8 @@
       "code": "HANGUP",
       "count": 77,
       "agent_avg": 16.6,
-      "team_avg": 35.5,
-      "deviation_pct": -53.1,
+      "team_avg": 35.3,
+      "deviation_pct": -52.8,
       "direction": "low",
       "sample_records": [
         {
@@ -42098,6 +41760,208 @@
       "sample_capped": true
     },
     {
+      "agent": "Marcus Harris",
+      "code": "HANGUP",
+      "count": 38,
+      "agent_avg": 53.7,
+      "team_avg": 35.3,
+      "deviation_pct": 52.2,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-27",
+          "talk": 106,
+          "record_id": "reccPUzDWhisYUNzM"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 35,
+          "record_id": "recP2GNetpz0OvfbW"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 33,
+          "record_id": "recwRadBMRJGfMCUx"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 17,
+          "record_id": "recMTq97WMmp12Wt6"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 12,
+          "record_id": "recIgMzetusbumIZF"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 12,
+          "record_id": "recX9onqbu5kdEOyI"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 10,
+          "record_id": "reciplLeDUEEI7a1J"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 4,
+          "record_id": "recA0EqNRZuSptywY"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 4,
+          "record_id": "recmPVNUxpQjCWVq9"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 2,
+          "record_id": "recotCJVsRbNihh6j"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 155,
+          "record_id": "recFqn0bzsdiJyUxP"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 32,
+          "record_id": "rec4yFp6E8k03c4Mz"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 18,
+          "record_id": "rec5bT1K8GlWd1LsM"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 11,
+          "record_id": "recwcAJFwLYYh4Bnc"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 10,
+          "record_id": "rechpwiV7PQiFrgM1"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 3,
+          "record_id": "recGCe8HCh9SrA7Ji"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 56,
+          "record_id": "recwggugqaymQFOkt"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 36,
+          "record_id": "rec6aLfy50HFdcYl4"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 19,
+          "record_id": "rec2WLkdArti849sT"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 8,
+          "record_id": "recK5lP6cjFAk0nCB"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 7,
+          "record_id": "recYVMFGTW79RtslD"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 4,
+          "record_id": "recs9t0tWF3bpQVH8"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 93,
+          "record_id": "recTlum5zl5VEFQUl"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 10,
+          "record_id": "recOUYLJRcMYum3fE"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 12,
+          "record_id": "rec4KuMzPZAh3N22n"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 90,
+          "record_id": "recRKtSuta0qwmbeM"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 2,
+          "record_id": "rec4hruKddVCtHofw"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 47,
+          "record_id": "reckqGViCXhipzgJ1"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 236,
+          "record_id": "recF2vcqyN1NOa8uH"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 4,
+          "record_id": "recXwYnhWfNJ6ijFd"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 13,
+          "record_id": "recgqxsRlJNHKBE51"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 8,
+          "record_id": "recYN2pLKL17A2ws3"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 4,
+          "record_id": "recl9tZbb2D42MLqH"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 1,
+          "record_id": "recg3ilqJStdspB59"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 107,
+          "record_id": "recbhJuMIvEuP6uhd"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 39,
+          "record_id": "rec9te005YTQktSbw"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 7,
+          "record_id": "recRdKQCXCn6NbRy8"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 774,
+          "record_id": "recrN9DAH18UBoEsB"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
       "agent": "Daniel Collier",
       "code": "NODOG",
       "count": 39,
@@ -42300,280 +42164,6 @@
           "date": "2026-05-13",
           "talk": 269,
           "record_id": "recvtXf0IhoKOSOxJ"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Marcus Harris",
-      "code": "HANGUP",
-      "count": 38,
-      "agent_avg": 53.7,
-      "team_avg": 35.5,
-      "deviation_pct": 51.3,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-27",
-          "talk": 106,
-          "record_id": "reccPUzDWhisYUNzM"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 35,
-          "record_id": "recP2GNetpz0OvfbW"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 33,
-          "record_id": "recwRadBMRJGfMCUx"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 17,
-          "record_id": "recMTq97WMmp12Wt6"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 12,
-          "record_id": "recIgMzetusbumIZF"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 12,
-          "record_id": "recX9onqbu5kdEOyI"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 10,
-          "record_id": "reciplLeDUEEI7a1J"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 4,
-          "record_id": "recA0EqNRZuSptywY"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 4,
-          "record_id": "recmPVNUxpQjCWVq9"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 2,
-          "record_id": "recotCJVsRbNihh6j"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 155,
-          "record_id": "recFqn0bzsdiJyUxP"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 32,
-          "record_id": "rec4yFp6E8k03c4Mz"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 18,
-          "record_id": "rec5bT1K8GlWd1LsM"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 11,
-          "record_id": "recwcAJFwLYYh4Bnc"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 10,
-          "record_id": "rechpwiV7PQiFrgM1"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 3,
-          "record_id": "recGCe8HCh9SrA7Ji"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 56,
-          "record_id": "recwggugqaymQFOkt"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 36,
-          "record_id": "rec6aLfy50HFdcYl4"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 19,
-          "record_id": "rec2WLkdArti849sT"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 8,
-          "record_id": "recK5lP6cjFAk0nCB"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 7,
-          "record_id": "recYVMFGTW79RtslD"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 4,
-          "record_id": "recs9t0tWF3bpQVH8"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 93,
-          "record_id": "recTlum5zl5VEFQUl"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 10,
-          "record_id": "recOUYLJRcMYum3fE"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 12,
-          "record_id": "rec4KuMzPZAh3N22n"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 90,
-          "record_id": "recRKtSuta0qwmbeM"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 2,
-          "record_id": "rec4hruKddVCtHofw"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 47,
-          "record_id": "reckqGViCXhipzgJ1"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 236,
-          "record_id": "recF2vcqyN1NOa8uH"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 4,
-          "record_id": "recXwYnhWfNJ6ijFd"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 13,
-          "record_id": "recgqxsRlJNHKBE51"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 8,
-          "record_id": "recYN2pLKL17A2ws3"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 4,
-          "record_id": "recl9tZbb2D42MLqH"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 1,
-          "record_id": "recg3ilqJStdspB59"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 107,
-          "record_id": "recbhJuMIvEuP6uhd"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 39,
-          "record_id": "rec9te005YTQktSbw"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 7,
-          "record_id": "recRdKQCXCn6NbRy8"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 774,
-          "record_id": "recrN9DAH18UBoEsB"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Suzanne Ralston",
-      "code": "HANGUP",
-      "count": 12,
-      "agent_avg": 17.3,
-      "team_avg": 35.5,
-      "deviation_pct": -51.2,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-02",
-          "talk": 9,
-          "record_id": "recfCGmEYKJ6ltMzn"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 7,
-          "record_id": "recZJQDBHNjjPzrEG"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 7,
-          "record_id": "recWjRxCGEMqzNY9K"
-        },
-        {
-          "date": "2026-06-11",
-          "talk": 3,
-          "record_id": "reckg5dYiODRdA42Y"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 14,
-          "record_id": "recw60Hkw4O1Lyydw"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 13,
-          "record_id": "recIMxP1fqbHo3Esh"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 10,
-          "record_id": "recubmEDha5CNTRvt"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 8,
-          "record_id": "rec6yStin4ySWapvt"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 2,
-          "record_id": "recYrmHywCEbx6h1u"
-        },
-        {
-          "date": "2026-05-20",
-          "talk": 74,
-          "record_id": "recQlpVCwYV7aFLHh"
-        },
-        {
-          "date": "2026-05-18",
-          "talk": 13,
-          "record_id": "recMoHhcQ59SbMSuO"
-        },
-        {
-          "date": "2026-05-13",
-          "talk": 48,
-          "record_id": "recF2AllFsWOewnem"
         }
       ],
       "sample_capped": false
@@ -43103,12 +42693,84 @@
       "sample_capped": true
     },
     {
+      "agent": "Suzanne Ralston",
+      "code": "HANGUP",
+      "count": 12,
+      "agent_avg": 17.3,
+      "team_avg": 35.3,
+      "deviation_pct": -50.9,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-02",
+          "talk": 9,
+          "record_id": "recfCGmEYKJ6ltMzn"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 7,
+          "record_id": "recZJQDBHNjjPzrEG"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 7,
+          "record_id": "recWjRxCGEMqzNY9K"
+        },
+        {
+          "date": "2026-06-11",
+          "talk": 3,
+          "record_id": "reckg5dYiODRdA42Y"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 14,
+          "record_id": "recw60Hkw4O1Lyydw"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 13,
+          "record_id": "recIMxP1fqbHo3Esh"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 10,
+          "record_id": "recubmEDha5CNTRvt"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 8,
+          "record_id": "rec6yStin4ySWapvt"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 2,
+          "record_id": "recYrmHywCEbx6h1u"
+        },
+        {
+          "date": "2026-05-20",
+          "talk": 74,
+          "record_id": "recQlpVCwYV7aFLHh"
+        },
+        {
+          "date": "2026-05-18",
+          "talk": 13,
+          "record_id": "recMoHhcQ59SbMSuO"
+        },
+        {
+          "date": "2026-05-13",
+          "talk": 48,
+          "record_id": "recF2AllFsWOewnem"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
       "agent": "Melissa Farr",
       "code": "EXISTING",
       "count": 216,
       "agent_avg": 67.5,
-      "team_avg": 135.3,
-      "deviation_pct": -50.1,
+      "team_avg": 134.6,
+      "deviation_pct": -49.9,
       "direction": "low",
       "sample_records": [
         {
@@ -43365,263 +43027,263 @@
       "sample_capped": true
     },
     {
-      "agent": "Simone Adams",
-      "code": "EXISTING",
-      "count": 135,
-      "agent_avg": 68.8,
-      "team_avg": 135.3,
-      "deviation_pct": -49.2,
-      "direction": "low",
+      "agent": "Karl Bovis",
+      "code": "HANGUP",
+      "count": 97,
+      "agent_avg": 52.8,
+      "team_avg": 35.3,
+      "deviation_pct": 49.6,
+      "direction": "high",
       "sample_records": [
         {
           "date": "2026-07-27",
-          "talk": 34,
-          "record_id": "rec521P4QIPvLbYp9"
+          "talk": 52,
+          "record_id": "recAWXveu7uxxFMXP"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 48,
+          "record_id": "recje4XhYx7aUzci2"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 23,
+          "record_id": "recfNkattsskiNhBt"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 14,
+          "record_id": "recuo8Xnog9tsLYVR"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 6,
+          "record_id": "reczyEzsGsPA8Bnly"
         },
         {
           "date": "2026-07-24",
-          "talk": 34,
-          "record_id": "recHOuzrkiolHCWOm"
+          "talk": 33,
+          "record_id": "rec4YIOq09JF9VY1Q"
         },
         {
-          "date": "2026-07-23",
-          "talk": 147,
-          "record_id": "recYYcou8FdSM8BzW"
+          "date": "2026-07-24",
+          "talk": 33,
+          "record_id": "recDQeoz3V5gDClzo"
         },
         {
-          "date": "2026-07-23",
-          "talk": 41,
-          "record_id": "recWor24oTbxN5hj0"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 4,
-          "record_id": "rec2RSgq3X8Yd9BLS"
+          "date": "2026-07-24",
+          "talk": 9,
+          "record_id": "reccR7JbTzhGGVVpH"
         },
         {
           "date": "2026-07-22",
-          "talk": 375,
-          "record_id": "recO9pv8JHRXjSA1X"
+          "talk": 12,
+          "record_id": "reciXiLUm28ZvfVOw"
         },
         {
           "date": "2026-07-22",
-          "talk": 272,
-          "record_id": "recd0R1NcIaeM0W3F"
+          "talk": 8,
+          "record_id": "recdxpkhLXb2qlSpX"
         },
         {
           "date": "2026-07-22",
-          "talk": 67,
-          "record_id": "rec8wxbAJ0WU8UpCe"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 38,
-          "record_id": "recd1Tf75bkdz2jsY"
+          "talk": 3,
+          "record_id": "recFb4oTEBRnJPb62"
         },
         {
           "date": "2026-07-21",
-          "talk": 51,
-          "record_id": "recfqAfl94aBDEe0i"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 68,
-          "record_id": "rechMbRnOIocSR9gJ"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 48,
-          "record_id": "reck7NhcmTfaWglsf"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 37,
-          "record_id": "recMqr7cvSig1BqGn"
+          "talk": 19,
+          "record_id": "recb50CF0oTgFDFG8"
         },
         {
           "date": "2026-07-17",
-          "talk": 443,
-          "record_id": "recq556zOI8XVQpVW"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 173,
-          "record_id": "recM4Jc3h8hFq6ruu"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 67,
-          "record_id": "recqrZ8oAOFkG3lqF"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 49,
-          "record_id": "rec6vZupHf8IghEoV"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 37,
-          "record_id": "recnlZC2Xr9SbZA6k"
+          "talk": 25,
+          "record_id": "reclJgMfHvZKJ5F5S"
         },
         {
           "date": "2026-07-16",
-          "talk": 441,
-          "record_id": "rechkEWPOY3EZUOGV"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 268,
-          "record_id": "rec7AgwO5nGjdPygJ"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 43,
-          "record_id": "recFFfGp9SQ6COWDz"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 28,
-          "record_id": "recbfuluAaOGGDKkL"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 40,
-          "record_id": "recYs5A2VhAxj9cjB"
-        },
-        {
-          "date": "2026-07-15",
           "talk": 26,
-          "record_id": "reca8dZvfZy9cKYFx"
+          "record_id": "rec1dl2DJyb568ZyQ"
         },
         {
-          "date": "2026-07-14",
-          "talk": 58,
-          "record_id": "rec7p2PNHZZZtq5Lh"
+          "date": "2026-07-16",
+          "talk": 8,
+          "record_id": "recbfUTzIzJb5ykKG"
         },
         {
-          "date": "2026-07-14",
-          "talk": 38,
-          "record_id": "recDRVCv8jFDtiTBF"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 24,
-          "record_id": "recpFR1ilH99CCjLi"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 1,
-          "record_id": "recl7WeSxQRnbFyqe"
-        },
-        {
-          "date": "2026-07-12",
-          "talk": 28,
-          "record_id": "rec040eedIikBnjF1"
+          "date": "2026-07-16",
+          "talk": 3,
+          "record_id": "recpPbW2t5qj3UmMJ"
         },
         {
           "date": "2026-07-10",
-          "talk": 42,
-          "record_id": "recilFkpYXW42MFax"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 74,
-          "record_id": "reca5FohHQ4VZ1I0H"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 43,
-          "record_id": "recA2kxiyAAg1ZY7h"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 39,
-          "record_id": "recoLxFOgvLkoQfHS"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 39,
-          "record_id": "recqqr9mRNZMnpBGY"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 35,
-          "record_id": "recldT1n81G9r6Rlo"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 25,
-          "record_id": "recrzE32CcLexHqmy"
+          "talk": 4,
+          "record_id": "recdCE6lF50oH9dkz"
         },
         {
           "date": "2026-07-08",
-          "talk": 116,
-          "record_id": "rec9Mylw9SEoNIIQr"
+          "talk": 35,
+          "record_id": "recJ0HZNpBgF0g5R7"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 5,
+          "record_id": "recWLiZD6Qo8yS7Sq"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 416,
+          "record_id": "recRWSCn73rJ4ap5Q"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 75,
+          "record_id": "rec4DNGlkE3r0ceHY"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 51,
+          "record_id": "rechJxBWLost8eEkw"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 46,
+          "record_id": "rec5sFdbiOLpKPr1q"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 39,
+          "record_id": "recPEpEQ30IhuTssl"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 37,
+          "record_id": "recJk2W37Rk9IDfyz"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 36,
+          "record_id": "rec02mQsYLWwPj5dx"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 7,
+          "record_id": "rec6Blyv5fiLHc5Td"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 7,
+          "record_id": "recmJ7FvLD6Mp0uFT"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 5,
+          "record_id": "reclznOJMDUzinzm7"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 44,
+          "record_id": "rec8M3ra11UB0xxvt"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 40,
+          "record_id": "reczkmObKcPGOb8LF"
         },
         {
           "date": "2026-07-01",
-          "talk": 117,
-          "record_id": "reccGHRg0rL9H1OUc"
+          "talk": 358,
+          "record_id": "recr2EGOjwEvQ5cxT"
         },
         {
           "date": "2026-07-01",
-          "talk": 52,
-          "record_id": "rec9Bz2Wxv6dRaPal"
+          "talk": 11,
+          "record_id": "recne6b6cRg6fYxoz"
         },
         {
           "date": "2026-07-01",
-          "talk": 43,
-          "record_id": "recsd4GdQkIs5xyfE"
+          "talk": 8,
+          "record_id": "recMSuFJMYR27Vg61"
         },
         {
-          "date": "2026-07-01",
-          "talk": 25,
-          "record_id": "recmCjqjZNzuBMQpH"
+          "date": "2026-06-23",
+          "talk": 75,
+          "record_id": "rectaA45NX9AGF14O"
         },
         {
-          "date": "2026-06-30",
-          "talk": 139,
-          "record_id": "recKYx40JqJNY6bHp"
+          "date": "2026-06-23",
+          "talk": 14,
+          "record_id": "recLH5g3GR19Kz9Kp"
         },
         {
-          "date": "2026-06-29",
-          "talk": 53,
-          "record_id": "recFk4RzyrK8Mn0gQ"
+          "date": "2026-06-23",
+          "talk": 1,
+          "record_id": "reckZp1FFwhRyBqiJ"
         },
         {
-          "date": "2026-06-26",
-          "talk": 47,
-          "record_id": "rec63F8GwAEQ7Gosy"
+          "date": "2026-06-17",
+          "talk": 441,
+          "record_id": "recPLk6GXK1Os72AQ"
         },
         {
-          "date": "2026-06-26",
-          "talk": 38,
-          "record_id": "recU4TrVQS7ViRJx5"
+          "date": "2026-06-15",
+          "talk": 36,
+          "record_id": "recT7NCd6MPyrxWN3"
         },
         {
-          "date": "2026-06-25",
-          "talk": 62,
-          "record_id": "reckk0V5SSZrjWYg0"
+          "date": "2026-06-15",
+          "talk": 10,
+          "record_id": "recimymK4iKD1jgMt"
         },
         {
-          "date": "2026-06-25",
-          "talk": 26,
-          "record_id": "rec59g06B1r4A0fjQ"
+          "date": "2026-06-15",
+          "talk": 2,
+          "record_id": "recgN8XFjGHelPDJg"
         },
         {
-          "date": "2026-06-25",
-          "talk": 26,
-          "record_id": "recXkFkb5AJGm7Amf"
+          "date": "2026-06-12",
+          "talk": 488,
+          "record_id": "recU6k66PVySaHOQS"
         },
         {
-          "date": "2026-06-24",
-          "talk": 134,
-          "record_id": "recSO4X1u61TYCrDH"
+          "date": "2026-06-12",
+          "talk": 364,
+          "record_id": "recW0NdqS0nh1us4H"
         },
         {
-          "date": "2026-06-24",
+          "date": "2026-06-12",
+          "talk": 129,
+          "record_id": "recFDkY8boT9tM7eh"
+        },
+        {
+          "date": "2026-06-12",
           "talk": 31,
-          "record_id": "recNdc28JcmFsyCie"
+          "record_id": "recjXUn7Ozy46wCMY"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 25,
+          "record_id": "recr6nNTzNViR5s7b"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 18,
+          "record_id": "recQqevQxNgbyIk63"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 15,
+          "record_id": "recV46CGWemXJEqc2"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 9,
+          "record_id": "recgVEsN7sqTRg7T1"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 9,
+          "record_id": "recglOxPOMkc7uKdh"
         }
       ],
       "sample_capped": true
@@ -44198,263 +43860,263 @@
       "sample_capped": false
     },
     {
-      "agent": "Karl Bovis",
-      "code": "HANGUP",
-      "count": 97,
-      "agent_avg": 52.8,
-      "team_avg": 35.5,
-      "deviation_pct": 48.8,
-      "direction": "high",
+      "agent": "Simone Adams",
+      "code": "EXISTING",
+      "count": 135,
+      "agent_avg": 68.8,
+      "team_avg": 134.6,
+      "deviation_pct": -48.9,
+      "direction": "low",
       "sample_records": [
         {
           "date": "2026-07-27",
-          "talk": 52,
-          "record_id": "recAWXveu7uxxFMXP"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 48,
-          "record_id": "recje4XhYx7aUzci2"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 23,
-          "record_id": "recfNkattsskiNhBt"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 14,
-          "record_id": "recuo8Xnog9tsLYVR"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 6,
-          "record_id": "reczyEzsGsPA8Bnly"
+          "talk": 34,
+          "record_id": "rec521P4QIPvLbYp9"
         },
         {
           "date": "2026-07-24",
-          "talk": 33,
-          "record_id": "rec4YIOq09JF9VY1Q"
+          "talk": 34,
+          "record_id": "recHOuzrkiolHCWOm"
         },
         {
-          "date": "2026-07-24",
-          "talk": 33,
-          "record_id": "recDQeoz3V5gDClzo"
+          "date": "2026-07-23",
+          "talk": 147,
+          "record_id": "recYYcou8FdSM8BzW"
         },
         {
-          "date": "2026-07-24",
-          "talk": 9,
-          "record_id": "reccR7JbTzhGGVVpH"
+          "date": "2026-07-23",
+          "talk": 41,
+          "record_id": "recWor24oTbxN5hj0"
         },
         {
-          "date": "2026-07-22",
-          "talk": 12,
-          "record_id": "reciXiLUm28ZvfVOw"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 8,
-          "record_id": "recdxpkhLXb2qlSpX"
+          "date": "2026-07-23",
+          "talk": 4,
+          "record_id": "rec2RSgq3X8Yd9BLS"
         },
         {
           "date": "2026-07-22",
-          "talk": 3,
-          "record_id": "recFb4oTEBRnJPb62"
+          "talk": 375,
+          "record_id": "recO9pv8JHRXjSA1X"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 272,
+          "record_id": "recd0R1NcIaeM0W3F"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 67,
+          "record_id": "rec8wxbAJ0WU8UpCe"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 38,
+          "record_id": "recd1Tf75bkdz2jsY"
         },
         {
           "date": "2026-07-21",
-          "talk": 19,
-          "record_id": "recb50CF0oTgFDFG8"
+          "talk": 51,
+          "record_id": "recfqAfl94aBDEe0i"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 68,
+          "record_id": "rechMbRnOIocSR9gJ"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 48,
+          "record_id": "reck7NhcmTfaWglsf"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 37,
+          "record_id": "recMqr7cvSig1BqGn"
         },
         {
           "date": "2026-07-17",
-          "talk": 25,
-          "record_id": "reclJgMfHvZKJ5F5S"
+          "talk": 443,
+          "record_id": "recq556zOI8XVQpVW"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 173,
+          "record_id": "recM4Jc3h8hFq6ruu"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 67,
+          "record_id": "recqrZ8oAOFkG3lqF"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 49,
+          "record_id": "rec6vZupHf8IghEoV"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 37,
+          "record_id": "recnlZC2Xr9SbZA6k"
         },
         {
           "date": "2026-07-16",
+          "talk": 441,
+          "record_id": "rechkEWPOY3EZUOGV"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 268,
+          "record_id": "rec7AgwO5nGjdPygJ"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 43,
+          "record_id": "recFFfGp9SQ6COWDz"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 28,
+          "record_id": "recbfuluAaOGGDKkL"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 40,
+          "record_id": "recYs5A2VhAxj9cjB"
+        },
+        {
+          "date": "2026-07-15",
           "talk": 26,
-          "record_id": "rec1dl2DJyb568ZyQ"
+          "record_id": "reca8dZvfZy9cKYFx"
         },
         {
-          "date": "2026-07-16",
-          "talk": 8,
-          "record_id": "recbfUTzIzJb5ykKG"
+          "date": "2026-07-14",
+          "talk": 58,
+          "record_id": "rec7p2PNHZZZtq5Lh"
         },
         {
-          "date": "2026-07-16",
-          "talk": 3,
-          "record_id": "recpPbW2t5qj3UmMJ"
+          "date": "2026-07-14",
+          "talk": 38,
+          "record_id": "recDRVCv8jFDtiTBF"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 24,
+          "record_id": "recpFR1ilH99CCjLi"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 1,
+          "record_id": "recl7WeSxQRnbFyqe"
+        },
+        {
+          "date": "2026-07-12",
+          "talk": 28,
+          "record_id": "rec040eedIikBnjF1"
         },
         {
           "date": "2026-07-10",
-          "talk": 4,
-          "record_id": "recdCE6lF50oH9dkz"
+          "talk": 42,
+          "record_id": "recilFkpYXW42MFax"
         },
         {
-          "date": "2026-07-08",
-          "talk": 35,
-          "record_id": "recJ0HZNpBgF0g5R7"
+          "date": "2026-07-09",
+          "talk": 74,
+          "record_id": "reca5FohHQ4VZ1I0H"
         },
         {
-          "date": "2026-07-08",
-          "talk": 5,
-          "record_id": "recWLiZD6Qo8yS7Sq"
+          "date": "2026-07-09",
+          "talk": 43,
+          "record_id": "recA2kxiyAAg1ZY7h"
         },
         {
-          "date": "2026-07-03",
-          "talk": 416,
-          "record_id": "recRWSCn73rJ4ap5Q"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 75,
-          "record_id": "rec4DNGlkE3r0ceHY"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 51,
-          "record_id": "rechJxBWLost8eEkw"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 46,
-          "record_id": "rec5sFdbiOLpKPr1q"
-        },
-        {
-          "date": "2026-07-03",
+          "date": "2026-07-09",
           "talk": 39,
-          "record_id": "recPEpEQ30IhuTssl"
+          "record_id": "recoLxFOgvLkoQfHS"
         },
         {
-          "date": "2026-07-03",
-          "talk": 37,
-          "record_id": "recJk2W37Rk9IDfyz"
+          "date": "2026-07-09",
+          "talk": 39,
+          "record_id": "recqqr9mRNZMnpBGY"
         },
         {
-          "date": "2026-07-03",
-          "talk": 36,
-          "record_id": "rec02mQsYLWwPj5dx"
+          "date": "2026-07-09",
+          "talk": 35,
+          "record_id": "recldT1n81G9r6Rlo"
         },
         {
-          "date": "2026-07-03",
-          "talk": 7,
-          "record_id": "rec6Blyv5fiLHc5Td"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 7,
-          "record_id": "recmJ7FvLD6Mp0uFT"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 5,
-          "record_id": "reclznOJMDUzinzm7"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 44,
-          "record_id": "rec8M3ra11UB0xxvt"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 40,
-          "record_id": "reczkmObKcPGOb8LF"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 358,
-          "record_id": "recr2EGOjwEvQ5cxT"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 11,
-          "record_id": "recne6b6cRg6fYxoz"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 8,
-          "record_id": "recMSuFJMYR27Vg61"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 75,
-          "record_id": "rectaA45NX9AGF14O"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 14,
-          "record_id": "recLH5g3GR19Kz9Kp"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 1,
-          "record_id": "reckZp1FFwhRyBqiJ"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 441,
-          "record_id": "recPLk6GXK1Os72AQ"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 36,
-          "record_id": "recT7NCd6MPyrxWN3"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 10,
-          "record_id": "recimymK4iKD1jgMt"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 2,
-          "record_id": "recgN8XFjGHelPDJg"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 488,
-          "record_id": "recU6k66PVySaHOQS"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 364,
-          "record_id": "recW0NdqS0nh1us4H"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 129,
-          "record_id": "recFDkY8boT9tM7eh"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 31,
-          "record_id": "recjXUn7Ozy46wCMY"
-        },
-        {
-          "date": "2026-06-12",
+          "date": "2026-07-09",
           "talk": 25,
-          "record_id": "recr6nNTzNViR5s7b"
+          "record_id": "recrzE32CcLexHqmy"
         },
         {
-          "date": "2026-06-12",
-          "talk": 18,
-          "record_id": "recQqevQxNgbyIk63"
+          "date": "2026-07-08",
+          "talk": 116,
+          "record_id": "rec9Mylw9SEoNIIQr"
         },
         {
-          "date": "2026-06-12",
-          "talk": 15,
-          "record_id": "recV46CGWemXJEqc2"
+          "date": "2026-07-01",
+          "talk": 117,
+          "record_id": "reccGHRg0rL9H1OUc"
         },
         {
-          "date": "2026-06-12",
-          "talk": 9,
-          "record_id": "recgVEsN7sqTRg7T1"
+          "date": "2026-07-01",
+          "talk": 52,
+          "record_id": "rec9Bz2Wxv6dRaPal"
         },
         {
-          "date": "2026-06-12",
-          "talk": 9,
-          "record_id": "recglOxPOMkc7uKdh"
+          "date": "2026-07-01",
+          "talk": 43,
+          "record_id": "recsd4GdQkIs5xyfE"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 25,
+          "record_id": "recmCjqjZNzuBMQpH"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 139,
+          "record_id": "recKYx40JqJNY6bHp"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 53,
+          "record_id": "recFk4RzyrK8Mn0gQ"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 47,
+          "record_id": "rec63F8GwAEQ7Gosy"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 38,
+          "record_id": "recU4TrVQS7ViRJx5"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 62,
+          "record_id": "reckk0V5SSZrjWYg0"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 26,
+          "record_id": "rec59g06B1r4A0fjQ"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 26,
+          "record_id": "recXkFkb5AJGm7Amf"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 134,
+          "record_id": "recSO4X1u61TYCrDH"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 31,
+          "record_id": "recNdc28JcmFsyCie"
         }
       ],
       "sample_capped": true
@@ -44495,6 +44157,268 @@
         }
       ],
       "sample_capped": false
+    },
+    {
+      "agent": "Bradleigh Jenkins",
+      "code": "DNC",
+      "count": 55,
+      "agent_avg": 71.8,
+      "team_avg": 48.6,
+      "deviation_pct": 47.7,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-27",
+          "talk": 67,
+          "record_id": "recLZvFMj4AhG8SZw"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 27,
+          "record_id": "recAW7y445u18v3Fp"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 57,
+          "record_id": "recSZwI4hpwgxesHc"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 351,
+          "record_id": "recQKoIRj37AdLg9N"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 27,
+          "record_id": "rectX9FnynNNgFLsw"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 108,
+          "record_id": "recn8ucm05oScOYRd"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 20,
+          "record_id": "recAYjTajIABKV5bc"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 24,
+          "record_id": "rec3x9O0FbAtABqwU"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 71,
+          "record_id": "recFewthZyoL4Wx6Z"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 64,
+          "record_id": "recEVRPnaVIfDa3bZ"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 36,
+          "record_id": "recvKpW7g0me5O32X"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 28,
+          "record_id": "recVSG8z07KIQLzqx"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 32,
+          "record_id": "recbxOgnzOa7qbVC6"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 65,
+          "record_id": "rec5rvkjSB9glsnYF"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 119,
+          "record_id": "recu1UXmX6pfzthSe"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 53,
+          "record_id": "recqyP1xhavDL7mCo"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 48,
+          "record_id": "recwWzvmrc61Kpuyj"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 27,
+          "record_id": "recTNqMIDxmM6H4Jx"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 11,
+          "record_id": "recAFL6NNgVxsalpg"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 6,
+          "record_id": "recMBoAfPpaLrZ0Y6"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 253,
+          "record_id": "recaFcB2fk2xvAID7"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 49,
+          "record_id": "recOkZxW7ZB6nyNMz"
+        },
+        {
+          "date": "2026-07-06",
+          "talk": 54,
+          "record_id": "rec6vn1RWPJrNV97R"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 75,
+          "record_id": "recOyXeYoT26TzQjf"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 47,
+          "record_id": "recu5NLfGhlx9Xpvz"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 29,
+          "record_id": "recUBGkehPb5d5Dna"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 153,
+          "record_id": "recbytl8UpygbX9vi"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 132,
+          "record_id": "recuFbNFUGvAW9FL4"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 42,
+          "record_id": "rec834kSd5g7WEPmO"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 29,
+          "record_id": "recl5vnNWCHRUjH2f"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 21,
+          "record_id": "recmrSxdrCEe10bNP"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 20,
+          "record_id": "recKoQqP8dI9Vh2Vs"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 37,
+          "record_id": "recGnFeUPLcVT9Soj"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 14,
+          "record_id": "rec54ghgTKQaRXKU2"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 84,
+          "record_id": "recTzgEY1XKtzJ1gI"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 68,
+          "record_id": "recWT1n2U2t2xFa9G"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 2,
+          "record_id": "recs4bi2JRNUkANmO"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 76,
+          "record_id": "rectRHMWan2MRsmsa"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 28,
+          "record_id": "recKFZ81aaFWxqtGl"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 438,
+          "record_id": "recTRd8sIUZV9OfNs"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 79,
+          "record_id": "reci0lCS4NRT0T6jQ"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 146,
+          "record_id": "recpqlccd2vgDsU8V"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 34,
+          "record_id": "recB3uC3iS8ttIpv5"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 97,
+          "record_id": "recQz6FbYfyUyitA5"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 45,
+          "record_id": "recohVRRNBIOkBuNg"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 59,
+          "record_id": "recf4tWocGBHwnicd"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 46,
+          "record_id": "recUVBDZKHOdm45Rb"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 31,
+          "record_id": "recgzVrktzempsJT8"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 29,
+          "record_id": "rec2EogECxvblfbDH"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 178,
+          "record_id": "recMPnLNykycsftfP"
+        }
+      ],
+      "sample_capped": true
     },
     {
       "agent": "Jakub Rybczak",
@@ -44601,508 +44525,12 @@
       "sample_capped": false
     },
     {
-      "agent": "Karl Bovis",
-      "code": "WRONGNO",
-      "count": 20,
-      "agent_avg": 32.1,
-      "team_avg": 21.9,
-      "deviation_pct": 46.6,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-23",
-          "talk": 31,
-          "record_id": "recrXMlvtyugAbmNQ"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 27,
-          "record_id": "recoHjL23jdIKh0HU"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 25,
-          "record_id": "recMilCwUGY1pVnLv"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 22,
-          "record_id": "rec9dLzURQXeqgqjU"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 18,
-          "record_id": "recRa9Ksumjbq0tSn"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 26,
-          "record_id": "rec5Av7AgEG0MXuNV"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 50,
-          "record_id": "recGA5V7Sn4evfbwY"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 22,
-          "record_id": "receOCtpMeY2WS37Y"
-        },
-        {
-          "date": "2026-06-20",
-          "talk": 29,
-          "record_id": "recY7EOkPZ79sX9mx"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 45,
-          "record_id": "recjnd4dBPZw1T8Hf"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 40,
-          "record_id": "recE2DRGyG83OPJIR"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 20,
-          "record_id": "recuUHTIM38CWdohQ"
-        },
-        {
-          "date": "2026-05-27",
-          "talk": 85,
-          "record_id": "rec4jenQN5aEQOEEu"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 62,
-          "record_id": "recKKCGRgnErNVmiH"
-        },
-        {
-          "date": "2026-05-08",
-          "talk": 27,
-          "record_id": "recrC3BUN5lV5Vcry"
-        },
-        {
-          "date": "2026-05-08",
-          "talk": 24,
-          "record_id": "recBgooBLtL7ZfkTa"
-        },
-        {
-          "date": "2026-04-22",
-          "talk": 19,
-          "record_id": "recIt0lT0j7WaAkiW"
-        },
-        {
-          "date": "2026-04-13",
-          "talk": 17,
-          "record_id": "rec7I7IrSbL9iOyy6"
-        },
-        {
-          "date": "2026-04-09",
-          "talk": 36,
-          "record_id": "rec9EYuSq57Ba6rG5"
-        },
-        {
-          "date": "2026-04-06",
-          "talk": 17,
-          "record_id": "recHoyUnvUIERzhee"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Harry Worton",
-      "code": "LANGBAR",
-      "count": 24,
-      "agent_avg": 33.1,
-      "team_avg": 61.8,
-      "deviation_pct": -46.5,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-23",
-          "talk": 11,
-          "record_id": "recKlIlTzmUO4nkki"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 14,
-          "record_id": "recrdCGjRMEZSq3FC"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 11,
-          "record_id": "recTKgQomzwj1xg0d"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 18,
-          "record_id": "recrBWKUSDcRcDqiK"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 53,
-          "record_id": "recY3XIGLydzEL86l"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 11,
-          "record_id": "recJCaPhzuktjokVe"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 19,
-          "record_id": "recbsIfkidrhYHAQU"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 44,
-          "record_id": "recp0LydHdmFTLpme"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 25,
-          "record_id": "rec48RpE26gSCPTEZ"
-        },
-        {
-          "date": "2026-06-06",
-          "talk": 12,
-          "record_id": "rec1xv3ozWDHZePHx"
-        },
-        {
-          "date": "2026-06-01",
-          "talk": 14,
-          "record_id": "recGFkfYCyukwjLQF"
-        },
-        {
-          "date": "2026-05-26",
-          "talk": 13,
-          "record_id": "recBcakOfPTwUDcNN"
-        },
-        {
-          "date": "2026-05-21",
-          "talk": 2,
-          "record_id": "recxDwvgEaz30qmqE"
-        },
-        {
-          "date": "2026-05-14",
-          "talk": 63,
-          "record_id": "rec8vG9B1pZh6n8PE"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 54,
-          "record_id": "reczPEcLeD0FRLRm6"
-        },
-        {
-          "date": "2026-05-07",
-          "talk": 30,
-          "record_id": "rect7u9P7pVaKWLQl"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 38,
-          "record_id": "recKuDVmaHrNlsIyV"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 17,
-          "record_id": "recYZMWFoXATfZZne"
-        },
-        {
-          "date": "2026-04-23",
-          "talk": 51,
-          "record_id": "recLwvsndblHYCPsK"
-        },
-        {
-          "date": "2026-04-21",
-          "talk": 112,
-          "record_id": "recom9nXEzjxrGf3I"
-        },
-        {
-          "date": "2026-04-21",
-          "talk": 16,
-          "record_id": "recMTGW6NCyA2va31"
-        },
-        {
-          "date": "2026-04-16",
-          "talk": 32,
-          "record_id": "recD4dAYbL0VRHe5S"
-        },
-        {
-          "date": "2026-04-11",
-          "talk": 15,
-          "record_id": "recqMTClbMFU33O6J"
-        },
-        {
-          "date": "2026-04-09",
-          "talk": 119,
-          "record_id": "recfWtWXzDIPueVpI"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Kyran Drake",
-      "code": "EXISTING",
-      "count": 48,
-      "agent_avg": 197.8,
-      "team_avg": 135.3,
-      "deviation_pct": 46.2,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-24",
-          "talk": 115,
-          "record_id": "recgIBgOK9tiXLwCF"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 74,
-          "record_id": "recMGfZ2gMtUNqm8a"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 32,
-          "record_id": "reci0i0ke1rnRj6kO"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 57,
-          "record_id": "recrG2Aqr1edny7fT"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 578,
-          "record_id": "recEPeLUQBxWsexVl"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 99,
-          "record_id": "recRCVJNeQY1j7e1l"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 79,
-          "record_id": "recjiTLENjHMhc0oW"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 168,
-          "record_id": "recnzje3hJP09ASQs"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 52,
-          "record_id": "receRW0eKAhwO7ASz"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 47,
-          "record_id": "recPoBr24KdM7pRPh"
-        },
-        {
-          "date": "2026-07-13",
-          "talk": 20,
-          "record_id": "recZDiHFBN36uWMG0"
-        },
-        {
-          "date": "2026-07-11",
-          "talk": 1267,
-          "record_id": "recXMZcPiDTbpNnqq"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 224,
-          "record_id": "recb6WrmodxsY2Xi0"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 157,
-          "record_id": "recdNP8uFIiqFwuh6"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 129,
-          "record_id": "recxM7fvoFi6wqghh"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 83,
-          "record_id": "rechF8Ii6ShCIygMk"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 68,
-          "record_id": "recPejPfNG8NR6ds4"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 52,
-          "record_id": "recXNjYYehNV7JEpg"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 300,
-          "record_id": "recqqBe38nlrvrO53"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 154,
-          "record_id": "recAKyo3kTyu3CvdB"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 65,
-          "record_id": "rec2qNZDL68rMCV4G"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 37,
-          "record_id": "recZqaHe1SyPxypKb"
-        },
-        {
-          "date": "2026-07-06",
-          "talk": 624,
-          "record_id": "recOAtBM8OK1LmgCf"
-        },
-        {
-          "date": "2026-07-06",
-          "talk": 393,
-          "record_id": "recwSR8WSJh4VKFxT"
-        },
-        {
-          "date": "2026-07-04",
-          "talk": 84,
-          "record_id": "recVEqRPPlCgRIkJa"
-        },
-        {
-          "date": "2026-07-04",
-          "talk": 78,
-          "record_id": "recglozHX1fEitjQ4"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 280,
-          "record_id": "rec2mGdjS4WCWcTST"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 158,
-          "record_id": "recym8lA1PlhAEqS3"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 39,
-          "record_id": "rec2evhxuvhSEenDA"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 240,
-          "record_id": "recf3GuNOB5QgIWxN"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 192,
-          "record_id": "rec7ELRxPBsp3rQyI"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 109,
-          "record_id": "recrqJ2XmaIwZXaL1"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 184,
-          "record_id": "recq23TVOCJK9VWzo"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 130,
-          "record_id": "reckvNhGQ8aMJw7QS"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 320,
-          "record_id": "recoLfvZvxIxbJYuK"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 88,
-          "record_id": "recMQmG8wcAvUT81c"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 317,
-          "record_id": "recPitxM41CRhO3Q8"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 243,
-          "record_id": "recN6mJwUDtrewGCH"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 205,
-          "record_id": "recx0s4kGencZWa2x"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 124,
-          "record_id": "recqjgXFwUZgloYBy"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 49,
-          "record_id": "recpWbnYusEvimu11"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 433,
-          "record_id": "recnnBtOfDgyXFHN9"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 175,
-          "record_id": "rechpxuuNOeqNMXqP"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 109,
-          "record_id": "reckcPm5Cmc7pwx9G"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 137,
-          "record_id": "recALQIUg1wdhBy0R"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 119,
-          "record_id": "recEOGlymAQaEGCrj"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 489,
-          "record_id": "recxKEafzVPZlo6EA"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 318,
-          "record_id": "rec0dnks5TtJM8k6y"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
       "agent": "Kyle West",
       "code": "EXISTING",
       "count": 164,
       "agent_avg": 197.7,
-      "team_avg": 135.3,
-      "deviation_pct": 46.1,
+      "team_avg": 134.6,
+      "deviation_pct": 46.9,
       "direction": "high",
       "sample_records": [
         {
@@ -45359,53 +44787,497 @@
       "sample_capped": true
     },
     {
-      "agent": "Leighton Hutcheson",
-      "code": "PAYISSUE",
-      "count": 8,
-      "agent_avg": 1048.5,
-      "team_avg": 718.2,
-      "deviation_pct": 46.0,
+      "agent": "Kyran Drake",
+      "code": "EXISTING",
+      "count": 48,
+      "agent_avg": 197.8,
+      "team_avg": 134.6,
+      "deviation_pct": 46.9,
       "direction": "high",
       "sample_records": [
         {
+          "date": "2026-07-24",
+          "talk": 115,
+          "record_id": "recgIBgOK9tiXLwCF"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 74,
+          "record_id": "recMGfZ2gMtUNqm8a"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 32,
+          "record_id": "reci0i0ke1rnRj6kO"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 57,
+          "record_id": "recrG2Aqr1edny7fT"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 578,
+          "record_id": "recEPeLUQBxWsexVl"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 99,
+          "record_id": "recRCVJNeQY1j7e1l"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 79,
+          "record_id": "recjiTLENjHMhc0oW"
+        },
+        {
           "date": "2026-07-16",
-          "talk": 1744,
-          "record_id": "recpyHXAUWIQqEVRT"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 355,
-          "record_id": "recrtxVpqpHfK0Rww"
+          "talk": 168,
+          "record_id": "recnzje3hJP09ASQs"
         },
         {
           "date": "2026-07-14",
-          "talk": 1799,
-          "record_id": "recfExVhihOTtfrPk"
+          "talk": 52,
+          "record_id": "receRW0eKAhwO7ASz"
         },
         {
           "date": "2026-07-14",
-          "talk": 1001,
-          "record_id": "recOITOOmRlKiw1nV"
+          "talk": 47,
+          "record_id": "recPoBr24KdM7pRPh"
         },
         {
-          "date": "2026-07-14",
-          "talk": 141,
-          "record_id": "recmrrGU61HvNg3kA"
+          "date": "2026-07-13",
+          "talk": 20,
+          "record_id": "recZDiHFBN36uWMG0"
+        },
+        {
+          "date": "2026-07-11",
+          "talk": 1267,
+          "record_id": "recXMZcPiDTbpNnqq"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 224,
+          "record_id": "recb6WrmodxsY2Xi0"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 157,
+          "record_id": "recdNP8uFIiqFwuh6"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 129,
+          "record_id": "recxM7fvoFi6wqghh"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 83,
+          "record_id": "rechF8Ii6ShCIygMk"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 68,
+          "record_id": "recPejPfNG8NR6ds4"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 52,
+          "record_id": "recXNjYYehNV7JEpg"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 300,
+          "record_id": "recqqBe38nlrvrO53"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 154,
+          "record_id": "recAKyo3kTyu3CvdB"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 65,
+          "record_id": "rec2qNZDL68rMCV4G"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 37,
+          "record_id": "recZqaHe1SyPxypKb"
+        },
+        {
+          "date": "2026-07-06",
+          "talk": 624,
+          "record_id": "recOAtBM8OK1LmgCf"
+        },
+        {
+          "date": "2026-07-06",
+          "talk": 393,
+          "record_id": "recwSR8WSJh4VKFxT"
+        },
+        {
+          "date": "2026-07-04",
+          "talk": 84,
+          "record_id": "recVEqRPPlCgRIkJa"
+        },
+        {
+          "date": "2026-07-04",
+          "talk": 78,
+          "record_id": "recglozHX1fEitjQ4"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 280,
+          "record_id": "rec2mGdjS4WCWcTST"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 158,
+          "record_id": "recym8lA1PlhAEqS3"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 39,
+          "record_id": "rec2evhxuvhSEenDA"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 240,
+          "record_id": "recf3GuNOB5QgIWxN"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 192,
+          "record_id": "rec7ELRxPBsp3rQyI"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 109,
+          "record_id": "recrqJ2XmaIwZXaL1"
         },
         {
           "date": "2026-06-23",
-          "talk": 1595,
-          "record_id": "recGKPI6087T1tTCL"
+          "talk": 184,
+          "record_id": "recq23TVOCJK9VWzo"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 130,
+          "record_id": "reckvNhGQ8aMJw7QS"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 320,
+          "record_id": "recoLfvZvxIxbJYuK"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 88,
+          "record_id": "recMQmG8wcAvUT81c"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 317,
+          "record_id": "recPitxM41CRhO3Q8"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 243,
+          "record_id": "recN6mJwUDtrewGCH"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 205,
+          "record_id": "recx0s4kGencZWa2x"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 124,
+          "record_id": "recqjgXFwUZgloYBy"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 49,
+          "record_id": "recpWbnYusEvimu11"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 433,
+          "record_id": "recnnBtOfDgyXFHN9"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 175,
+          "record_id": "rechpxuuNOeqNMXqP"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 109,
+          "record_id": "reckcPm5Cmc7pwx9G"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 137,
+          "record_id": "recALQIUg1wdhBy0R"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 119,
+          "record_id": "recEOGlymAQaEGCrj"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 489,
+          "record_id": "recxKEafzVPZlo6EA"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 318,
+          "record_id": "rec0dnks5TtJM8k6y"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
+      "agent": "Karl Bovis",
+      "code": "WRONGNO",
+      "count": 20,
+      "agent_avg": 32.1,
+      "team_avg": 21.9,
+      "deviation_pct": 46.6,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-23",
+          "talk": 31,
+          "record_id": "recrXMlvtyugAbmNQ"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 27,
+          "record_id": "recoHjL23jdIKh0HU"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 25,
+          "record_id": "recMilCwUGY1pVnLv"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 22,
+          "record_id": "rec9dLzURQXeqgqjU"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 18,
+          "record_id": "recRa9Ksumjbq0tSn"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 26,
+          "record_id": "rec5Av7AgEG0MXuNV"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 50,
+          "record_id": "recGA5V7Sn4evfbwY"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 22,
+          "record_id": "receOCtpMeY2WS37Y"
+        },
+        {
+          "date": "2026-06-20",
+          "talk": 29,
+          "record_id": "recY7EOkPZ79sX9mx"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 45,
+          "record_id": "recjnd4dBPZw1T8Hf"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 40,
+          "record_id": "recE2DRGyG83OPJIR"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 20,
+          "record_id": "recuUHTIM38CWdohQ"
+        },
+        {
+          "date": "2026-05-27",
+          "talk": 85,
+          "record_id": "rec4jenQN5aEQOEEu"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 62,
+          "record_id": "recKKCGRgnErNVmiH"
+        },
+        {
+          "date": "2026-05-08",
+          "talk": 27,
+          "record_id": "recrC3BUN5lV5Vcry"
+        },
+        {
+          "date": "2026-05-08",
+          "talk": 24,
+          "record_id": "recBgooBLtL7ZfkTa"
+        },
+        {
+          "date": "2026-04-22",
+          "talk": 19,
+          "record_id": "recIt0lT0j7WaAkiW"
+        },
+        {
+          "date": "2026-04-13",
+          "talk": 17,
+          "record_id": "rec7I7IrSbL9iOyy6"
+        },
+        {
+          "date": "2026-04-09",
+          "talk": 36,
+          "record_id": "rec9EYuSq57Ba6rG5"
+        },
+        {
+          "date": "2026-04-06",
+          "talk": 17,
+          "record_id": "recHoyUnvUIERzhee"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
+      "agent": "Harry Worton",
+      "code": "LANGBAR",
+      "count": 24,
+      "agent_avg": 33.1,
+      "team_avg": 61.8,
+      "deviation_pct": -46.5,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-23",
+          "talk": 11,
+          "record_id": "recKlIlTzmUO4nkki"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 14,
+          "record_id": "recrdCGjRMEZSq3FC"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 11,
+          "record_id": "recTKgQomzwj1xg0d"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 18,
+          "record_id": "recrBWKUSDcRcDqiK"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 53,
+          "record_id": "recY3XIGLydzEL86l"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 11,
+          "record_id": "recJCaPhzuktjokVe"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 19,
+          "record_id": "recbsIfkidrhYHAQU"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 44,
+          "record_id": "recp0LydHdmFTLpme"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 25,
+          "record_id": "rec48RpE26gSCPTEZ"
+        },
+        {
+          "date": "2026-06-06",
+          "talk": 12,
+          "record_id": "rec1xv3ozWDHZePHx"
+        },
+        {
+          "date": "2026-06-01",
+          "talk": 14,
+          "record_id": "recGFkfYCyukwjLQF"
+        },
+        {
+          "date": "2026-05-26",
+          "talk": 13,
+          "record_id": "recBcakOfPTwUDcNN"
+        },
+        {
+          "date": "2026-05-21",
+          "talk": 2,
+          "record_id": "recxDwvgEaz30qmqE"
+        },
+        {
+          "date": "2026-05-14",
+          "talk": 63,
+          "record_id": "rec8vG9B1pZh6n8PE"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 54,
+          "record_id": "reczPEcLeD0FRLRm6"
+        },
+        {
+          "date": "2026-05-07",
+          "talk": 30,
+          "record_id": "rect7u9P7pVaKWLQl"
         },
         {
           "date": "2026-05-05",
-          "talk": 712,
-          "record_id": "recdnGl8p4ftNvy2v"
+          "talk": 38,
+          "record_id": "recKuDVmaHrNlsIyV"
         },
         {
-          "date": "2026-04-20",
-          "talk": 1041,
-          "record_id": "recYlVpnWcy27k07q"
+          "date": "2026-05-05",
+          "talk": 17,
+          "record_id": "recYZMWFoXATfZZne"
+        },
+        {
+          "date": "2026-04-23",
+          "talk": 51,
+          "record_id": "recLwvsndblHYCPsK"
+        },
+        {
+          "date": "2026-04-21",
+          "talk": 112,
+          "record_id": "recom9nXEzjxrGf3I"
+        },
+        {
+          "date": "2026-04-21",
+          "talk": 16,
+          "record_id": "recMTGW6NCyA2va31"
+        },
+        {
+          "date": "2026-04-16",
+          "talk": 32,
+          "record_id": "recD4dAYbL0VRHe5S"
+        },
+        {
+          "date": "2026-04-11",
+          "talk": 15,
+          "record_id": "recqMTClbMFU33O6J"
+        },
+        {
+          "date": "2026-04-09",
+          "talk": 119,
+          "record_id": "recfWtWXzDIPueVpI"
         }
       ],
       "sample_capped": false
@@ -45673,266 +45545,56 @@
       "sample_capped": true
     },
     {
-      "agent": "Bradleigh Jenkins",
-      "code": "DNC",
-      "count": 55,
-      "agent_avg": 71.8,
-      "team_avg": 49.4,
+      "agent": "Leighton Hutcheson",
+      "code": "PAYISSUE",
+      "count": 8,
+      "agent_avg": 1048.5,
+      "team_avg": 721.5,
       "deviation_pct": 45.3,
       "direction": "high",
       "sample_records": [
         {
-          "date": "2026-07-27",
-          "talk": 67,
-          "record_id": "recLZvFMj4AhG8SZw"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 27,
-          "record_id": "recAW7y445u18v3Fp"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 57,
-          "record_id": "recSZwI4hpwgxesHc"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 351,
-          "record_id": "recQKoIRj37AdLg9N"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 27,
-          "record_id": "rectX9FnynNNgFLsw"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 108,
-          "record_id": "recn8ucm05oScOYRd"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 20,
-          "record_id": "recAYjTajIABKV5bc"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 24,
-          "record_id": "rec3x9O0FbAtABqwU"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 71,
-          "record_id": "recFewthZyoL4Wx6Z"
-        },
-        {
           "date": "2026-07-16",
-          "talk": 64,
-          "record_id": "recEVRPnaVIfDa3bZ"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 36,
-          "record_id": "recvKpW7g0me5O32X"
+          "talk": 1744,
+          "record_id": "recpyHXAUWIQqEVRT"
         },
         {
           "date": "2026-07-15",
-          "talk": 28,
-          "record_id": "recVSG8z07KIQLzqx"
+          "talk": 355,
+          "record_id": "recrtxVpqpHfK0Rww"
         },
         {
           "date": "2026-07-14",
-          "talk": 32,
-          "record_id": "recbxOgnzOa7qbVC6"
+          "talk": 1799,
+          "record_id": "recfExVhihOTtfrPk"
         },
         {
-          "date": "2026-07-10",
-          "talk": 65,
-          "record_id": "rec5rvkjSB9glsnYF"
+          "date": "2026-07-14",
+          "talk": 1001,
+          "record_id": "recOITOOmRlKiw1nV"
         },
         {
-          "date": "2026-07-09",
-          "talk": 119,
-          "record_id": "recu1UXmX6pfzthSe"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 53,
-          "record_id": "recqyP1xhavDL7mCo"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 48,
-          "record_id": "recwWzvmrc61Kpuyj"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 27,
-          "record_id": "recTNqMIDxmM6H4Jx"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 11,
-          "record_id": "recAFL6NNgVxsalpg"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 6,
-          "record_id": "recMBoAfPpaLrZ0Y6"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 253,
-          "record_id": "recaFcB2fk2xvAID7"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 49,
-          "record_id": "recOkZxW7ZB6nyNMz"
-        },
-        {
-          "date": "2026-07-06",
-          "talk": 54,
-          "record_id": "rec6vn1RWPJrNV97R"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 75,
-          "record_id": "recOyXeYoT26TzQjf"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 47,
-          "record_id": "recu5NLfGhlx9Xpvz"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 29,
-          "record_id": "recUBGkehPb5d5Dna"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 153,
-          "record_id": "recbytl8UpygbX9vi"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 132,
-          "record_id": "recuFbNFUGvAW9FL4"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 42,
-          "record_id": "rec834kSd5g7WEPmO"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 29,
-          "record_id": "recl5vnNWCHRUjH2f"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 21,
-          "record_id": "recmrSxdrCEe10bNP"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 20,
-          "record_id": "recKoQqP8dI9Vh2Vs"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 37,
-          "record_id": "recGnFeUPLcVT9Soj"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 14,
-          "record_id": "rec54ghgTKQaRXKU2"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 84,
-          "record_id": "recTzgEY1XKtzJ1gI"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 68,
-          "record_id": "recWT1n2U2t2xFa9G"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 2,
-          "record_id": "recs4bi2JRNUkANmO"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 76,
-          "record_id": "rectRHMWan2MRsmsa"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 28,
-          "record_id": "recKFZ81aaFWxqtGl"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 438,
-          "record_id": "recTRd8sIUZV9OfNs"
+          "date": "2026-07-14",
+          "talk": 141,
+          "record_id": "recmrrGU61HvNg3kA"
         },
         {
           "date": "2026-06-23",
-          "talk": 79,
-          "record_id": "reci0lCS4NRT0T6jQ"
+          "talk": 1595,
+          "record_id": "recGKPI6087T1tTCL"
         },
         {
-          "date": "2026-06-22",
-          "talk": 146,
-          "record_id": "recpqlccd2vgDsU8V"
+          "date": "2026-05-05",
+          "talk": 712,
+          "record_id": "recdnGl8p4ftNvy2v"
         },
         {
-          "date": "2026-06-19",
-          "talk": 34,
-          "record_id": "recB3uC3iS8ttIpv5"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 97,
-          "record_id": "recQz6FbYfyUyitA5"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 45,
-          "record_id": "recohVRRNBIOkBuNg"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 59,
-          "record_id": "recf4tWocGBHwnicd"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 46,
-          "record_id": "recUVBDZKHOdm45Rb"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 31,
-          "record_id": "recgzVrktzempsJT8"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 29,
-          "record_id": "rec2EogECxvblfbDH"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 178,
-          "record_id": "recMPnLNykycsftfP"
+          "date": "2026-04-20",
+          "talk": 1041,
+          "record_id": "recYlVpnWcy27k07q"
         }
       ],
-      "sample_capped": true
+      "sample_capped": false
     },
     {
       "agent": "Simone Adams",
@@ -46588,268 +46250,6 @@
       "sample_capped": false
     },
     {
-      "agent": "Leon Morris",
-      "code": "HANGUP",
-      "count": 74,
-      "agent_avg": 20.0,
-      "team_avg": 35.5,
-      "deviation_pct": -43.6,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-27",
-          "talk": 274,
-          "record_id": "recNBInHXVIUB7CiE"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 8,
-          "record_id": "recDvfzV5tgQhXXmC"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 8,
-          "record_id": "recXyiDbyerTQaQnB"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 8,
-          "record_id": "rechGyjeoOU499xsi"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 6,
-          "record_id": "recewmz4zEqLLjByl"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 4,
-          "record_id": "rec5lw4c5D73kWOkK"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 4,
-          "record_id": "recDwkLJANsbnIkQ8"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 4,
-          "record_id": "recWI4GeyMv0fxiv3"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 2,
-          "record_id": "recWt0DcqwhtWSCdx"
-        },
-        {
-          "date": "2026-07-27",
-          "talk": 1,
-          "record_id": "recNg8du8ZqjRmMWh"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 8,
-          "record_id": "recDw6850yxaIgCp1"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 27,
-          "record_id": "recF3kGV3pn36l4sn"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 14,
-          "record_id": "reco0T3JWpTFC84TX"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 7,
-          "record_id": "reczhaOw5RBuRqcNu"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 3,
-          "record_id": "recXGCQv1KnmvsWN4"
-        },
-        {
-          "date": "2026-07-21",
-          "talk": 2,
-          "record_id": "recD1D1ikTBfHOp86"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 29,
-          "record_id": "reczn8cDV25AuH4kt"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 9,
-          "record_id": "recZ39S3jfhiLx5I8"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 4,
-          "record_id": "rec23vsGv3PVZS7UP"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 120,
-          "record_id": "recLOK2S9q7oImjb3"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 45,
-          "record_id": "recIb7JnQgNO3KHpI"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 9,
-          "record_id": "recMY6CHoYImme4YW"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 27,
-          "record_id": "recgkqnLLvZfoGKsf"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 8,
-          "record_id": "rectnG1ydm9RumBTs"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 7,
-          "record_id": "recLoM8vthO56D26L"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 20,
-          "record_id": "rec7tEo9EUGUoQiLS"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 47,
-          "record_id": "recuo6RT1HNOx72GT"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 8,
-          "record_id": "rec2Jx6OIYZXGitvY"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 9,
-          "record_id": "recYPM8Mi3XYoxfgg"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 4,
-          "record_id": "recBlCPzhF8zobgqd"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 19,
-          "record_id": "rec9BwUHp0XzGWJoJ"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 17,
-          "record_id": "recxLGY5ssPXBohyN"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 9,
-          "record_id": "rec0M2SqAqc56pxkD"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 9,
-          "record_id": "recaro9YaAJ360JC6"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 8,
-          "record_id": "recV3bZsVU8HZWUoG"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 8,
-          "record_id": "recejbFTzd78xE3mJ"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 8,
-          "record_id": "recg6RujolHU5DRY9"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 7,
-          "record_id": "recu99dhqVuHXCswl"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 3,
-          "record_id": "recAIMstoIUUfGepU"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 19,
-          "record_id": "recs5LYAiHf3ctXkF"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 5,
-          "record_id": "rec3a4kyZMTfakfe3"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 2,
-          "record_id": "rec6d3bj2keKZaLkh"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 2,
-          "record_id": "recaohlGpAvemx6vV"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 13,
-          "record_id": "recTwqWCVnKjiJ1ga"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 8,
-          "record_id": "reclEz79awXYR4BLI"
-        },
-        {
-          "date": "2026-05-29",
-          "talk": 238,
-          "record_id": "recFki0txhHkqPFzY"
-        },
-        {
-          "date": "2026-05-28",
-          "talk": 9,
-          "record_id": "recVUF6JhP6sFAyGv"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 53,
-          "record_id": "recBsKsVapYbDItzx"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 51,
-          "record_id": "recq9vbZMBlOZbO4T"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 20,
-          "record_id": "recQxOB5hkhLFZfJ2"
-        }
-      ],
-      "sample_capped": true
-    },
-    {
       "agent": "Kyran Drake",
       "code": "NI",
       "count": 91,
@@ -47107,6 +46507,530 @@
           "date": "2026-07-09",
           "talk": 103,
           "record_id": "recV7i8Wzw4K0WbTu"
+        }
+      ],
+      "sample_capped": true
+    },
+    {
+      "agent": "Leon Morris",
+      "code": "HANGUP",
+      "count": 74,
+      "agent_avg": 20.0,
+      "team_avg": 35.3,
+      "deviation_pct": -43.3,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-27",
+          "talk": 274,
+          "record_id": "recNBInHXVIUB7CiE"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 8,
+          "record_id": "recDvfzV5tgQhXXmC"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 8,
+          "record_id": "recXyiDbyerTQaQnB"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 8,
+          "record_id": "rechGyjeoOU499xsi"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 6,
+          "record_id": "recewmz4zEqLLjByl"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 4,
+          "record_id": "rec5lw4c5D73kWOkK"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 4,
+          "record_id": "recDwkLJANsbnIkQ8"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 4,
+          "record_id": "recWI4GeyMv0fxiv3"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 2,
+          "record_id": "recWt0DcqwhtWSCdx"
+        },
+        {
+          "date": "2026-07-27",
+          "talk": 1,
+          "record_id": "recNg8du8ZqjRmMWh"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 8,
+          "record_id": "recDw6850yxaIgCp1"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 27,
+          "record_id": "recF3kGV3pn36l4sn"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 14,
+          "record_id": "reco0T3JWpTFC84TX"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 7,
+          "record_id": "reczhaOw5RBuRqcNu"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 3,
+          "record_id": "recXGCQv1KnmvsWN4"
+        },
+        {
+          "date": "2026-07-21",
+          "talk": 2,
+          "record_id": "recD1D1ikTBfHOp86"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 29,
+          "record_id": "reczn8cDV25AuH4kt"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 9,
+          "record_id": "recZ39S3jfhiLx5I8"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 4,
+          "record_id": "rec23vsGv3PVZS7UP"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 120,
+          "record_id": "recLOK2S9q7oImjb3"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 45,
+          "record_id": "recIb7JnQgNO3KHpI"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 9,
+          "record_id": "recMY6CHoYImme4YW"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 27,
+          "record_id": "recgkqnLLvZfoGKsf"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 8,
+          "record_id": "rectnG1ydm9RumBTs"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 7,
+          "record_id": "recLoM8vthO56D26L"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 20,
+          "record_id": "rec7tEo9EUGUoQiLS"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 47,
+          "record_id": "recuo6RT1HNOx72GT"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 8,
+          "record_id": "rec2Jx6OIYZXGitvY"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 9,
+          "record_id": "recYPM8Mi3XYoxfgg"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 4,
+          "record_id": "recBlCPzhF8zobgqd"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 19,
+          "record_id": "rec9BwUHp0XzGWJoJ"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 17,
+          "record_id": "recxLGY5ssPXBohyN"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 9,
+          "record_id": "rec0M2SqAqc56pxkD"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 9,
+          "record_id": "recaro9YaAJ360JC6"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 8,
+          "record_id": "recV3bZsVU8HZWUoG"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 8,
+          "record_id": "recejbFTzd78xE3mJ"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 8,
+          "record_id": "recg6RujolHU5DRY9"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 7,
+          "record_id": "recu99dhqVuHXCswl"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 3,
+          "record_id": "recAIMstoIUUfGepU"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 19,
+          "record_id": "recs5LYAiHf3ctXkF"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 5,
+          "record_id": "rec3a4kyZMTfakfe3"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 2,
+          "record_id": "rec6d3bj2keKZaLkh"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 2,
+          "record_id": "recaohlGpAvemx6vV"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 13,
+          "record_id": "recTwqWCVnKjiJ1ga"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 8,
+          "record_id": "reclEz79awXYR4BLI"
+        },
+        {
+          "date": "2026-05-29",
+          "talk": 238,
+          "record_id": "recFki0txhHkqPFzY"
+        },
+        {
+          "date": "2026-05-28",
+          "talk": 9,
+          "record_id": "recVUF6JhP6sFAyGv"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 53,
+          "record_id": "recBsKsVapYbDItzx"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 51,
+          "record_id": "recq9vbZMBlOZbO4T"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 20,
+          "record_id": "recQxOB5hkhLFZfJ2"
+        }
+      ],
+      "sample_capped": true
+    },
+    {
+      "agent": "Suzanne Ralston",
+      "code": "EXISTING",
+      "count": 132,
+      "agent_avg": 191.9,
+      "team_avg": 134.6,
+      "deviation_pct": 42.6,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-08",
+          "talk": 199,
+          "record_id": "reccWxa1vKeHq5gsw"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 135,
+          "record_id": "rechdTHiUy2nSwFTC"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 98,
+          "record_id": "recdFyCN6v70wtEes"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 68,
+          "record_id": "recVPtUPwBGL3RAWj"
+        },
+        {
+          "date": "2026-07-06",
+          "talk": 99,
+          "record_id": "reclziSLDdwRegj6R"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 190,
+          "record_id": "recrAzZSUWCPESKBC"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 45,
+          "record_id": "recHzOCIE71wIi1W8"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 272,
+          "record_id": "rec6TXBSqlSJQJIf5"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 276,
+          "record_id": "recd5efvIthpbzNjf"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 191,
+          "record_id": "recezdJLqxnCDAax8"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 168,
+          "record_id": "recOYgDVzM7ccptC7"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 388,
+          "record_id": "rec8dSJZf4W8dWY1w"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 257,
+          "record_id": "recBtPc8ETxcjv9Sl"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 157,
+          "record_id": "recQ6xUvGW6VFn0M6"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 56,
+          "record_id": "rec2nvVoWRNwrJeXl"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 259,
+          "record_id": "recVf9PQtMARRonqZ"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 88,
+          "record_id": "recH7qS1USzf0yFYn"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 56,
+          "record_id": "recXcCD2jEm0mwF4o"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 48,
+          "record_id": "recqqeS0RismC0Qqw"
+        },
+        {
+          "date": "2026-06-20",
+          "talk": 86,
+          "record_id": "recf97bnAIf15brCP"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 130,
+          "record_id": "recePEFnZsL3TULaS"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 128,
+          "record_id": "recHiaFVJnmBBRbLW"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 59,
+          "record_id": "recKrG5ocVTOGQ2jj"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 146,
+          "record_id": "recGsZhDo9zVMYGTO"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 80,
+          "record_id": "recLok0sbI0D305zr"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 177,
+          "record_id": "recskdpTWDPYipyZ9"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 131,
+          "record_id": "rechYUoQxz78NAzf9"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 70,
+          "record_id": "recWJ8KfLjgWvje1m"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 358,
+          "record_id": "recmPStHqERVy1OHV"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 120,
+          "record_id": "recXRIoJoXjIGB3Ea"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 134,
+          "record_id": "recuChJd0WjLkx5cw"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 61,
+          "record_id": "recHMuEBjitAKviLj"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 53,
+          "record_id": "recaedwtVkAEMuOiG"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 43,
+          "record_id": "recmGHGMWG82mTFda"
+        },
+        {
+          "date": "2026-06-15",
+          "talk": 25,
+          "record_id": "rec4JdjyV1MsEoLvl"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 138,
+          "record_id": "rectmZAVeyyzg7pHf"
+        },
+        {
+          "date": "2026-06-11",
+          "talk": 56,
+          "record_id": "rechw4P5VE7sZO6gE"
+        },
+        {
+          "date": "2026-06-10",
+          "talk": 130,
+          "record_id": "reczEkncQFWGyCg4L"
+        },
+        {
+          "date": "2026-06-10",
+          "talk": 30,
+          "record_id": "reczVRjNmOZSlYZ04"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 563,
+          "record_id": "recRSpulOPMQmiQWC"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 521,
+          "record_id": "recfulOo5QvDPLJ2N"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 178,
+          "record_id": "recPG5PxGYt9LV47B"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 946,
+          "record_id": "rec7T8W7zePlj3lVY"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 199,
+          "record_id": "recSGp7qQH3On7mcK"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 44,
+          "record_id": "rec7NQaO8cyQvGHVN"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 891,
+          "record_id": "rec4c4aYsknGHAkUY"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 243,
+          "record_id": "recqVswFk9kNSNkXZ"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 218,
+          "record_id": "receQyqRVcoOlwO3E"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 57,
+          "record_id": "recnM6YXXRkVLtdOY"
+        },
+        {
+          "date": "2026-06-05",
+          "talk": 56,
+          "record_id": "recIU33EYQG55qgPV"
         }
       ],
       "sample_capped": true
@@ -47379,268 +47303,6 @@
         }
       ],
       "sample_capped": false
-    },
-    {
-      "agent": "Suzanne Ralston",
-      "code": "EXISTING",
-      "count": 132,
-      "agent_avg": 191.9,
-      "team_avg": 135.3,
-      "deviation_pct": 41.9,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-08",
-          "talk": 199,
-          "record_id": "reccWxa1vKeHq5gsw"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 135,
-          "record_id": "rechdTHiUy2nSwFTC"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 98,
-          "record_id": "recdFyCN6v70wtEes"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 68,
-          "record_id": "recVPtUPwBGL3RAWj"
-        },
-        {
-          "date": "2026-07-06",
-          "talk": 99,
-          "record_id": "reclziSLDdwRegj6R"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 190,
-          "record_id": "recrAzZSUWCPESKBC"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 45,
-          "record_id": "recHzOCIE71wIi1W8"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 272,
-          "record_id": "rec6TXBSqlSJQJIf5"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 276,
-          "record_id": "recd5efvIthpbzNjf"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 191,
-          "record_id": "recezdJLqxnCDAax8"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 168,
-          "record_id": "recOYgDVzM7ccptC7"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 388,
-          "record_id": "rec8dSJZf4W8dWY1w"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 257,
-          "record_id": "recBtPc8ETxcjv9Sl"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 157,
-          "record_id": "recQ6xUvGW6VFn0M6"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 56,
-          "record_id": "rec2nvVoWRNwrJeXl"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 259,
-          "record_id": "recVf9PQtMARRonqZ"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 88,
-          "record_id": "recH7qS1USzf0yFYn"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 56,
-          "record_id": "recXcCD2jEm0mwF4o"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 48,
-          "record_id": "recqqeS0RismC0Qqw"
-        },
-        {
-          "date": "2026-06-20",
-          "talk": 86,
-          "record_id": "recf97bnAIf15brCP"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 130,
-          "record_id": "recePEFnZsL3TULaS"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 128,
-          "record_id": "recHiaFVJnmBBRbLW"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 59,
-          "record_id": "recKrG5ocVTOGQ2jj"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 146,
-          "record_id": "recGsZhDo9zVMYGTO"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 80,
-          "record_id": "recLok0sbI0D305zr"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 177,
-          "record_id": "recskdpTWDPYipyZ9"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 131,
-          "record_id": "rechYUoQxz78NAzf9"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 70,
-          "record_id": "recWJ8KfLjgWvje1m"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 358,
-          "record_id": "recmPStHqERVy1OHV"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 120,
-          "record_id": "recXRIoJoXjIGB3Ea"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 134,
-          "record_id": "recuChJd0WjLkx5cw"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 61,
-          "record_id": "recHMuEBjitAKviLj"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 53,
-          "record_id": "recaedwtVkAEMuOiG"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 43,
-          "record_id": "recmGHGMWG82mTFda"
-        },
-        {
-          "date": "2026-06-15",
-          "talk": 25,
-          "record_id": "rec4JdjyV1MsEoLvl"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 138,
-          "record_id": "rectmZAVeyyzg7pHf"
-        },
-        {
-          "date": "2026-06-11",
-          "talk": 56,
-          "record_id": "rechw4P5VE7sZO6gE"
-        },
-        {
-          "date": "2026-06-10",
-          "talk": 130,
-          "record_id": "reczEkncQFWGyCg4L"
-        },
-        {
-          "date": "2026-06-10",
-          "talk": 30,
-          "record_id": "reczVRjNmOZSlYZ04"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 563,
-          "record_id": "recRSpulOPMQmiQWC"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 521,
-          "record_id": "recfulOo5QvDPLJ2N"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 178,
-          "record_id": "recPG5PxGYt9LV47B"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 946,
-          "record_id": "rec7T8W7zePlj3lVY"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 199,
-          "record_id": "recSGp7qQH3On7mcK"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 44,
-          "record_id": "rec7NQaO8cyQvGHVN"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 891,
-          "record_id": "rec4c4aYsknGHAkUY"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 243,
-          "record_id": "recqVswFk9kNSNkXZ"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 218,
-          "record_id": "receQyqRVcoOlwO3E"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 57,
-          "record_id": "recnM6YXXRkVLtdOY"
-        },
-        {
-          "date": "2026-06-05",
-          "talk": 56,
-          "record_id": "recIU33EYQG55qgPV"
-        }
-      ],
-      "sample_capped": true
     },
     {
       "agent": "Harry Worton",
@@ -48167,12 +47829,64 @@
       "sample_capped": true
     },
     {
+      "agent": "Leon Morris",
+      "code": "LANGBAR",
+      "count": 8,
+      "agent_avg": 87.2,
+      "team_avg": 61.8,
+      "deviation_pct": 41.2,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-24",
+          "talk": 93,
+          "record_id": "recow1BOGuJsE22Ka"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 21,
+          "record_id": "recjY0GG928AlNDEg"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 97,
+          "record_id": "recmTUEqx2uw8mLbh"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 26,
+          "record_id": "recKYCOMqw9uGDQ1c"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 239,
+          "record_id": "reckwQe5wtg7oSbwn"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 19,
+          "record_id": "recsDJadTVlEtZ6EO"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 172,
+          "record_id": "recnCuyK7YG49jLZE"
+        },
+        {
+          "date": "2026-05-05",
+          "talk": 31,
+          "record_id": "recSAOuvQAeBgGbwF"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
       "agent": "Melissa Farr",
       "code": "HANGUP",
       "count": 22,
       "agent_avg": 20.9,
-      "team_avg": 35.5,
-      "deviation_pct": -41.2,
+      "team_avg": 35.3,
+      "deviation_pct": -40.9,
       "direction": "low",
       "sample_records": [
         {
@@ -48284,58 +47998,6 @@
           "date": "2026-05-19",
           "talk": 8,
           "record_id": "recSHmiPnfgk6mP7F"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Leon Morris",
-      "code": "LANGBAR",
-      "count": 8,
-      "agent_avg": 87.2,
-      "team_avg": 61.8,
-      "deviation_pct": 41.2,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-24",
-          "talk": 93,
-          "record_id": "recow1BOGuJsE22Ka"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 21,
-          "record_id": "recjY0GG928AlNDEg"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 97,
-          "record_id": "recmTUEqx2uw8mLbh"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 26,
-          "record_id": "recKYCOMqw9uGDQ1c"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 239,
-          "record_id": "reckwQe5wtg7oSbwn"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 19,
-          "record_id": "recsDJadTVlEtZ6EO"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 172,
-          "record_id": "recnCuyK7YG49jLZE"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 31,
-          "record_id": "recSAOuvQAeBgGbwF"
         }
       ],
       "sample_capped": false
@@ -49653,135 +49315,6 @@
       "sample_capped": true
     },
     {
-      "agent": "Cian Rees",
-      "code": "DNC",
-      "count": 16,
-      "agent_avg": 30.8,
-      "team_avg": 49.4,
-      "deviation_pct": -37.6,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-05-06",
-          "talk": 20,
-          "record_id": "recaxyEWejhnsuNAc"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 19,
-          "record_id": "rectKIEfE4XNrQxVo"
-        },
-        {
-          "date": "2026-04-30",
-          "talk": 8,
-          "record_id": "rectVIrwtJy3kqQnA"
-        },
-        {
-          "date": "2026-04-29",
-          "talk": 37,
-          "record_id": "recvW0A6CkTynKFQp"
-        },
-        {
-          "date": "2026-04-28",
-          "talk": 15,
-          "record_id": "recWRoLhPcqNN51lt"
-        },
-        {
-          "date": "2026-04-28",
-          "talk": 2,
-          "record_id": "recSAJvURmoOpDauB"
-        },
-        {
-          "date": "2026-04-24",
-          "talk": 44,
-          "record_id": "recdZxCRa83r03egW"
-        },
-        {
-          "date": "2026-04-22",
-          "talk": 27,
-          "record_id": "reclUAwyS0D5Zetus"
-        },
-        {
-          "date": "2026-04-22",
-          "talk": 9,
-          "record_id": "receA96shfuU844mh"
-        },
-        {
-          "date": "2026-04-22",
-          "talk": 6,
-          "record_id": "rects3aqwt5Joumi0"
-        },
-        {
-          "date": "2026-04-21",
-          "talk": 204,
-          "record_id": "recM5SbFbWkuSIaV4"
-        },
-        {
-          "date": "2026-04-21",
-          "talk": 8,
-          "record_id": "recTIe3BMWxBleuvM"
-        },
-        {
-          "date": "2026-04-20",
-          "talk": 35,
-          "record_id": "recIpc3xrhkh6peAs"
-        },
-        {
-          "date": "2026-04-16",
-          "talk": 12,
-          "record_id": "recUGi4TZXQW8Rexb"
-        },
-        {
-          "date": "2026-04-08",
-          "talk": 30,
-          "record_id": "recVzIhxRAtJnodkH"
-        },
-        {
-          "date": "2026-04-08",
-          "talk": 17,
-          "record_id": "recAPeJahUAQSz9IK"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Kyle West",
-      "code": "PAYISSUE",
-      "count": 5,
-      "agent_avg": 988.4,
-      "team_avg": 718.2,
-      "deviation_pct": 37.6,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-17",
-          "talk": 739,
-          "record_id": "recfnn3EEl0pEPoUr"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 148,
-          "record_id": "recIDJ1aX6Y3uqvlr"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 1498,
-          "record_id": "recT5BHKpsQlynYPP"
-        },
-        {
-          "date": "2026-04-21",
-          "talk": 2501,
-          "record_id": "recwfB2pMNqrDEdCj"
-        },
-        {
-          "date": "2026-04-16",
-          "talk": 56,
-          "record_id": "recaA8r277GBd6QhT"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
       "agent": "Bradleigh Jenkins",
       "code": "CALLBACK",
       "count": 20,
@@ -49941,6 +49474,135 @@
           "date": "2026-06-12",
           "talk": 10,
           "record_id": "rec330sMah8VFpLE2"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
+      "agent": "Kyle West",
+      "code": "PAYISSUE",
+      "count": 5,
+      "agent_avg": 988.4,
+      "team_avg": 721.5,
+      "deviation_pct": 37.0,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-17",
+          "talk": 739,
+          "record_id": "recfnn3EEl0pEPoUr"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 148,
+          "record_id": "recIDJ1aX6Y3uqvlr"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 1498,
+          "record_id": "recT5BHKpsQlynYPP"
+        },
+        {
+          "date": "2026-04-21",
+          "talk": 2501,
+          "record_id": "recwfB2pMNqrDEdCj"
+        },
+        {
+          "date": "2026-04-16",
+          "talk": 56,
+          "record_id": "recaA8r277GBd6QhT"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
+      "agent": "Cian Rees",
+      "code": "DNC",
+      "count": 16,
+      "agent_avg": 30.8,
+      "team_avg": 48.6,
+      "deviation_pct": -36.6,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-05-06",
+          "talk": 20,
+          "record_id": "recaxyEWejhnsuNAc"
+        },
+        {
+          "date": "2026-05-05",
+          "talk": 19,
+          "record_id": "rectKIEfE4XNrQxVo"
+        },
+        {
+          "date": "2026-04-30",
+          "talk": 8,
+          "record_id": "rectVIrwtJy3kqQnA"
+        },
+        {
+          "date": "2026-04-29",
+          "talk": 37,
+          "record_id": "recvW0A6CkTynKFQp"
+        },
+        {
+          "date": "2026-04-28",
+          "talk": 15,
+          "record_id": "recWRoLhPcqNN51lt"
+        },
+        {
+          "date": "2026-04-28",
+          "talk": 2,
+          "record_id": "recSAJvURmoOpDauB"
+        },
+        {
+          "date": "2026-04-24",
+          "talk": 44,
+          "record_id": "recdZxCRa83r03egW"
+        },
+        {
+          "date": "2026-04-22",
+          "talk": 27,
+          "record_id": "reclUAwyS0D5Zetus"
+        },
+        {
+          "date": "2026-04-22",
+          "talk": 9,
+          "record_id": "receA96shfuU844mh"
+        },
+        {
+          "date": "2026-04-22",
+          "talk": 6,
+          "record_id": "rects3aqwt5Joumi0"
+        },
+        {
+          "date": "2026-04-21",
+          "talk": 204,
+          "record_id": "recM5SbFbWkuSIaV4"
+        },
+        {
+          "date": "2026-04-21",
+          "talk": 8,
+          "record_id": "recTIe3BMWxBleuvM"
+        },
+        {
+          "date": "2026-04-20",
+          "talk": 35,
+          "record_id": "recIpc3xrhkh6peAs"
+        },
+        {
+          "date": "2026-04-16",
+          "talk": 12,
+          "record_id": "recUGi4TZXQW8Rexb"
+        },
+        {
+          "date": "2026-04-08",
+          "talk": 30,
+          "record_id": "recVzIhxRAtJnodkH"
+        },
+        {
+          "date": "2026-04-08",
+          "talk": 17,
+          "record_id": "recAPeJahUAQSz9IK"
         }
       ],
       "sample_capped": false
@@ -50407,43 +50069,6 @@
       "sample_capped": false
     },
     {
-      "agent": "Simone Adams",
-      "code": "DNC",
-      "count": 5,
-      "agent_avg": 31.8,
-      "team_avg": 49.4,
-      "deviation_pct": -35.6,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-07",
-          "talk": 42,
-          "record_id": "recZtdii8aoxpAE75"
-        },
-        {
-          "date": "2026-07-01",
-          "talk": 20,
-          "record_id": "rec0Cw9FBbxAcVKU7"
-        },
-        {
-          "date": "2026-06-11",
-          "talk": 36,
-          "record_id": "recgQorrztO9v5Vnh"
-        },
-        {
-          "date": "2026-05-29",
-          "talk": 24,
-          "record_id": "rec04KwrD6rTgVUXs"
-        },
-        {
-          "date": "2026-04-10",
-          "talk": 37,
-          "record_id": "reclglXhq42H10xTe"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
       "agent": "Melissa Farr",
       "code": "VULNERABLE",
       "count": 31,
@@ -50873,43 +50498,6 @@
       "sample_capped": true
     },
     {
-      "agent": "Kyran Drake",
-      "code": "DNC",
-      "count": 5,
-      "agent_avg": 32.0,
-      "team_avg": 49.4,
-      "deviation_pct": -35.2,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-24",
-          "talk": 21,
-          "record_id": "recVe6wGOj1uYZE5Q"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 29,
-          "record_id": "rec0TIftesGOcXBlv"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 10,
-          "record_id": "recMmJAQZMLJP3RdE"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 50,
-          "record_id": "rec0t87FoNMjcqlvH"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 50,
-          "record_id": "recxann84Gr8Jn6yi"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
       "agent": "Daniel Collier",
       "code": "SALE",
       "count": 155,
@@ -51170,6 +50758,43 @@
         }
       ],
       "sample_capped": true
+    },
+    {
+      "agent": "Simone Adams",
+      "code": "DNC",
+      "count": 5,
+      "agent_avg": 31.8,
+      "team_avg": 48.6,
+      "deviation_pct": -34.6,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-07",
+          "talk": 42,
+          "record_id": "recZtdii8aoxpAE75"
+        },
+        {
+          "date": "2026-07-01",
+          "talk": 20,
+          "record_id": "rec0Cw9FBbxAcVKU7"
+        },
+        {
+          "date": "2026-06-11",
+          "talk": 36,
+          "record_id": "recgQorrztO9v5Vnh"
+        },
+        {
+          "date": "2026-05-29",
+          "talk": 24,
+          "record_id": "rec04KwrD6rTgVUXs"
+        },
+        {
+          "date": "2026-04-10",
+          "talk": 37,
+          "record_id": "reclglXhq42H10xTe"
+        }
+      ],
+      "sample_capped": false
     },
     {
       "agent": "William Watson",
@@ -51434,6 +51059,43 @@
       "sample_capped": true
     },
     {
+      "agent": "Kyran Drake",
+      "code": "DNC",
+      "count": 5,
+      "agent_avg": 32.0,
+      "team_avg": 48.6,
+      "deviation_pct": -34.2,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-24",
+          "talk": 21,
+          "record_id": "recVe6wGOj1uYZE5Q"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 29,
+          "record_id": "rec0TIftesGOcXBlv"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 10,
+          "record_id": "recMmJAQZMLJP3RdE"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 50,
+          "record_id": "rec0t87FoNMjcqlvH"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 50,
+          "record_id": "recxann84Gr8Jn6yi"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
       "agent": "Leighton Hutcheson",
       "code": "WRONGNO",
       "count": 30,
@@ -51600,8 +51262,8 @@
       "code": "EXISTING",
       "count": 235,
       "agent_avg": 89.5,
-      "team_avg": 135.3,
-      "deviation_pct": -33.9,
+      "team_avg": 134.6,
+      "deviation_pct": -33.5,
       "direction": "low",
       "sample_records": [
         {
@@ -52406,6 +52068,268 @@
       "sample_capped": false
     },
     {
+      "agent": "Leighton Hutcheson",
+      "code": "EXISTING",
+      "count": 141,
+      "agent_avg": 176.1,
+      "team_avg": 134.6,
+      "deviation_pct": 30.8,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-24",
+          "talk": 53,
+          "record_id": "recs586ICFzAhMJ3n"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 144,
+          "record_id": "recoP8rjq3UVyHHjL"
+        },
+        {
+          "date": "2026-07-23",
+          "talk": 61,
+          "record_id": "recOcegZK6xpZpgQJ"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 278,
+          "record_id": "recH1ohk54nIbNEjL"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 214,
+          "record_id": "recbCsSrQxuwYrOid"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 197,
+          "record_id": "recd2RBAfCCmZqzWB"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 49,
+          "record_id": "recen6pnvu6zsFlv6"
+        },
+        {
+          "date": "2026-07-13",
+          "talk": 372,
+          "record_id": "recjASarhGkw97SAJ"
+        },
+        {
+          "date": "2026-07-13",
+          "talk": 72,
+          "record_id": "recpqSnN93rlNTMyR"
+        },
+        {
+          "date": "2026-07-13",
+          "talk": 68,
+          "record_id": "recuSdhQMXxI5wGzZ"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 1794,
+          "record_id": "recxbzi8natQssV9r"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 76,
+          "record_id": "recioErYlP5EPBg9i"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 43,
+          "record_id": "recBVi9fkq90N7EVo"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 41,
+          "record_id": "rec6T9puybbrCZGk2"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 63,
+          "record_id": "reciryDNBN5EF6ma3"
+        },
+        {
+          "date": "2026-07-09",
+          "talk": 57,
+          "record_id": "recf9j8QQIsji97Tb"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 850,
+          "record_id": "recFOIZH8VmJzjxDm"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 52,
+          "record_id": "recyDjBLHzdlPZl58"
+        },
+        {
+          "date": "2026-07-06",
+          "talk": 543,
+          "record_id": "recAGofSNPyriAydV"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 240,
+          "record_id": "reckAb8jbf1TtzmoG"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 141,
+          "record_id": "rec8TRMSzEH2jRVCe"
+        },
+        {
+          "date": "2026-07-02",
+          "talk": 51,
+          "record_id": "recK3hIBgV90BI1Ho"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 72,
+          "record_id": "recIckV300ZDIpxlH"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 72,
+          "record_id": "recLwpqhJFL29jcgt"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 72,
+          "record_id": "recYfMliNOYPAu2p6"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 68,
+          "record_id": "reczTtZUKkpDr5aYe"
+        },
+        {
+          "date": "2026-06-29",
+          "talk": 41,
+          "record_id": "recbNaIQ0TfHvZjRT"
+        },
+        {
+          "date": "2026-06-26",
+          "talk": 119,
+          "record_id": "recGi47BH5QaMntZS"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 35,
+          "record_id": "recpeaY3GdKCiU5fj"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 290,
+          "record_id": "recgv0obuMSyvNJSk"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 812,
+          "record_id": "reci0Ou3Fqm3iPxqu"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 285,
+          "record_id": "recVfZfwHi8Dj3UhF"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 136,
+          "record_id": "recoQzMOPBL9PUtgV"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 106,
+          "record_id": "recEiw0npT6W4EAME"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 49,
+          "record_id": "recIL2mE4Jw45qKZ9"
+        },
+        {
+          "date": "2026-06-23",
+          "talk": 49,
+          "record_id": "recg06DPMOqhE2Lfv"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 200,
+          "record_id": "recT5xNDe7fzkvJdF"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 163,
+          "record_id": "recmnAOwxsigpkz42"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 106,
+          "record_id": "recWv7AbEHUHh4TDO"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 75,
+          "record_id": "recmcxgW0jx90nTr3"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 68,
+          "record_id": "recO4dHPEUpXeodSm"
+        },
+        {
+          "date": "2026-06-22",
+          "talk": 40,
+          "record_id": "recaP9ADP0gRalqsT"
+        },
+        {
+          "date": "2026-06-20",
+          "talk": 38,
+          "record_id": "recTl0a0FuR8myOeQ"
+        },
+        {
+          "date": "2026-06-19",
+          "talk": 106,
+          "record_id": "recYMW5eJsJpNugCz"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 68,
+          "record_id": "recpGhydCdwR1d722"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 64,
+          "record_id": "rec2P1Ff6q4M6EE9A"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 63,
+          "record_id": "rec5A0iGcBhHbQXBQ"
+        },
+        {
+          "date": "2026-06-18",
+          "talk": 42,
+          "record_id": "recO8YaelChATOBMW"
+        },
+        {
+          "date": "2026-06-17",
+          "talk": 82,
+          "record_id": "recOkpQioa6oNXbrN"
+        },
+        {
+          "date": "2026-06-16",
+          "talk": 269,
+          "record_id": "rece8dAbuGSCMZOuw"
+        }
+      ],
+      "sample_capped": true
+    },
+    {
       "agent": "Bradleigh Jenkins",
       "code": "TOOEXP",
       "count": 52,
@@ -52845,268 +52769,6 @@
       "sample_capped": false
     },
     {
-      "agent": "Leighton Hutcheson",
-      "code": "EXISTING",
-      "count": 141,
-      "agent_avg": 176.1,
-      "team_avg": 135.3,
-      "deviation_pct": 30.1,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-24",
-          "talk": 53,
-          "record_id": "recs586ICFzAhMJ3n"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 144,
-          "record_id": "recoP8rjq3UVyHHjL"
-        },
-        {
-          "date": "2026-07-23",
-          "talk": 61,
-          "record_id": "recOcegZK6xpZpgQJ"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 278,
-          "record_id": "recH1ohk54nIbNEjL"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 214,
-          "record_id": "recbCsSrQxuwYrOid"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 197,
-          "record_id": "recd2RBAfCCmZqzWB"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 49,
-          "record_id": "recen6pnvu6zsFlv6"
-        },
-        {
-          "date": "2026-07-13",
-          "talk": 372,
-          "record_id": "recjASarhGkw97SAJ"
-        },
-        {
-          "date": "2026-07-13",
-          "talk": 72,
-          "record_id": "recpqSnN93rlNTMyR"
-        },
-        {
-          "date": "2026-07-13",
-          "talk": 68,
-          "record_id": "recuSdhQMXxI5wGzZ"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 1794,
-          "record_id": "recxbzi8natQssV9r"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 76,
-          "record_id": "recioErYlP5EPBg9i"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 43,
-          "record_id": "recBVi9fkq90N7EVo"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 41,
-          "record_id": "rec6T9puybbrCZGk2"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 63,
-          "record_id": "reciryDNBN5EF6ma3"
-        },
-        {
-          "date": "2026-07-09",
-          "talk": 57,
-          "record_id": "recf9j8QQIsji97Tb"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 850,
-          "record_id": "recFOIZH8VmJzjxDm"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 52,
-          "record_id": "recyDjBLHzdlPZl58"
-        },
-        {
-          "date": "2026-07-06",
-          "talk": 543,
-          "record_id": "recAGofSNPyriAydV"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 240,
-          "record_id": "reckAb8jbf1TtzmoG"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 141,
-          "record_id": "rec8TRMSzEH2jRVCe"
-        },
-        {
-          "date": "2026-07-02",
-          "talk": 51,
-          "record_id": "recK3hIBgV90BI1Ho"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 72,
-          "record_id": "recIckV300ZDIpxlH"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 72,
-          "record_id": "recLwpqhJFL29jcgt"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 72,
-          "record_id": "recYfMliNOYPAu2p6"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 68,
-          "record_id": "reczTtZUKkpDr5aYe"
-        },
-        {
-          "date": "2026-06-29",
-          "talk": 41,
-          "record_id": "recbNaIQ0TfHvZjRT"
-        },
-        {
-          "date": "2026-06-26",
-          "talk": 119,
-          "record_id": "recGi47BH5QaMntZS"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 35,
-          "record_id": "recpeaY3GdKCiU5fj"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 290,
-          "record_id": "recgv0obuMSyvNJSk"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 812,
-          "record_id": "reci0Ou3Fqm3iPxqu"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 285,
-          "record_id": "recVfZfwHi8Dj3UhF"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 136,
-          "record_id": "recoQzMOPBL9PUtgV"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 106,
-          "record_id": "recEiw0npT6W4EAME"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 49,
-          "record_id": "recIL2mE4Jw45qKZ9"
-        },
-        {
-          "date": "2026-06-23",
-          "talk": 49,
-          "record_id": "recg06DPMOqhE2Lfv"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 200,
-          "record_id": "recT5xNDe7fzkvJdF"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 163,
-          "record_id": "recmnAOwxsigpkz42"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 106,
-          "record_id": "recWv7AbEHUHh4TDO"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 75,
-          "record_id": "recmcxgW0jx90nTr3"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 68,
-          "record_id": "recO4dHPEUpXeodSm"
-        },
-        {
-          "date": "2026-06-22",
-          "talk": 40,
-          "record_id": "recaP9ADP0gRalqsT"
-        },
-        {
-          "date": "2026-06-20",
-          "talk": 38,
-          "record_id": "recTl0a0FuR8myOeQ"
-        },
-        {
-          "date": "2026-06-19",
-          "talk": 106,
-          "record_id": "recYMW5eJsJpNugCz"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 68,
-          "record_id": "recpGhydCdwR1d722"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 64,
-          "record_id": "rec2P1Ff6q4M6EE9A"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 63,
-          "record_id": "rec5A0iGcBhHbQXBQ"
-        },
-        {
-          "date": "2026-06-18",
-          "talk": 42,
-          "record_id": "recO8YaelChATOBMW"
-        },
-        {
-          "date": "2026-06-17",
-          "talk": 82,
-          "record_id": "recOkpQioa6oNXbrN"
-        },
-        {
-          "date": "2026-06-16",
-          "talk": 269,
-          "record_id": "rece8dAbuGSCMZOuw"
-        }
-      ],
-      "sample_capped": true
-    },
-    {
       "agent": "Simone Adams",
       "code": "SALE",
       "count": 205,
@@ -53364,268 +53026,6 @@
           "date": "2026-07-07",
           "talk": 648,
           "record_id": "recLsa7MoLXWxljQS"
-        }
-      ],
-      "sample_capped": true
-    },
-    {
-      "agent": "Leighton Hutcheson",
-      "code": "DNC",
-      "count": 65,
-      "agent_avg": 35.0,
-      "team_avg": 49.4,
-      "deviation_pct": -29.2,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-27",
-          "talk": 23,
-          "record_id": "recLxHGjgqZN78S79"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 40,
-          "record_id": "recGFGF80ZxIRq5Nz"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 32,
-          "record_id": "recBQQHUe8XnCqMAV"
-        },
-        {
-          "date": "2026-07-24",
-          "talk": 27,
-          "record_id": "recM73UpVlV9BRdUU"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 47,
-          "record_id": "reck1HujLE9M1dVXD"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 40,
-          "record_id": "recBbwSGX3cEfHKW9"
-        },
-        {
-          "date": "2026-07-22",
-          "talk": 9,
-          "record_id": "rec6nnPhkfy4znrI9"
-        },
-        {
-          "date": "2026-07-14",
-          "talk": 11,
-          "record_id": "receLj9DoN0AeaOIn"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 23,
-          "record_id": "recKM4XFoIdca9b0H"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 5,
-          "record_id": "reclcVAtVcvVwT9eJ"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 24,
-          "record_id": "recSAYn4s3AqYjmnn"
-        },
-        {
-          "date": "2026-06-11",
-          "talk": 40,
-          "record_id": "recRoZYehRDZ5rAy6"
-        },
-        {
-          "date": "2026-06-11",
-          "talk": 30,
-          "record_id": "recdQyqYNh1u3l1Rn"
-        },
-        {
-          "date": "2026-06-10",
-          "talk": 27,
-          "record_id": "recQqa5jy0Tww6r5j"
-        },
-        {
-          "date": "2026-06-09",
-          "talk": 25,
-          "record_id": "recRd0jNOZjRdirfX"
-        },
-        {
-          "date": "2026-06-03",
-          "talk": 23,
-          "record_id": "rechDkRkp2UmGeOEB"
-        },
-        {
-          "date": "2026-06-01",
-          "talk": 26,
-          "record_id": "recxqt2SkEa4e3kSQ"
-        },
-        {
-          "date": "2026-06-01",
-          "talk": 16,
-          "record_id": "recQkV03tijAdfsDj"
-        },
-        {
-          "date": "2026-05-30",
-          "talk": 32,
-          "record_id": "recrW46Dn0EH16Gfq"
-        },
-        {
-          "date": "2026-05-29",
-          "talk": 15,
-          "record_id": "recoRobNFjepdLawt"
-        },
-        {
-          "date": "2026-05-28",
-          "talk": 19,
-          "record_id": "recqtwvOcMTBrBniX"
-        },
-        {
-          "date": "2026-05-27",
-          "talk": 22,
-          "record_id": "recWJalMb0WMCQX6q"
-        },
-        {
-          "date": "2026-05-26",
-          "talk": 25,
-          "record_id": "rec97uqxVJCGuj4Id"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 43,
-          "record_id": "rec0T3F2rFPFuur7d"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 13,
-          "record_id": "recuiXpu1yy7vlrKW"
-        },
-        {
-          "date": "2026-05-18",
-          "talk": 28,
-          "record_id": "recHyrQBR9j9iAuEy"
-        },
-        {
-          "date": "2026-05-15",
-          "talk": 128,
-          "record_id": "rect2cDredFWtz0YM"
-        },
-        {
-          "date": "2026-05-15",
-          "talk": 76,
-          "record_id": "recCBlGISke8m2h2R"
-        },
-        {
-          "date": "2026-05-15",
-          "talk": 24,
-          "record_id": "rect3ZUudoKgR5Iin"
-        },
-        {
-          "date": "2026-05-14",
-          "talk": 23,
-          "record_id": "receEXs3s35hhVh5U"
-        },
-        {
-          "date": "2026-05-14",
-          "talk": 18,
-          "record_id": "recrtTA3sOERNg6n6"
-        },
-        {
-          "date": "2026-05-14",
-          "talk": 6,
-          "record_id": "rec4Dbqfw6eIBPxAq"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 111,
-          "record_id": "recOgKK3mPRLDd1aF"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 52,
-          "record_id": "rec1I0wWMy8tgRSsJ"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 26,
-          "record_id": "recgaHjP5qiH4SpMC"
-        },
-        {
-          "date": "2026-05-08",
-          "talk": 382,
-          "record_id": "rec0eWJRl0EWnlzu1"
-        },
-        {
-          "date": "2026-05-08",
-          "talk": 25,
-          "record_id": "recKjQxafv8hPSv3h"
-        },
-        {
-          "date": "2026-05-07",
-          "talk": 16,
-          "record_id": "reclW563d6BksJxsi"
-        },
-        {
-          "date": "2026-05-06",
-          "talk": 39,
-          "record_id": "recB9ddL90KHVgnEJ"
-        },
-        {
-          "date": "2026-05-06",
-          "talk": 15,
-          "record_id": "recx2xvtFxmbA4vhh"
-        },
-        {
-          "date": "2026-05-06",
-          "talk": 8,
-          "record_id": "rec63hKbQcH3cktI5"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 112,
-          "record_id": "reclvanl7Xc7XYMbG"
-        },
-        {
-          "date": "2026-05-05",
-          "talk": 18,
-          "record_id": "recA6PIT6LvC0flvC"
-        },
-        {
-          "date": "2026-05-01",
-          "talk": 15,
-          "record_id": "rec4ehnxkv0h6e6zG"
-        },
-        {
-          "date": "2026-05-01",
-          "talk": 11,
-          "record_id": "recxgTfwoV0uPx2yl"
-        },
-        {
-          "date": "2026-04-30",
-          "talk": 43,
-          "record_id": "recpMX1qPYxHPqpE0"
-        },
-        {
-          "date": "2026-04-30",
-          "talk": 19,
-          "record_id": "rec1Nyj3dFN90MRjE"
-        },
-        {
-          "date": "2026-04-30",
-          "talk": 12,
-          "record_id": "recOtdt8c9l3czz5P"
-        },
-        {
-          "date": "2026-04-28",
-          "talk": 28,
-          "record_id": "recJbmOlap0B05uxy"
-        },
-        {
-          "date": "2026-04-27",
-          "talk": 20,
-          "record_id": "recVGb3XRUcKhT3v8"
         }
       ],
       "sample_capped": true
@@ -54469,6 +53869,268 @@
       "sample_capped": true
     },
     {
+      "agent": "Leighton Hutcheson",
+      "code": "DNC",
+      "count": 65,
+      "agent_avg": 35.0,
+      "team_avg": 48.6,
+      "deviation_pct": -28.0,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-27",
+          "talk": 23,
+          "record_id": "recLxHGjgqZN78S79"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 40,
+          "record_id": "recGFGF80ZxIRq5Nz"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 32,
+          "record_id": "recBQQHUe8XnCqMAV"
+        },
+        {
+          "date": "2026-07-24",
+          "talk": 27,
+          "record_id": "recM73UpVlV9BRdUU"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 47,
+          "record_id": "reck1HujLE9M1dVXD"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 40,
+          "record_id": "recBbwSGX3cEfHKW9"
+        },
+        {
+          "date": "2026-07-22",
+          "talk": 9,
+          "record_id": "rec6nnPhkfy4znrI9"
+        },
+        {
+          "date": "2026-07-14",
+          "talk": 11,
+          "record_id": "receLj9DoN0AeaOIn"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 23,
+          "record_id": "recKM4XFoIdca9b0H"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 5,
+          "record_id": "reclcVAtVcvVwT9eJ"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 24,
+          "record_id": "recSAYn4s3AqYjmnn"
+        },
+        {
+          "date": "2026-06-11",
+          "talk": 40,
+          "record_id": "recRoZYehRDZ5rAy6"
+        },
+        {
+          "date": "2026-06-11",
+          "talk": 30,
+          "record_id": "recdQyqYNh1u3l1Rn"
+        },
+        {
+          "date": "2026-06-10",
+          "talk": 27,
+          "record_id": "recQqa5jy0Tww6r5j"
+        },
+        {
+          "date": "2026-06-09",
+          "talk": 25,
+          "record_id": "recRd0jNOZjRdirfX"
+        },
+        {
+          "date": "2026-06-03",
+          "talk": 23,
+          "record_id": "rechDkRkp2UmGeOEB"
+        },
+        {
+          "date": "2026-06-01",
+          "talk": 26,
+          "record_id": "recxqt2SkEa4e3kSQ"
+        },
+        {
+          "date": "2026-06-01",
+          "talk": 16,
+          "record_id": "recQkV03tijAdfsDj"
+        },
+        {
+          "date": "2026-05-30",
+          "talk": 32,
+          "record_id": "recrW46Dn0EH16Gfq"
+        },
+        {
+          "date": "2026-05-29",
+          "talk": 15,
+          "record_id": "recoRobNFjepdLawt"
+        },
+        {
+          "date": "2026-05-28",
+          "talk": 19,
+          "record_id": "recqtwvOcMTBrBniX"
+        },
+        {
+          "date": "2026-05-27",
+          "talk": 22,
+          "record_id": "recWJalMb0WMCQX6q"
+        },
+        {
+          "date": "2026-05-26",
+          "talk": 25,
+          "record_id": "rec97uqxVJCGuj4Id"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 43,
+          "record_id": "rec0T3F2rFPFuur7d"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 13,
+          "record_id": "recuiXpu1yy7vlrKW"
+        },
+        {
+          "date": "2026-05-18",
+          "talk": 28,
+          "record_id": "recHyrQBR9j9iAuEy"
+        },
+        {
+          "date": "2026-05-15",
+          "talk": 128,
+          "record_id": "rect2cDredFWtz0YM"
+        },
+        {
+          "date": "2026-05-15",
+          "talk": 76,
+          "record_id": "recCBlGISke8m2h2R"
+        },
+        {
+          "date": "2026-05-15",
+          "talk": 24,
+          "record_id": "rect3ZUudoKgR5Iin"
+        },
+        {
+          "date": "2026-05-14",
+          "talk": 23,
+          "record_id": "receEXs3s35hhVh5U"
+        },
+        {
+          "date": "2026-05-14",
+          "talk": 18,
+          "record_id": "recrtTA3sOERNg6n6"
+        },
+        {
+          "date": "2026-05-14",
+          "talk": 6,
+          "record_id": "rec4Dbqfw6eIBPxAq"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 111,
+          "record_id": "recOgKK3mPRLDd1aF"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 52,
+          "record_id": "rec1I0wWMy8tgRSsJ"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 26,
+          "record_id": "recgaHjP5qiH4SpMC"
+        },
+        {
+          "date": "2026-05-08",
+          "talk": 382,
+          "record_id": "rec0eWJRl0EWnlzu1"
+        },
+        {
+          "date": "2026-05-08",
+          "talk": 25,
+          "record_id": "recKjQxafv8hPSv3h"
+        },
+        {
+          "date": "2026-05-07",
+          "talk": 16,
+          "record_id": "reclW563d6BksJxsi"
+        },
+        {
+          "date": "2026-05-06",
+          "talk": 39,
+          "record_id": "recB9ddL90KHVgnEJ"
+        },
+        {
+          "date": "2026-05-06",
+          "talk": 15,
+          "record_id": "recx2xvtFxmbA4vhh"
+        },
+        {
+          "date": "2026-05-06",
+          "talk": 8,
+          "record_id": "rec63hKbQcH3cktI5"
+        },
+        {
+          "date": "2026-05-05",
+          "talk": 112,
+          "record_id": "reclvanl7Xc7XYMbG"
+        },
+        {
+          "date": "2026-05-05",
+          "talk": 18,
+          "record_id": "recA6PIT6LvC0flvC"
+        },
+        {
+          "date": "2026-05-01",
+          "talk": 15,
+          "record_id": "rec4ehnxkv0h6e6zG"
+        },
+        {
+          "date": "2026-05-01",
+          "talk": 11,
+          "record_id": "recxgTfwoV0uPx2yl"
+        },
+        {
+          "date": "2026-04-30",
+          "talk": 43,
+          "record_id": "recpMX1qPYxHPqpE0"
+        },
+        {
+          "date": "2026-04-30",
+          "talk": 19,
+          "record_id": "rec1Nyj3dFN90MRjE"
+        },
+        {
+          "date": "2026-04-30",
+          "talk": 12,
+          "record_id": "recOtdt8c9l3czz5P"
+        },
+        {
+          "date": "2026-04-28",
+          "talk": 28,
+          "record_id": "recJbmOlap0B05uxy"
+        },
+        {
+          "date": "2026-04-27",
+          "talk": 20,
+          "record_id": "recVGb3XRUcKhT3v8"
+        }
+      ],
+      "sample_capped": true
+    },
+    {
       "agent": "Adam Dackiw",
       "code": "NODOG",
       "count": 37,
@@ -54928,211 +54590,12 @@
       "sample_capped": true
     },
     {
-      "agent": "Daniel Collier",
-      "code": "WRONGNO",
-      "count": 18,
-      "agent_avg": 27.9,
-      "team_avg": 21.9,
-      "deviation_pct": 27.6,
-      "direction": "high",
-      "sample_records": [
-        {
-          "date": "2026-07-22",
-          "talk": 8,
-          "record_id": "recYtJ8zXMPzTvdQo"
-        },
-        {
-          "date": "2026-07-20",
-          "talk": 21,
-          "record_id": "recquxSCf8MsCfEqU"
-        },
-        {
-          "date": "2026-07-16",
-          "talk": 18,
-          "record_id": "rec3gvGDcdd21grw2"
-        },
-        {
-          "date": "2026-07-10",
-          "talk": 4,
-          "record_id": "recRM2Uctz7DzndTJ"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 12,
-          "record_id": "recbo6VO40yn5fDjX"
-        },
-        {
-          "date": "2026-07-08",
-          "talk": 7,
-          "record_id": "recj3rtXtlp3IKwOe"
-        },
-        {
-          "date": "2026-07-07",
-          "talk": 39,
-          "record_id": "recHGnQX69g4dQUAU"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 70,
-          "record_id": "rec5FdYOJsCUOgQqC"
-        },
-        {
-          "date": "2026-07-03",
-          "talk": 14,
-          "record_id": "recvfLOalReo5GHLS"
-        },
-        {
-          "date": "2026-06-28",
-          "talk": 15,
-          "record_id": "recdTno3wt9qPzBra"
-        },
-        {
-          "date": "2026-06-25",
-          "talk": 48,
-          "record_id": "recjDGDcen7CZimoQ"
-        },
-        {
-          "date": "2026-06-12",
-          "talk": 19,
-          "record_id": "recUCwKKXCYwM3rHw"
-        },
-        {
-          "date": "2026-06-08",
-          "talk": 29,
-          "record_id": "rec1Sdoo7YWEpGJFG"
-        },
-        {
-          "date": "2026-05-29",
-          "talk": 16,
-          "record_id": "recOIOmAwNMHmKKDz"
-        },
-        {
-          "date": "2026-05-26",
-          "talk": 21,
-          "record_id": "recOilfvweA3JUfn2"
-        },
-        {
-          "date": "2026-05-21",
-          "talk": 16,
-          "record_id": "recAzuZZNjHWdzE4o"
-        },
-        {
-          "date": "2026-05-13",
-          "talk": 97,
-          "record_id": "recAvGn8ipQTR8RtQ"
-        },
-        {
-          "date": "2026-05-12",
-          "talk": 49,
-          "record_id": "recHmfVZnVYESR0SQ"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
-      "agent": "Adam Dackiw",
-      "code": "HEALTH",
-      "count": 17,
-      "agent_avg": 191.9,
-      "team_avg": 264.3,
-      "deviation_pct": -27.4,
-      "direction": "low",
-      "sample_records": [
-        {
-          "date": "2026-07-22",
-          "talk": 218,
-          "record_id": "recx2aXPvDPwDF2ox"
-        },
-        {
-          "date": "2026-07-17",
-          "talk": 121,
-          "record_id": "reclgD57wklfBmFSz"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 219,
-          "record_id": "recIrEsvA1MI1FsE9"
-        },
-        {
-          "date": "2026-07-15",
-          "talk": 108,
-          "record_id": "recTq2z7ANp3emJhP"
-        },
-        {
-          "date": "2026-06-30",
-          "talk": 203,
-          "record_id": "recqOxqgsLhW1QFno"
-        },
-        {
-          "date": "2026-06-24",
-          "talk": 533,
-          "record_id": "rech5qmHvsBoG23Fx"
-        },
-        {
-          "date": "2026-06-06",
-          "talk": 198,
-          "record_id": "rec1Acp9lwdR9iNYX"
-        },
-        {
-          "date": "2026-06-04",
-          "talk": 93,
-          "record_id": "recAObLwX6GDWWFbL"
-        },
-        {
-          "date": "2026-06-01",
-          "talk": 104,
-          "record_id": "reccW7bwoeYs8I1vo"
-        },
-        {
-          "date": "2026-05-28",
-          "talk": 407,
-          "record_id": "rec7IM0zkaEnayIPn"
-        },
-        {
-          "date": "2026-05-22",
-          "talk": 74,
-          "record_id": "recRp0BX1YpEPHv1h"
-        },
-        {
-          "date": "2026-05-15",
-          "talk": 59,
-          "record_id": "recgG2aBxfC05elcM"
-        },
-        {
-          "date": "2026-04-27",
-          "talk": 126,
-          "record_id": "rec7SjyzPzij9BP54"
-        },
-        {
-          "date": "2026-04-24",
-          "talk": 304,
-          "record_id": "recKyarbiiTPwAPoO"
-        },
-        {
-          "date": "2026-04-20",
-          "talk": 25,
-          "record_id": "recBATrLQptZkl5qw"
-        },
-        {
-          "date": "2026-04-16",
-          "talk": 224,
-          "record_id": "recgmZPUWGPRQUnAv"
-        },
-        {
-          "date": "2026-04-15",
-          "talk": 247,
-          "record_id": "recWEkvXFfg0cZOG5"
-        }
-      ],
-      "sample_capped": false
-    },
-    {
       "agent": "Matthew Gregory",
       "code": "EXISTING",
       "count": 156,
       "agent_avg": 172.0,
-      "team_avg": 135.3,
-      "deviation_pct": 27.1,
+      "team_avg": 134.6,
+      "deviation_pct": 27.8,
       "direction": "high",
       "sample_records": [
         {
@@ -55387,6 +54850,205 @@
         }
       ],
       "sample_capped": true
+    },
+    {
+      "agent": "Daniel Collier",
+      "code": "WRONGNO",
+      "count": 18,
+      "agent_avg": 27.9,
+      "team_avg": 21.9,
+      "deviation_pct": 27.6,
+      "direction": "high",
+      "sample_records": [
+        {
+          "date": "2026-07-22",
+          "talk": 8,
+          "record_id": "recYtJ8zXMPzTvdQo"
+        },
+        {
+          "date": "2026-07-20",
+          "talk": 21,
+          "record_id": "recquxSCf8MsCfEqU"
+        },
+        {
+          "date": "2026-07-16",
+          "talk": 18,
+          "record_id": "rec3gvGDcdd21grw2"
+        },
+        {
+          "date": "2026-07-10",
+          "talk": 4,
+          "record_id": "recRM2Uctz7DzndTJ"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 12,
+          "record_id": "recbo6VO40yn5fDjX"
+        },
+        {
+          "date": "2026-07-08",
+          "talk": 7,
+          "record_id": "recj3rtXtlp3IKwOe"
+        },
+        {
+          "date": "2026-07-07",
+          "talk": 39,
+          "record_id": "recHGnQX69g4dQUAU"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 70,
+          "record_id": "rec5FdYOJsCUOgQqC"
+        },
+        {
+          "date": "2026-07-03",
+          "talk": 14,
+          "record_id": "recvfLOalReo5GHLS"
+        },
+        {
+          "date": "2026-06-28",
+          "talk": 15,
+          "record_id": "recdTno3wt9qPzBra"
+        },
+        {
+          "date": "2026-06-25",
+          "talk": 48,
+          "record_id": "recjDGDcen7CZimoQ"
+        },
+        {
+          "date": "2026-06-12",
+          "talk": 19,
+          "record_id": "recUCwKKXCYwM3rHw"
+        },
+        {
+          "date": "2026-06-08",
+          "talk": 29,
+          "record_id": "rec1Sdoo7YWEpGJFG"
+        },
+        {
+          "date": "2026-05-29",
+          "talk": 16,
+          "record_id": "recOIOmAwNMHmKKDz"
+        },
+        {
+          "date": "2026-05-26",
+          "talk": 21,
+          "record_id": "recOilfvweA3JUfn2"
+        },
+        {
+          "date": "2026-05-21",
+          "talk": 16,
+          "record_id": "recAzuZZNjHWdzE4o"
+        },
+        {
+          "date": "2026-05-13",
+          "talk": 97,
+          "record_id": "recAvGn8ipQTR8RtQ"
+        },
+        {
+          "date": "2026-05-12",
+          "talk": 49,
+          "record_id": "recHmfVZnVYESR0SQ"
+        }
+      ],
+      "sample_capped": false
+    },
+    {
+      "agent": "Adam Dackiw",
+      "code": "HEALTH",
+      "count": 17,
+      "agent_avg": 191.9,
+      "team_avg": 264.3,
+      "deviation_pct": -27.4,
+      "direction": "low",
+      "sample_records": [
+        {
+          "date": "2026-07-22",
+          "talk": 218,
+          "record_id": "recx2aXPvDPwDF2ox"
+        },
+        {
+          "date": "2026-07-17",
+          "talk": 121,
+          "record_id": "reclgD57wklfBmFSz"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 219,
+          "record_id": "recIrEsvA1MI1FsE9"
+        },
+        {
+          "date": "2026-07-15",
+          "talk": 108,
+          "record_id": "recTq2z7ANp3emJhP"
+        },
+        {
+          "date": "2026-06-30",
+          "talk": 203,
+          "record_id": "recqOxqgsLhW1QFno"
+        },
+        {
+          "date": "2026-06-24",
+          "talk": 533,
+          "record_id": "rech5qmHvsBoG23Fx"
+        },
+        {
+          "date": "2026-06-06",
+          "talk": 198,
+          "record_id": "rec1Acp9lwdR9iNYX"
+        },
+        {
+          "date": "2026-06-04",
+          "talk": 93,
+          "record_id": "recAObLwX6GDWWFbL"
+        },
+        {
+          "date": "2026-06-01",
+          "talk": 104,
+          "record_id": "reccW7bwoeYs8I1vo"
+        },
+        {
+          "date": "2026-05-28",
+          "talk": 407,
+          "record_id": "rec7IM0zkaEnayIPn"
+        },
+        {
+          "date": "2026-05-22",
+          "talk": 74,
+          "record_id": "recRp0BX1YpEPHv1h"
+        },
+        {
+          "date": "2026-05-15",
+          "talk": 59,
+          "record_id": "recgG2aBxfC05elcM"
+        },
+        {
+          "date": "2026-04-27",
+          "talk": 126,
+          "record_id": "rec7SjyzPzij9BP54"
+        },
+        {
+          "date": "2026-04-24",
+          "talk": 304,
+          "record_id": "recKyarbiiTPwAPoO"
+        },
+        {
+          "date": "2026-04-20",
+          "talk": 25,
+          "record_id": "recBATrLQptZkl5qw"
+        },
+        {
+          "date": "2026-04-16",
+          "talk": 224,
+          "record_id": "recgmZPUWGPRQUnAv"
+        },
+        {
+          "date": "2026-04-15",
+          "talk": 247,
+          "record_id": "recWEkvXFfg0cZOG5"
+        }
+      ],
+      "sample_capped": false
     },
     {
       "agent": "Melissa Farr",
@@ -57110,12 +56772,26 @@
     }
   ],
   "talk_time_meta": {
-    "records_with_talk_time": 22145,
+    "records_with_talk_time": 22134,
     "hangup_threshold_seconds": 60,
     "skew_threshold_pct": 25,
     "skew_min_calls": 5,
     "skew_min_team_calls": 20,
     "sample_cap": 50,
+    "min_calls_per_agent": 20,
+    "qualifying_agents": 18,
+    "excluded_agent_names": [
+      "Charlene Basbudak",
+      "Clementine Drake",
+      "Donna Wallington",
+      "Harpremjyot Thethi",
+      "Ilyas Chentouf",
+      "Jake Ring",
+      "Mpumelelo Mkhize",
+      "Rayat Ahmed",
+      "Sheza Ahmed",
+      "Susan Thomas"
+    ],
     "airtable_base_id": "appc3AWUlFaHlmdWk",
     "airtable_table_id": "tblkhYU7kDPoA6V23"
   }
