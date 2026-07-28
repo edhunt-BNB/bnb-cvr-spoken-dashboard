@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
 """
-update_data.py  v2.2
+update_data.py  v2.3
 
 Reads telesales lead data from Airtable and produces data.json
 for a GitHub Pages dashboard.
 
-Changes from v1:
-- UTC-safe date parsing and Monday calculation
-- Aggregation by last_call_date in addition to import_date
-- List ID aggregation (list_summary and list_weekly)
-- Reduced logging (every 10th page + summary)
-- Extended output structure
+Changes from v2.2:
+- Extended penetration pass to also carry Talk Time, Result Code,
+  Agent name, Lead Total Attempts, last_call_date so talk time
+  diagnostics can be computed from the same fetch (no extra API pass).
+- New aggregate_talk_time() emits diagnostics for the Talk Time QA tab:
+    talk_time_by_agent_code
+    talk_time_by_agent_outcome
+    talk_time_by_attempts_outcome
+    outcome_by_attempt
+    talk_time_weekly_by_code
+    hangup_over_60s
+    skewed_combos
+- No PII (customer name, phone) is written to data.json. Individual
+  suspicious calls carry only the Airtable record_id for click-through
+  to the authenticated Airtable base.
 """
 
 import json
@@ -21,6 +30,7 @@ import datetime
 import urllib.request
 import urllib.parse
 from collections import defaultdict
+from statistics import median
 
 
 AIRTABLE_BASE_ID = "appc3AWUlFaHlmdWk"
@@ -33,8 +43,18 @@ CONVERTIBLE_CODES = ["PAYISSUE", "FREEZSPACE", "HEALTH", "CALLBACK", "MEDIFOOD",
 
 FILTER_FORMULA = 'OR({Result Outcome}="Sale",{Result Outcome}="Bad Data",{Result Outcome}="Convertible")'
 
-# Lightweight fields for penetration pass (all records, no filter)
-PENETRATION_FIELDS = ["Original List ID", "Result Outcome", "import_date"]
+# Widened penetration-pass fields: adds fields needed for talk-time diagnostics
+PENETRATION_FIELDS = [
+    "Original List ID",
+    "Result Outcome",
+    "import_date",
+    "Talk Time",
+    "Agent First Name",
+    "Agent Last Name",
+    "Result Code",
+    "Lead Total Attempts",
+    "last_call_date",
+]
 
 FIELDS = [
     "Agent First Name",
@@ -46,6 +66,14 @@ FIELDS = [
     "last_call_date",
     "Original List ID",
 ]
+
+# Talk-time diagnostics config
+HANGUP_TALK_TIME_THRESHOLD = 60   # seconds
+SKEW_THRESHOLD_PCT = 25            # % deviation vs team avg
+SKEW_MIN_CALLS = 5                 # minimum calls per (agent, code) to be eligible for skew flag
+SKEW_MIN_TEAM_CALLS = 20           # minimum team calls for that code to compute a team baseline
+SKEW_MIN_TEAM_AVG = 5              # seconds; ignore team baselines below this to avoid tiny-number noise
+SUSPICIOUS_SAMPLE_CAP = 50         # cap sample records per flagged combo
 
 
 def log(msg):
@@ -105,7 +133,6 @@ def fetch_all_records(pat):
 
         page_num += 1
 
-        # Only log every 10th page to keep output manageable
         if page_num % 10 == 1:
             log("Fetching page " + str(page_num) + " (records so far: " + str(len(records)) + ")")
 
@@ -130,7 +157,6 @@ def fetch_all_records(pat):
             log("Fetch complete. Pages: " + str(page_num) + ", total records: " + str(len(records)))
             break
 
-        # Rate limit: 5 requests/sec max, sleep 0.25s between calls
         time.sleep(0.25)
 
     return records
@@ -143,19 +169,16 @@ def parse_record(record):
     """
     fields = record.get("fields", {})
 
-    # Agent name
     first_name = (fields.get("Agent First Name") or "").strip()
     last_name = (fields.get("Agent Last Name") or "").strip()
     if not first_name and not last_name:
         return None
     agent_name = (first_name + " " + last_name).strip()
 
-    # Result outcome
     outcome = (fields.get("Result Outcome") or "").strip()
     if outcome not in SPOKEN_OUTCOMES:
         return None
 
-    # import_date (UTC-safe)
     import_date = parse_date_utc(fields.get("import_date", ""))
     if import_date is None:
         return None
@@ -163,7 +186,6 @@ def parse_record(record):
     import_week_key = get_monday_of_week(import_date).isoformat()
     import_month_key = datetime.date(import_date.year, import_date.month, 1).isoformat()
 
-    # last_call_date (UTC-safe) — may be absent
     last_call_date = parse_date_utc(fields.get("last_call_date", ""))
     if last_call_date is not None:
         last_call_week_key = get_monday_of_week(last_call_date).isoformat()
@@ -172,14 +194,12 @@ def parse_record(record):
         last_call_week_key = None
         last_call_month_key = None
 
-    # Original List ID (numeric field, may be absent or None)
     list_id_raw = fields.get("Original List ID")
     try:
         list_id = int(list_id_raw) if list_id_raw is not None else None
     except (ValueError, TypeError):
         list_id = None
 
-    # Result code (for Convertible sub-codes)
     result_code = (fields.get("Result Code") or "").strip().upper()
 
     return {
@@ -195,7 +215,6 @@ def parse_record(record):
 
 
 def make_empty_agent_bucket():
-    """Create an empty per-agent aggregation bucket."""
     bucket = {
         "total_spoken": 0,
         "sales": 0,
@@ -208,7 +227,6 @@ def make_empty_agent_bucket():
 
 
 def make_empty_list_bucket():
-    """Create an empty per-list aggregation bucket."""
     return {
         "total_spoken": 0,
         "sales": 0,
@@ -218,7 +236,6 @@ def make_empty_list_bucket():
 
 
 def tally_outcome(bucket, outcome, result_code):
-    """Increment the appropriate counters in a bucket for one record."""
     bucket["total_spoken"] += 1
     if outcome == "Sale":
         bucket["sales"] += 1
@@ -232,26 +249,12 @@ def tally_outcome(bucket, outcome, result_code):
 
 
 def aggregate_records(parsed_records, cutoff_weeks, cutoff_months):
-    """
-    Aggregate parsed records into all output buckets.
-
-    Returns a tuple of six dicts:
-      weekly_data, monthly_data,
-      weekly_lc_data, monthly_lc_data,
-      list_summary_data, list_weekly_data
-    """
-    # (agent_name, period_key) -> agent bucket
     weekly_data = defaultdict(make_empty_agent_bucket)
     monthly_data = defaultdict(make_empty_agent_bucket)
     weekly_lc_data = defaultdict(make_empty_agent_bucket)
     monthly_lc_data = defaultdict(make_empty_agent_bucket)
-
-    # list_id -> list bucket (no date filter)
     list_summary_data = defaultdict(make_empty_list_bucket)
-    # (list_id, week_key) -> list bucket (last_call_date as time axis)
     list_weekly_data = defaultdict(make_empty_list_bucket)
-
-    convertible_upper = [c.upper() for c in CONVERTIBLE_CODES]
 
     for r in parsed_records:
         agent = r["agent_name"]
@@ -259,27 +262,22 @@ def aggregate_records(parsed_records, cutoff_weeks, cutoff_months):
         result_code = r["result_code"]
         list_id = r["list_id"]
 
-        # --- import_date weekly ---
         wk = r["import_week_key"]
         if wk in cutoff_weeks:
             tally_outcome(weekly_data[(agent, wk)], outcome, result_code)
 
-        # --- import_date monthly ---
         mk = r["import_month_key"]
         if mk in cutoff_months:
             tally_outcome(monthly_data[(agent, mk)], outcome, result_code)
 
-        # --- last_call_date weekly ---
         lc_wk = r["last_call_week_key"]
         if lc_wk and lc_wk in cutoff_weeks:
             tally_outcome(weekly_lc_data[(agent, lc_wk)], outcome, result_code)
 
-        # --- last_call_date monthly ---
         lc_mk = r["last_call_month_key"]
         if lc_mk and lc_mk in cutoff_months:
             tally_outcome(monthly_lc_data[(agent, lc_mk)], outcome, result_code)
 
-        # --- list_summary (all records, no date filter) ---
         if list_id is not None:
             lb = list_summary_data[list_id]
             lb["total_spoken"] += 1
@@ -290,7 +288,6 @@ def aggregate_records(parsed_records, cutoff_weeks, cutoff_months):
             elif outcome == "Convertible":
                 lb["convertible_total"] += 1
 
-        # --- list_weekly (by last_call_date, within cutoff) ---
         if list_id is not None and lc_wk and lc_wk in cutoff_weeks:
             lwb = list_weekly_data[(list_id, lc_wk)]
             lwb["total_spoken"] += 1
@@ -312,7 +309,6 @@ def aggregate_records(parsed_records, cutoff_weeks, cutoff_months):
 
 
 def build_agent_rows(data_dict):
-    """Convert an (agent_name, period_key) -> bucket dict into a sorted list of row dicts."""
     rows = []
     for (agent_name, period_key), bucket in sorted(
         data_dict.items(), key=lambda x: (x[0][1], x[0][0])
@@ -337,12 +333,10 @@ def build_output(
     list_summary_data, list_weekly_data,
     today,
 ):
-    """Build the final output dict."""
     now_utc = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     period_end = today.isoformat()
     period_start_13w = (today - datetime.timedelta(weeks=13)).isoformat()
 
-    # list_summary rows
     list_summary_rows = []
     for list_id, bucket in sorted(list_summary_data.items()):
         list_summary_rows.append({
@@ -353,7 +347,6 @@ def build_output(
             "convertible_total": bucket["convertible_total"],
         })
 
-    # list_weekly rows
     list_weekly_rows = []
     for (list_id, period_key), bucket in sorted(
         list_weekly_data.items(), key=lambda x: (x[0][1], x[0][0])
@@ -381,10 +374,6 @@ def build_output(
 
 
 def compute_cutoff_periods(today, num_weeks=13, num_months=3):
-    """
-    Compute the set of week and month period_start strings to include.
-    Uses UTC-safe Monday calculation.
-    """
     current_week_monday = get_monday_of_week(today)
 
     cutoff_weeks = set()
@@ -406,7 +395,7 @@ def compute_cutoff_periods(today, num_weeks=13, num_months=3):
 
 
 def fetch_penetration_records(pat):
-    """Fetch ALL records (no outcome filter) for penetration calculation."""
+    """Fetch ALL records (no outcome filter) - now carries talk-time fields too."""
     records = []
     offset = None
     page_num = 0
@@ -474,7 +463,6 @@ def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
         is_not_spoken = outcome == "Not Spoken"
         is_na = outcome == "N/A"
 
-        # Overall totals
         lt = list_totals[list_id_str]
         lt["total_leads"] += 1
         if is_spoken:
@@ -484,7 +472,6 @@ def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
         elif is_na:
             lt["na"] += 1
 
-        # Time series
         import_date_str = (fields.get("import_date") or "").strip()
         if not import_date_str:
             continue
@@ -515,7 +502,6 @@ def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
             elif is_na:
                 mk["na"] += 1
 
-    # Build output arrays
     pen_totals = []
     for lid, counts in sorted(list_totals.items(), key=lambda x: -x[1]["total_leads"]):
         pen_totals.append({"list_id": lid, **counts})
@@ -531,6 +517,299 @@ def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
     return pen_totals, pen_weekly, pen_monthly
 
 
+# --------------------------------------------------------------------
+# TALK TIME DIAGNOSTICS (v2.3)
+# --------------------------------------------------------------------
+
+def _attempts_bin(attempts):
+    """Bucket Lead Total Attempts into display bins."""
+    if attempts is None:
+        return None
+    if attempts <= 1:
+        return "1"
+    if attempts == 2:
+        return "2"
+    if attempts == 3:
+        return "3"
+    if attempts == 4:
+        return "4"
+    return "5+"
+
+
+def _talk_bin(t):
+    if t < 30:
+        return "0-30"
+    if t < 60:
+        return "30-60"
+    if t < 120:
+        return "60-120"
+    if t < 300:
+        return "120-300"
+    return "300+"
+
+
+def _round(x, n=1):
+    if x is None:
+        return None
+    try:
+        return round(float(x), n)
+    except (ValueError, TypeError):
+        return None
+
+
+def aggregate_talk_time(raw_records, cutoff_weeks):
+    """
+    Compute talk-time diagnostics from the wide penetration-pass records.
+
+    Emits (as a dict) the following keys, all designed for direct consumption
+    by the Talk Time QA tab in index.html:
+      talk_time_by_agent_code
+      talk_time_by_agent_outcome
+      talk_time_by_attempts_outcome
+      outcome_by_attempt
+      talk_time_weekly_by_code
+      hangup_over_60s
+      skewed_combos
+      talk_time_meta
+    """
+    # (agent, code) -> list of records: {t, date, rid}
+    combo_records = defaultdict(list)
+    # (agent, outcome) -> {"talks": [t...], "bins": {bin: count}}
+    outcome_agg = defaultdict(lambda: {"talks": [], "bins": defaultdict(int)})
+    # (agent, attempts_bin, outcome) -> [t]
+    attempts_agg = defaultdict(list)
+    # (attempts_bin, outcome) -> count (team-level companion)
+    attempts_outcome_count = defaultdict(int)
+    # (agent, week_key, code) -> [t]
+    weekly_code_agg = defaultdict(list)
+    # code -> [t] (team baseline)
+    team_code_talks = defaultdict(list)
+
+    hangup_over_60s = []
+    parsed_count = 0
+
+    for record in raw_records:
+        record_id = record.get("id") or ""
+        fields = record.get("fields", {})
+
+        first_name = (fields.get("Agent First Name") or "").strip()
+        last_name = (fields.get("Agent Last Name") or "").strip()
+        if not first_name and not last_name:
+            continue
+        agent = (first_name + " " + last_name).strip()
+
+        # Talk Time is a duration in seconds (Airtable Duration field).
+        # Skip records with no talk time so we don't skew averages toward 0.
+        talk_raw = fields.get("Talk Time")
+        try:
+            talk = float(talk_raw) if talk_raw is not None else None
+        except (ValueError, TypeError):
+            talk = None
+        if talk is None or talk <= 0:
+            continue
+
+        code = (fields.get("Result Code") or "").strip().upper()
+        outcome = (fields.get("Result Outcome") or "").strip()
+        if not code or not outcome:
+            continue
+
+        attempts_raw = fields.get("Lead Total Attempts")
+        try:
+            attempts = int(attempts_raw) if attempts_raw is not None else None
+        except (ValueError, TypeError):
+            attempts = None
+        att_bin = _attempts_bin(attempts)
+
+        last_call_str = (fields.get("last_call_date") or "").strip()[:10]
+        last_call_date = parse_date_utc(last_call_str) if last_call_str else None
+        last_call_week_key = get_monday_of_week(last_call_date).isoformat() if last_call_date else None
+
+        parsed_count += 1
+
+        # --- combo (agent, code) ---
+        combo_records[(agent, code)].append({
+            "t": talk,
+            "date": last_call_str,
+            "rid": record_id,
+        })
+        team_code_talks[code].append(talk)
+
+        # --- (agent, outcome) ---
+        oa = outcome_agg[(agent, outcome)]
+        oa["talks"].append(talk)
+        oa["bins"][_talk_bin(talk)] += 1
+
+        # --- (agent, attempts_bin, outcome) ---
+        if att_bin is not None:
+            attempts_agg[(agent, att_bin, outcome)].append(talk)
+            attempts_outcome_count[(att_bin, outcome)] += 1
+
+        # --- weekly by code ---
+        if last_call_week_key and last_call_week_key in cutoff_weeks:
+            weekly_code_agg[(agent, last_call_week_key, code)].append(talk)
+
+        # --- HANGUP > 60s flag ---
+        if code == "HANGUP" and talk > HANGUP_TALK_TIME_THRESHOLD:
+            hangup_over_60s.append({
+                "date": last_call_str,
+                "agent": agent,
+                "code": code,
+                "outcome": outcome,
+                "talk": int(talk),
+                "record_id": record_id,
+            })
+
+    # --- Build talk_time_by_agent_code rows ---
+    by_agent_code_rows = []
+    for (agent, code), recs in sorted(combo_records.items(), key=lambda x: (x[0][0], x[0][1])):
+        talks = [r["t"] for r in recs]
+        by_agent_code_rows.append({
+            "agent": agent,
+            "code": code,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+            "median_talk": _round(median(talks), 1),
+        })
+
+    # --- Team baseline per code ---
+    team_code_baseline = {}
+    for code, talks in team_code_talks.items():
+        if len(talks) >= SKEW_MIN_TEAM_CALLS:
+            team_code_baseline[code] = {
+                "avg": _round(sum(talks) / len(talks), 1),
+                "median": _round(median(talks), 1),
+                "count": len(talks),
+            }
+        else:
+            team_code_baseline[code] = {
+                "avg": _round(sum(talks) / len(talks), 1) if talks else None,
+                "median": _round(median(talks), 1) if talks else None,
+                "count": len(talks),
+            }
+
+    # --- Skewed combos ---
+    # A combo is flagged if the agent's avg deviates from the team avg for that
+    # code by more than SKEW_THRESHOLD_PCT AND the agent has SKEW_MIN_CALLS+.
+    skewed_combos = []
+    for (agent, code), recs in combo_records.items():
+        n = len(recs)
+        if n < SKEW_MIN_CALLS:
+            continue
+        team = team_code_baseline.get(code)
+        if not team or team["count"] < SKEW_MIN_TEAM_CALLS:
+            continue
+        team_avg = team["avg"]
+        if team_avg is None or team_avg < SKEW_MIN_TEAM_AVG:
+            continue
+        agent_avg = sum(r["t"] for r in recs) / n
+        dev_pct = ((agent_avg - team_avg) / team_avg) * 100.0
+        if abs(dev_pct) < SKEW_THRESHOLD_PCT:
+            continue
+        # Sample records (up to cap), sorted by date desc then talk desc
+        sorted_recs = sorted(recs, key=lambda r: (r["date"] or "", r["t"]), reverse=True)
+        sample = [{
+            "date": r["date"],
+            "talk": int(r["t"]),
+            "record_id": r["rid"],
+        } for r in sorted_recs[:SUSPICIOUS_SAMPLE_CAP]]
+        skewed_combos.append({
+            "agent": agent,
+            "code": code,
+            "count": n,
+            "agent_avg": _round(agent_avg, 1),
+            "team_avg": team_avg,
+            "deviation_pct": _round(dev_pct, 1),
+            "direction": "high" if dev_pct > 0 else "low",
+            "sample_records": sample,
+            "sample_capped": n > SUSPICIOUS_SAMPLE_CAP,
+        })
+    # Sort by absolute deviation desc
+    skewed_combos.sort(key=lambda x: -abs(x["deviation_pct"]))
+
+    # --- talk_time_by_agent_outcome ---
+    by_agent_outcome_rows = []
+    for (agent, outcome), agg in sorted(outcome_agg.items(), key=lambda x: (x[0][0], x[0][1])):
+        talks = agg["talks"]
+        bins = agg["bins"]
+        by_agent_outcome_rows.append({
+            "agent": agent,
+            "outcome": outcome,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+            "median_talk": _round(median(talks), 1),
+            "bin_0_30": bins.get("0-30", 0),
+            "bin_30_60": bins.get("30-60", 0),
+            "bin_60_120": bins.get("60-120", 0),
+            "bin_120_300": bins.get("120-300", 0),
+            "bin_300_plus": bins.get("300+", 0),
+        })
+
+    # --- talk_time_by_attempts_outcome (per agent) ---
+    by_attempts_outcome_rows = []
+    for (agent, att_bin, outcome), talks in sorted(attempts_agg.items()):
+        by_attempts_outcome_rows.append({
+            "agent": agent,
+            "attempts_bin": att_bin,
+            "outcome": outcome,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+        })
+
+    # --- outcome_by_attempt (team level) ---
+    outcome_by_attempt_rows = []
+    for (att_bin, outcome), n in sorted(attempts_outcome_count.items()):
+        outcome_by_attempt_rows.append({
+            "attempts_bin": att_bin,
+            "outcome": outcome,
+            "count": n,
+        })
+
+    # --- talk_time_weekly_by_code ---
+    weekly_code_rows = []
+    for (agent, wk, code), talks in sorted(weekly_code_agg.items()):
+        weekly_code_rows.append({
+            "agent": agent,
+            "week": wk,
+            "code": code,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+        })
+
+    # --- HANGUP >60s: sort by date desc for default view ---
+    hangup_over_60s.sort(key=lambda x: (x["date"] or "", x["agent"]), reverse=True)
+
+    # --- Team baselines (for client-side deviation shading) ---
+    team_baseline_rows = []
+    for code, stats in sorted(team_code_baseline.items()):
+        team_baseline_rows.append({
+            "code": code,
+            "count": stats["count"],
+            "avg_talk": stats["avg"],
+            "median_talk": stats["median"],
+        })
+
+    return {
+        "talk_time_by_agent_code": by_agent_code_rows,
+        "talk_time_team_code_baseline": team_baseline_rows,
+        "talk_time_by_agent_outcome": by_agent_outcome_rows,
+        "talk_time_by_attempts_outcome": by_attempts_outcome_rows,
+        "outcome_by_attempt": outcome_by_attempt_rows,
+        "talk_time_weekly_by_code": weekly_code_rows,
+        "hangup_over_60s": hangup_over_60s,
+        "skewed_combos": skewed_combos,
+        "talk_time_meta": {
+            "records_with_talk_time": parsed_count,
+            "hangup_threshold_seconds": HANGUP_TALK_TIME_THRESHOLD,
+            "skew_threshold_pct": SKEW_THRESHOLD_PCT,
+            "skew_min_calls": SKEW_MIN_CALLS,
+            "skew_min_team_calls": SKEW_MIN_TEAM_CALLS,
+            "sample_cap": SUSPICIOUS_SAMPLE_CAP,
+            "airtable_base_id": AIRTABLE_BASE_ID,
+            "airtable_table_id": AIRTABLE_TABLE_ID,
+        },
+    }
+
+
 def main():
     pat = os.environ.get("AIRTABLE_PAT")
     if not pat:
@@ -543,7 +822,7 @@ def main():
         output_path = "./data.json"
 
     today = datetime.date.today()
-    log("Starting data fetch (v2.2). Today: " + today.isoformat())
+    log("Starting data fetch (v2.3). Today: " + today.isoformat())
 
     cutoff_weeks, cutoff_months = compute_cutoff_periods(today, num_weeks=13, num_months=3)
     log(
@@ -580,8 +859,7 @@ def main():
         today,
     )
 
-    # Penetration data: fetch ALL records (no filter)
-    log("Fetching ALL records for penetration data...")
+    log("Fetching ALL records for penetration + talk-time data...")
     pen_records = fetch_penetration_records(pat)
     log("Aggregating penetration data...")
     pen_totals, pen_weekly, pen_monthly = aggregate_penetration(pen_records, cutoff_weeks, cutoff_months)
@@ -589,6 +867,10 @@ def main():
     output["list_penetration"] = pen_totals
     output["penetration_weekly"] = pen_weekly
     output["penetration_monthly"] = pen_monthly
+
+    log("Aggregating talk-time diagnostics...")
+    talk_time_output = aggregate_talk_time(pen_records, cutoff_weeks)
+    output.update(talk_time_output)
 
     output_json = json.dumps(output, indent=2)
     with open(output_path, "w", encoding="utf-8") as f:
@@ -605,6 +887,12 @@ def main():
         + " penetration=" + str(len(pen_totals))
         + " pen_weekly=" + str(len(pen_weekly))
         + " pen_monthly=" + str(len(pen_monthly))
+        + " by_agent_code=" + str(len(output["talk_time_by_agent_code"]))
+        + " by_agent_outcome=" + str(len(output["talk_time_by_agent_outcome"]))
+        + " by_attempts_outcome=" + str(len(output["talk_time_by_attempts_outcome"]))
+        + " weekly_by_code=" + str(len(output["talk_time_weekly_by_code"]))
+        + " hangup60=" + str(len(output["hangup_over_60s"]))
+        + " skewed_combos=" + str(len(output["skewed_combos"]))
     )
 
 

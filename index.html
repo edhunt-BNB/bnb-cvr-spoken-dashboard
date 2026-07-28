@@ -312,6 +312,40 @@ tr:hover td { background: var(--bb-cream); }
 .table-scroll { overflow-x: auto; padding: 0 0 8px; }
 .table-scroll table { min-width: 800px; }
 .min-vol-note { font-size: 11px; color: var(--bb-brown-light); font-style: italic; margin-bottom: 16px; }
+/* --- Talk Time QA tab styles --- */
+.sub-nav { display: flex; gap: 4px; margin-bottom: 20px; background: rgba(82,42,16,0.06); border-radius: 10px; padding: 4px; overflow-x: auto; }
+.sub-nav button { padding: 8px 16px; border: none; background: transparent; font-family: 'IBM Plex Sans Condensed', sans-serif; font-size: 13px; font-weight: 600; color: var(--bb-brown-light); cursor: pointer; border-radius: 6px; transition: all 0.15s; white-space: nowrap; }
+.sub-nav button:hover { color: var(--bb-brown); }
+.sub-nav button.active { background: #fff; color: var(--bb-berry); box-shadow: 0 1px 3px rgba(82,42,16,0.12); }
+.sub-panel { display: none; }
+.sub-panel.active { display: block; }
+.heatmap-scroll { overflow: auto; }
+.heatmap-table { border-collapse: collapse; font-size: 11px; margin: 0 24px 24px; }
+.heatmap-table th, .heatmap-table td { padding: 6px 8px; text-align: center; border: 1px solid rgba(82,42,16,0.06); min-width: 60px; white-space: nowrap; }
+.heatmap-table thead th { position: sticky; top: 0; background: #fff; z-index: 5; font-family: 'IBM Plex Sans Condensed', sans-serif; font-weight: 600; color: var(--bb-brown); font-size: 10px; border-bottom: 2px solid var(--bb-brown); }
+.heatmap-table tbody th.agent-cell { position: sticky; left: 0; background: #fff; z-index: 4; text-align: left; padding-right: 12px; font-weight: 600; color: var(--bb-brown); border-right: 2px solid var(--bb-brown); min-width: 140px; }
+.heatmap-table td.empty { color: rgba(82,42,16,0.25); background: #fafafa; }
+.heatmap-table td.qa-cell { font-weight: 600; color: var(--bb-brown); }
+.heatmap-table td.qa-cell .cnt { font-size: 9px; font-weight: 400; color: var(--bb-brown-light); display: block; margin-top: 1px; }
+.qa-flag-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; font-family: 'IBM Plex Sans Condensed', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.qa-flag-badge.hangup, .qa-flag-badge.skew-high { background: rgba(237,105,97,0.12); color: var(--bb-coral); }
+.qa-flag-badge.skew-low { background: rgba(155,195,254,0.25); color: var(--bb-navy); }
+.qa-flag-badge.clean { background: rgba(82,42,16,0.06); color: var(--bb-brown-light); }
+.qa-link { display: inline-block; padding: 3px 10px; background: var(--bb-cream); color: var(--bb-brown); border-radius: 6px; text-decoration: none; font-size: 11px; font-family: 'IBM Plex Sans Condensed', sans-serif; font-weight: 600; border: 1px solid rgba(82,42,16,0.15); }
+.qa-link:hover { border-color: var(--bb-berry); color: var(--bb-berry); background: #fff; }
+.qa-drilldown-row { background: rgba(255,246,216,0.5); }
+.qa-drilldown-row td { padding: 14px 20px; }
+.qa-drilldown-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.qa-drilldown-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #fff; border-radius: 6px; border: 1px solid rgba(82,42,16,0.08); font-size: 11px; }
+.qa-drilldown-item .talk { font-weight: 700; color: var(--bb-brown); }
+.qa-expand-btn { background: none; border: 1px solid rgba(82,42,16,0.2); cursor: pointer; color: var(--bb-berry); font-size: 14px; font-weight: 700; padding: 0 8px; font-family: 'IBM Plex Sans Condensed', sans-serif; border-radius: 4px; min-width: 28px; }
+.qa-expand-btn:hover { border-color: var(--bb-berry); background: var(--bb-cream); }
+.qa-info-banner { background: rgba(255,225,128,0.4); border-left: 3px solid var(--bb-gold); padding: 12px 16px; border-radius: 4px; margin-bottom: 20px; font-size: 12px; color: var(--bb-brown); line-height: 1.5; }
+.qa-metric-strip { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.qa-metric-tile { flex: 1; min-width: 140px; background: #fff; padding: 14px 18px; border-radius: 10px; box-shadow: 0 1px 3px rgba(82,42,16,0.08); }
+.qa-metric-tile .label { font-family: 'IBM Plex Sans Condensed', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--bb-brown-light); }
+.qa-metric-tile .value { font-size: 22px; font-weight: 700; color: var(--bb-brown); margin-top: 4px; }
+.qa-metric-tile .value.warn { color: var(--bb-coral); }
 </style>
 </head>
 <body>
@@ -342,6 +376,7 @@ tr:hover td { background: var(--bb-cream); }
   <button data-tab="convertible" onclick="setTab('convertible')">Convertible Deep Dive</button>
   <button data-tab="listid" onclick="setTab('listid')">List ID Analysis</button>
   <button data-tab="penetration" onclick="setTab('penetration')">Penetration Data</button>
+  <button data-tab="qa" onclick="setTab('qa')">Talk Time QA</button>
 </div>
 
 <div class="main-content">
@@ -505,6 +540,135 @@ tr:hover td { background: var(--bb-cream); }
           </tr></thead>
           <tbody id="penTableBody"></tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-qa">
+    <div class="qa-info-banner">
+      <strong>Talk Time QA:</strong> Diagnose potential agent mis-dispositioning by comparing talk time patterns across Result Codes and Outcomes. Only calls with Talk Time &gt; 0 are included. Team baselines require 20+ calls of a given code. Skew flag = agent's average deviates &gt;25% from team average, with 5+ calls of that code. Click any record link to open the call in Airtable.
+    </div>
+    <div class="sub-nav" id="qaSubNav">
+      <button class="active" data-sub="team" onclick="setQaSubTab('team')">Team View</button>
+      <button data-sub="suspicious" onclick="setQaSubTab('suspicious')">Suspicious Calls</button>
+      <button data-sub="outcome" onclick="setQaSubTab('outcome')">Outcome Analysis</button>
+      <button data-sub="attempts" onclick="setQaSubTab('attempts')">Attempts Analysis</button>
+      <button data-sub="scorecard" onclick="setQaSubTab('scorecard')">Agent Deep Dive</button>
+    </div>
+
+    <div class="sub-panel active" id="sub-team">
+      <div class="qa-metric-strip" id="qaTeamMetricStrip"></div>
+      <div class="data-table-wrapper">
+        <h3>Talk Time Heatmap — Agent x Result Code (average seconds)</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Darker = longer average talk time. Empty cell = no calls of that code by that agent. Small number under the average = call count.</p>
+        <div class="heatmap-scroll" style="max-height:600px;"><div id="qaHeatmap"></div></div>
+      </div>
+      <div class="data-table-wrapper">
+        <h3>Deviation from Team Median — Agent x Result Code (seconds)</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Positive (red) = agent talks longer than team median for that code. Negative (blue) = shorter. Empty cell = fewer than 5 calls or no team baseline.</p>
+        <div class="heatmap-scroll" style="max-height:600px;"><div id="qaDeviation"></div></div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-suspicious">
+      <div class="qa-metric-strip" id="qaSuspiciousMetricStrip"></div>
+      <div class="view-toggle-bar">
+        <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Sort by:</label>
+        <div class="view-toggle" id="qaSuspSortToggle">
+          <button class="active" data-sort="date" onclick="setSuspiciousSort('date')">Date of last call</button>
+          <button data-sort="agent" onclick="setSuspiciousSort('agent')">Agent</button>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <h3>HANGUP calls with talk time over 60 seconds</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Every call coded HANGUP but with more than a minute of talk time. Click the record link to open in Airtable.</p>
+        <div class="table-scroll">
+          <table id="qaHangupTable">
+            <thead><tr>
+              <th>Date</th><th>Agent</th><th>Talk Time</th><th>Outcome</th><th>Record</th>
+            </tr></thead>
+            <tbody id="qaHangupBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="data-table-wrapper">
+        <h3>Skewed (Agent x Result Code) combos — 25%+ deviation from team, 5+ calls</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Combos flagged where the agent's average talk time is well above or below the team average for that code. Click Expand to see the underlying calls (up to 50).</p>
+        <div class="table-scroll">
+          <table id="qaSkewTable">
+            <thead><tr>
+              <th style="width:32px;"></th><th>Agent</th><th>Result Code</th><th>Calls</th><th>Agent Avg</th><th>Team Avg</th><th>Deviation</th>
+            </tr></thead>
+            <tbody id="qaSkewBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-outcome">
+      <div class="chart-container">
+        <h3>Average Talk Time by Outcome, per Agent</h3>
+        <div class="chart-wrapper" style="height:440px;"><canvas id="qaOutcomeBars"></canvas></div>
+      </div>
+      <div class="chart-container">
+        <h3>Efficiency Scatter — Avg Talk Time vs Sale %</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Each dot is one agent. Bubble size = call volume. Dashed lines = team medians. Top-left quadrant = efficient closers. Bottom-right = talking a lot without closing.</p>
+        <div class="chart-wrapper" style="height:480px;"><canvas id="qaEfficiencyScatter"></canvas></div>
+      </div>
+      <div class="chart-container">
+        <h3>Talk Time Distribution by Outcome</h3>
+        <div class="view-toggle-bar">
+          <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Agent:</label>
+          <select class="agent-dropdown" id="qaHistAgentSelect" onchange="renderQaOutcomeHistogram()"></select>
+        </div>
+        <div class="chart-wrapper" style="height:400px;"><canvas id="qaOutcomeHistogram"></canvas></div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-attempts">
+      <div class="chart-container">
+        <h3>Outcome distribution by attempt number (team)</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">How the outcome mix shifts as attempt count grows. Attempt 5+ heavy in Not Spoken / Bad Data is healthy — spikes elsewhere are worth checking.</p>
+        <div class="chart-wrapper" style="height:380px;"><canvas id="qaOutcomeByAttempt"></canvas></div>
+      </div>
+      <div class="chart-container">
+        <h3>Avg talk time by attempt, per agent</h3>
+        <div class="view-toggle-bar">
+          <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Outcome:</label>
+          <select class="agent-dropdown" id="qaAttemptOutcomeSelect" onchange="renderQaAttemptsChart()">
+            <option value="Sale">Sale</option>
+            <option value="Convertible">Convertible</option>
+            <option value="Bad Data">Bad Data</option>
+          </select>
+        </div>
+        <div class="chart-wrapper" style="height:440px;"><canvas id="qaAttemptsChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-scorecard">
+      <div class="view-toggle-bar">
+        <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Agent:</label>
+        <select class="agent-dropdown" id="qaScorecardAgentSelect" onchange="renderQaScorecard()"></select>
+      </div>
+      <div class="qa-metric-strip" id="qaScorecardMetricStrip"></div>
+      <div class="data-table-wrapper">
+        <h3 id="qaScorecardHeader">Per-code talk time vs team</h3>
+        <div class="table-scroll">
+          <table id="qaScorecardTable">
+            <thead><tr>
+              <th>Result Code</th><th>Outcome</th><th>Calls</th><th>Agent Avg</th><th>Team Avg</th><th>Deviation</th><th>Suspicious?</th>
+            </tr></thead>
+            <tbody id="qaScorecardBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h3>Weekly talk time trend by code (this agent)</h3>
+        <div class="view-toggle-bar">
+          <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Result Code:</label>
+          <select class="agent-dropdown" id="qaScorecardCodeSelect" onchange="renderQaScorecardTrend()"></select>
+        </div>
+        <div class="chart-wrapper" style="height:380px;"><canvas id="qaScorecardTrendChart"></canvas></div>
       </div>
     </div>
   </div>
@@ -694,6 +858,7 @@ function renderCurrentTab() {
   else if (currentTab === "convertible") renderConvertChart();
   else if (currentTab === "listid") renderListTab();
   else if (currentTab === "penetration") renderPenTab();
+  else if (currentTab === "qa") renderQa();
 }
 
 // ===== TAB 1: OVERVIEW =====
@@ -1757,6 +1922,645 @@ function renderPenTab() {
   }
   document.getElementById("penTableBody").innerHTML = tblHtml;
 }
+
+// ============================================================
+// TAB 8: TALK TIME QA
+// ============================================================
+var qaSubTab = "team";
+var qaSuspiciousSort = "date";
+var qaSkewExpanded = {}; // idx -> true when expanded
+var qaCharts = {};
+
+// --- Helpers -------------------------------------------------
+
+function qaData() { return getData() || {}; }
+function qaMeta() { return qaData().talk_time_meta || {}; }
+function qaAirtableUrl(rid) {
+  if (!rid) return "#";
+  var m = qaMeta();
+  var base = m.airtable_base_id || "appc3AWUlFaHlmdWk";
+  var tbl = m.airtable_table_id || "tblkhYU7kDPoA6V23";
+  return "https://airtable.com/" + base + "/" + tbl + "/" + rid;
+}
+function qaSecs(v) {
+  if (v === null || v === undefined) return "—";
+  var n = Math.round(v);
+  if (n < 60) return n + "s";
+  var m = Math.floor(n / 60);
+  var s = n % 60;
+  return m + "m " + (s < 10 ? "0" : "") + s + "s";
+}
+function qaDestroyChart(key) { if (qaCharts[key]) { qaCharts[key].destroy(); delete qaCharts[key]; } }
+
+// Colour ramps
+function qaHeatColor(v, minV, maxV) {
+  if (v === null || v === undefined || maxV === minV) return "#fafafa";
+  var t = Math.max(0, Math.min(1, (v - minV) / (maxV - minV)));
+  // interpolate bb-cream (#FFF6D8) -> bb-berry-dark (#80254A)
+  var r = Math.round(255 + t * (128 - 255));
+  var g = Math.round(246 + t * (37 - 246));
+  var b = Math.round(216 + t * (74 - 216));
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
+function qaHeatTextColor(v, minV, maxV) {
+  if (v === null || v === undefined || maxV === minV) return "var(--bb-brown-light)";
+  var t = Math.max(0, Math.min(1, (v - minV) / (maxV - minV)));
+  return t > 0.55 ? "#fff" : "var(--bb-brown)";
+}
+function qaDivergeColor(delta, maxAbs) {
+  if (delta === null || delta === undefined || maxAbs === 0) return "#fafafa";
+  var t = Math.max(-1, Math.min(1, delta / maxAbs));
+  if (t >= 0) {
+    // white -> coral
+    var r = Math.round(255 + t * (237 - 255));
+    var g = Math.round(255 + t * (105 - 255));
+    var b = Math.round(255 + t * (97 - 255));
+    return "rgb(" + r + "," + g + "," + b + ")";
+  } else {
+    // white -> navy
+    var s = -t;
+    var r = Math.round(255 + s * (16 - 255));
+    var g = Math.round(255 + s * (80 - 255));
+    var b = Math.round(255 + s * (124 - 255));
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+}
+function qaDivergeTextColor(delta, maxAbs) {
+  if (delta === null || delta === undefined || maxAbs === 0) return "var(--bb-brown-light)";
+  var t = Math.abs(delta) / maxAbs;
+  return t > 0.55 ? "#fff" : "var(--bb-brown)";
+}
+
+// --- Top-level dispatch --------------------------------------
+
+function setQaSubTab(sub) {
+  qaSubTab = sub;
+  var btns = document.querySelectorAll("#qaSubNav button");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.toggle("active", btns[i].getAttribute("data-sub") === sub);
+  var panels = document.querySelectorAll("#tab-qa .sub-panel");
+  for (var i = 0; i < panels.length; i++) panels[i].classList.toggle("active", panels[i].id === "sub-" + sub);
+  renderQa();
+}
+
+function renderQa() {
+  if (qaSubTab === "team") renderQaTeamView();
+  else if (qaSubTab === "suspicious") renderQaSuspicious();
+  else if (qaSubTab === "outcome") renderQaOutcomeAnalysis();
+  else if (qaSubTab === "attempts") renderQaAttempts();
+  else if (qaSubTab === "scorecard") renderQaScorecard();
+}
+
+// --- Sub-tab 1: Team View (Heatmap + Deviation) --------------
+
+function renderQaTeamView() {
+  var d = qaData();
+  var by = d.talk_time_by_agent_code || [];
+  var baseline = d.talk_time_team_code_baseline || [];
+
+  // Metric strip
+  var records = (d.talk_time_meta && d.talk_time_meta.records_with_talk_time) || 0;
+  var agentSet = {}, codeSet = {};
+  by.forEach(function(r) { agentSet[r.agent] = true; codeSet[r.code] = true; });
+  var strip = document.getElementById("qaTeamMetricStrip");
+  strip.innerHTML =
+    '<div class="qa-metric-tile"><div class="label">Calls Analysed</div><div class="value">' + records.toLocaleString() + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Agents</div><div class="value">' + Object.keys(agentSet).length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Result Codes</div><div class="value">' + Object.keys(codeSet).length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">HANGUP >60s</div><div class="value warn">' + ((d.hangup_over_60s || []).length) + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value warn">' + ((d.skewed_combos || []).length) + '</div></div>';
+
+  // Sort agents alphabetically, codes by team volume desc
+  var agents = Object.keys(agentSet).sort();
+  var baselineByCode = {};
+  baseline.forEach(function(b) { baselineByCode[b.code] = b; });
+  var codes = Object.keys(codeSet).sort(function(a, b) {
+    var ca = (baselineByCode[a] && baselineByCode[a].count) || 0;
+    var cb = (baselineByCode[b] && baselineByCode[b].count) || 0;
+    return cb - ca;
+  });
+
+  // Lookup (agent, code) -> row
+  var lookup = {};
+  by.forEach(function(r) { lookup[r.agent + "|" + r.code] = r; });
+
+  // Heatmap: build min/max avg across all cells
+  var minAvg = Infinity, maxAvg = -Infinity;
+  by.forEach(function(r) {
+    if (r.avg_talk !== null && r.avg_talk !== undefined) {
+      if (r.avg_talk < minAvg) minAvg = r.avg_talk;
+      if (r.avg_talk > maxAvg) maxAvg = r.avg_talk;
+    }
+  });
+  if (minAvg === Infinity) { minAvg = 0; maxAvg = 1; }
+
+  var h = '<table class="heatmap-table"><thead><tr><th style="min-width:140px;">Agent</th>';
+  codes.forEach(function(c) { h += '<th>' + c + '</th>'; });
+  h += '</tr></thead><tbody>';
+  agents.forEach(function(ag) {
+    h += '<tr><th class="agent-cell">' + ag + '</th>';
+    codes.forEach(function(c) {
+      var r = lookup[ag + "|" + c];
+      if (!r || r.count === 0) {
+        h += '<td class="empty">—</td>';
+      } else {
+        var bg = qaHeatColor(r.avg_talk, minAvg, maxAvg);
+        var fg = qaHeatTextColor(r.avg_talk, minAvg, maxAvg);
+        h += '<td class="qa-cell" style="background:' + bg + ';color:' + fg + ';">' + qaSecs(r.avg_talk) + '<span class="cnt" style="color:' + (fg === "#fff" ? "rgba(255,255,255,0.75)" : "var(--bb-brown-light)") + ';">n=' + r.count + '</span></td>';
+      }
+    });
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  document.getElementById("qaHeatmap").innerHTML = h;
+
+  // Deviation table (agent_median - team_median)
+  var maxAbs = 0;
+  var devMap = {};
+  agents.forEach(function(ag) {
+    codes.forEach(function(c) {
+      var r = lookup[ag + "|" + c];
+      var team = baselineByCode[c];
+      if (!r || r.count < 5 || !team || team.count < 20 || team.median_talk === null) return;
+      var d = r.median_talk - team.median_talk;
+      devMap[ag + "|" + c] = d;
+      var a = Math.abs(d);
+      if (a > maxAbs) maxAbs = a;
+    });
+  });
+
+  var dh = '<table class="heatmap-table"><thead><tr><th style="min-width:140px;">Agent</th>';
+  codes.forEach(function(c) {
+    var team = baselineByCode[c];
+    var tm = (team && team.median_talk !== null && team.count >= 20) ? qaSecs(team.median_talk) : "—";
+    dh += '<th>' + c + '<br><span style="font-weight:400;color:var(--bb-brown-light);">' + tm + '</span></th>';
+  });
+  dh += '</tr></thead><tbody>';
+  agents.forEach(function(ag) {
+    dh += '<tr><th class="agent-cell">' + ag + '</th>';
+    codes.forEach(function(c) {
+      var key = ag + "|" + c;
+      if (!(key in devMap)) {
+        dh += '<td class="empty">—</td>';
+      } else {
+        var d = devMap[key];
+        var bg = qaDivergeColor(d, maxAbs);
+        var fg = qaDivergeTextColor(d, maxAbs);
+        var sign = d > 0 ? "+" : "";
+        dh += '<td class="qa-cell" style="background:' + bg + ';color:' + fg + ';">' + sign + Math.round(d) + 's</td>';
+      }
+    });
+    dh += '</tr>';
+  });
+  dh += '</tbody></table>';
+  document.getElementById("qaDeviation").innerHTML = dh;
+}
+
+// --- Sub-tab 2: Suspicious Calls -----------------------------
+
+function setSuspiciousSort(mode) {
+  qaSuspiciousSort = mode;
+  var btns = document.querySelectorAll("#qaSuspSortToggle button");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.toggle("active", btns[i].getAttribute("data-sort") === mode);
+  renderQaSuspicious();
+}
+
+function toggleSkewDrilldown(idx) {
+  qaSkewExpanded[idx] = !qaSkewExpanded[idx];
+  renderQaSuspicious();
+}
+
+function renderQaSuspicious() {
+  var d = qaData();
+  var hangups = (d.hangup_over_60s || []).slice();
+  var combos = (d.skewed_combos || []).slice();
+
+  // Metric strip
+  var strip = document.getElementById("qaSuspiciousMetricStrip");
+  var highSkew = combos.filter(function(c) { return c.direction === "high"; }).length;
+  var lowSkew = combos.filter(function(c) { return c.direction === "low"; }).length;
+  strip.innerHTML =
+    '<div class="qa-metric-tile"><div class="label">HANGUP >60s</div><div class="value warn">' + hangups.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value warn">' + combos.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Talking Too Long</div><div class="value">' + highSkew + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Talking Too Short</div><div class="value">' + lowSkew + '</div></div>';
+
+  // Sort hangups
+  if (qaSuspiciousSort === "agent") {
+    hangups.sort(function(a, b) { return (a.agent || "").localeCompare(b.agent || "") || (b.date || "").localeCompare(a.date || ""); });
+  } else {
+    hangups.sort(function(a, b) { return (b.date || "").localeCompare(a.date || "") || (a.agent || "").localeCompare(b.agent || ""); });
+  }
+  var hbody = "";
+  if (hangups.length === 0) {
+    hbody = '<tr><td colspan="5" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No HANGUP calls exceed the 60s threshold — clean.</td></tr>';
+  } else {
+    hangups.forEach(function(r) {
+      hbody += '<tr>' +
+        '<td>' + (r.date || "—") + '</td>' +
+        '<td><strong>' + r.agent + '</strong></td>' +
+        '<td>' + qaSecs(r.talk) + ' <span class="qa-flag-badge hangup">HANGUP</span></td>' +
+        '<td>' + r.outcome + '</td>' +
+        '<td><a class="qa-link" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener">Open in Airtable →</a></td>' +
+        '</tr>';
+    });
+  }
+  document.getElementById("qaHangupBody").innerHTML = hbody;
+
+  // Sort skew combos
+  if (qaSuspiciousSort === "agent") {
+    combos.sort(function(a, b) { return (a.agent || "").localeCompare(b.agent || "") || (b.deviation_pct || 0) - (a.deviation_pct || 0); });
+  } else {
+    // "date" -> most extreme deviation first (proxy for "most recent to look at")
+    combos.sort(function(a, b) { return Math.abs(b.deviation_pct || 0) - Math.abs(a.deviation_pct || 0); });
+  }
+
+  var sbody = "";
+  if (combos.length === 0) {
+    sbody = '<tr><td colspan="7" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No (Agent x Code) combos exceed the 25% deviation threshold — clean.</td></tr>';
+  } else {
+    combos.forEach(function(c, idx) {
+      var expanded = !!qaSkewExpanded[idx];
+      var arrow = expanded ? "−" : "+";
+      var badge = c.direction === "high" ? '<span class="qa-flag-badge skew-high">Too Long</span>' : '<span class="qa-flag-badge skew-low">Too Short</span>';
+      var sign = c.deviation_pct > 0 ? "+" : "";
+      sbody += '<tr>' +
+        '<td><button class="qa-expand-btn" onclick="toggleSkewDrilldown(' + idx + ')">' + arrow + '</button></td>' +
+        '<td><strong>' + c.agent + '</strong></td>' +
+        '<td>' + c.code + ' ' + badge + '</td>' +
+        '<td>' + c.count + '</td>' +
+        '<td>' + qaSecs(c.agent_avg) + '</td>' +
+        '<td>' + qaSecs(c.team_avg) + '</td>' +
+        '<td><strong style="color:' + (c.direction === "high" ? "var(--bb-coral)" : "var(--bb-navy)") + ';">' + sign + c.deviation_pct.toFixed(1) + '%</strong></td>' +
+        '</tr>';
+      if (expanded) {
+        var grid = "";
+        (c.sample_records || []).forEach(function(r) {
+          grid += '<a class="qa-drilldown-item" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">' +
+                  '<span>' + (r.date || "—") + '</span>' +
+                  '<span class="talk">' + qaSecs(r.talk) + '</span>' +
+                  '</a>';
+        });
+        var note = c.sample_capped ? '<div style="font-size:11px;color:var(--bb-brown-light);margin-bottom:8px;">Showing 50 of ' + c.count + ' calls (sorted by most recent).</div>' : '<div style="font-size:11px;color:var(--bb-brown-light);margin-bottom:8px;">All ' + c.count + ' calls.</div>';
+        sbody += '<tr class="qa-drilldown-row"><td colspan="7">' + note + '<div class="qa-drilldown-grid">' + grid + '</div></td></tr>';
+      }
+    });
+  }
+  document.getElementById("qaSkewBody").innerHTML = sbody;
+}
+
+// --- Sub-tab 3: Outcome Analysis -----------------------------
+
+var QA_OUTCOME_COLORS = {
+  "Sale": "#2E7D32",
+  "Convertible": "#A43260",
+  "Bad Data": "#ED6961",
+  "Not Spoken": "#9BC3FE",
+  "N/A": "#B0B0B0",
+  "Unknown": "#E0E0E0"
+};
+
+function renderQaOutcomeAnalysis() {
+  var d = qaData();
+  var rows = d.talk_time_by_agent_outcome || [];
+
+  var agentsSet = {};
+  rows.forEach(function(r) { agentsSet[r.agent] = true; });
+  var agents = Object.keys(agentsSet).sort();
+  var outcomes = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A"];
+
+  // Populate histogram selector
+  var sel = document.getElementById("qaHistAgentSelect");
+  var currentVal = sel.value || "__team__";
+  var options = '<option value="__team__">Team aggregate</option>';
+  agents.forEach(function(a) { options += '<option value="' + a + '">' + a + '</option>'; });
+  sel.innerHTML = options;
+  sel.value = currentVal;
+
+  // ---- Grouped bars: avg talk time by outcome per agent ----
+  var lookup = {};
+  rows.forEach(function(r) { lookup[r.agent + "|" + r.outcome] = r; });
+  var datasets = outcomes.map(function(o) {
+    return {
+      label: o,
+      backgroundColor: QA_OUTCOME_COLORS[o],
+      data: agents.map(function(a) {
+        var r = lookup[a + "|" + o];
+        return r && r.count > 0 ? r.avg_talk : null;
+      })
+    };
+  });
+  qaDestroyChart("outcomeBars");
+  qaCharts.outcomeBars = new Chart(document.getElementById("qaOutcomeBars"), {
+    type: "bar",
+    data: { labels: agents, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { title: { display: true, text: "Avg Talk (s)" }, beginAtZero: true }, x: { ticks: { maxRotation: 60, minRotation: 45, autoSkip: false } } },
+      plugins: { legend: { position: "top" }, tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } } }
+    }
+  });
+
+  // ---- Efficiency scatter ----
+  var agentAgg = {};
+  agents.forEach(function(a) { agentAgg[a] = { totalCalls: 0, weightedTalk: 0, sale: 0 }; });
+  rows.forEach(function(r) {
+    var a = agentAgg[r.agent]; if (!a) return;
+    a.totalCalls += r.count;
+    a.weightedTalk += (r.avg_talk || 0) * r.count;
+    if (r.outcome === "Sale") a.sale += r.count;
+  });
+  var scatterPoints = [];
+  agents.forEach(function(a) {
+    var agg = agentAgg[a];
+    if (agg.totalCalls < 30) return; // min volume floor for readability
+    scatterPoints.push({
+      x: agg.weightedTalk / agg.totalCalls,
+      y: (agg.sale / agg.totalCalls) * 100,
+      r: Math.max(5, Math.min(20, Math.sqrt(agg.totalCalls) * 0.4)),
+      label: a,
+      calls: agg.totalCalls
+    });
+  });
+  var xMed = scatterPoints.length ? scatterPoints.map(function(p) { return p.x; }).sort(function(a, b) { return a - b; })[Math.floor(scatterPoints.length / 2)] : 0;
+  var yMed = scatterPoints.length ? scatterPoints.map(function(p) { return p.y; }).sort(function(a, b) { return a - b; })[Math.floor(scatterPoints.length / 2)] : 0;
+
+  qaDestroyChart("efficiency");
+  qaCharts.efficiency = new Chart(document.getElementById("qaEfficiencyScatter"), {
+    type: "bubble",
+    data: { datasets: [{ label: "Agent", data: scatterPoints, backgroundColor: "rgba(164,50,96,0.55)", borderColor: "#80254A", borderWidth: 1 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: "Avg Talk Time (s)" }, beginAtZero: true },
+        y: { title: { display: true, text: "Sale %" }, beginAtZero: true }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) { var p = ctx.raw; return p.label + " — " + qaSecs(p.x) + " avg, " + p.y.toFixed(1) + "% sale (" + p.calls.toLocaleString() + " calls)"; } } },
+        annotation: false
+      }
+    },
+    plugins: [{
+      id: "qaEfficiencyLabels",
+      afterDatasetsDraw: function(chart) {
+        var ctx = chart.ctx;
+        ctx.save();
+        ctx.font = "11px 'IBM Plex Sans Condensed'";
+        ctx.fillStyle = "#522A10";
+        ctx.textAlign = "center";
+        var meta = chart.getDatasetMeta(0);
+        meta.data.forEach(function(pt, i) {
+          var p = scatterPoints[i]; if (!p) return;
+          ctx.fillText(p.label, pt.x, pt.y - pt.options.radius - 4);
+        });
+        // Median reference lines
+        var xScale = chart.scales.x, yScale = chart.scales.y;
+        ctx.strokeStyle = "rgba(82,42,16,0.35)";
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        var xPix = xScale.getPixelForValue(xMed);
+        ctx.moveTo(xPix, yScale.top); ctx.lineTo(xPix, yScale.bottom); ctx.stroke();
+        ctx.beginPath();
+        var yPix = yScale.getPixelForValue(yMed);
+        ctx.moveTo(xScale.left, yPix); ctx.lineTo(xScale.right, yPix); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
+    }]
+  });
+
+  renderQaOutcomeHistogram();
+}
+
+function renderQaOutcomeHistogram() {
+  var d = qaData();
+  var rows = d.talk_time_by_agent_outcome || [];
+  var sel = document.getElementById("qaHistAgentSelect");
+  var picked = sel ? sel.value : "__team__";
+  var outcomes = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A"];
+  var bins = ["bin_0_30", "bin_30_60", "bin_60_120", "bin_120_300", "bin_300_plus"];
+  var binLabels = ["0-30s", "30-60s", "1-2m", "2-5m", "5m+"];
+
+  // Aggregate
+  var agg = {}; outcomes.forEach(function(o) { agg[o] = { bin_0_30: 0, bin_30_60: 0, bin_60_120: 0, bin_120_300: 0, bin_300_plus: 0 }; });
+  rows.forEach(function(r) {
+    if (picked !== "__team__" && r.agent !== picked) return;
+    if (!agg[r.outcome]) return;
+    bins.forEach(function(b) { agg[r.outcome][b] += r[b] || 0; });
+  });
+
+  var datasets = outcomes.map(function(o) {
+    return { label: o, backgroundColor: QA_OUTCOME_COLORS[o], data: bins.map(function(b) { return agg[o][b]; }) };
+  });
+  qaDestroyChart("outcomeHist");
+  qaCharts.outcomeHist = new Chart(document.getElementById("qaOutcomeHistogram"), {
+    type: "bar",
+    data: { labels: binLabels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { stacked: true, title: { display: true, text: "Talk Time Bin" } },
+        y: { stacked: true, title: { display: true, text: "Call Count" }, beginAtZero: true }
+      },
+      plugins: { legend: { position: "top" }, title: { display: true, text: (picked === "__team__" ? "All Agents" : picked) } }
+    }
+  });
+}
+
+// --- Sub-tab 4: Attempts Analysis ----------------------------
+
+function renderQaAttempts() {
+  var d = qaData();
+  var teamRows = d.outcome_by_attempt || [];
+  var agentRows = d.talk_time_by_attempts_outcome || [];
+
+  var attempts = ["1", "2", "3", "4", "5+"];
+  var outcomes = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A"];
+
+  // ---- Team outcome by attempt (stacked bar) ----
+  var teamLookup = {};
+  teamRows.forEach(function(r) { teamLookup[r.attempts_bin + "|" + r.outcome] = r.count; });
+  var teamDatasets = outcomes.map(function(o) {
+    return { label: o, backgroundColor: QA_OUTCOME_COLORS[o], data: attempts.map(function(a) { return teamLookup[a + "|" + o] || 0; }) };
+  });
+  qaDestroyChart("obyAttempt");
+  qaCharts.obyAttempt = new Chart(document.getElementById("qaOutcomeByAttempt"), {
+    type: "bar",
+    data: { labels: attempts.map(function(a) { return "Attempt " + a; }), datasets: teamDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, title: { display: true, text: "Call Count" } } },
+      plugins: { legend: { position: "top" } }
+    }
+  });
+
+  renderQaAttemptsChart();
+}
+
+function renderQaAttemptsChart() {
+  var d = qaData();
+  var rows = d.talk_time_by_attempts_outcome || [];
+  var sel = document.getElementById("qaAttemptOutcomeSelect");
+  var outcome = sel ? sel.value : "Sale";
+  var attempts = ["1", "2", "3", "4", "5+"];
+
+  var agentsSet = {};
+  rows.forEach(function(r) { if (r.outcome === outcome) agentsSet[r.agent] = true; });
+  var agents = Object.keys(agentsSet).sort();
+
+  var lookup = {};
+  rows.forEach(function(r) { lookup[r.agent + "|" + r.attempts_bin + "|" + r.outcome] = r; });
+
+  // One line per agent (up to top 15 by total volume for readability)
+  var totals = agents.map(function(a) {
+    var t = 0; attempts.forEach(function(att) { var r = lookup[a + "|" + att + "|" + outcome]; if (r) t += r.count; });
+    return { agent: a, total: t };
+  });
+  totals.sort(function(a, b) { return b.total - a.total; });
+  var top = totals.slice(0, 15);
+
+  var palette = ["#A43260", "#10507C", "#ED6961", "#2E7D32", "#F1AEAF", "#80254A", "#9BC3FE", "#522A10", "#FFD54D", "#B0B0B0", "#663399", "#FF7F50", "#4682B4", "#20B2AA", "#DAA520"];
+  var datasets = top.map(function(t, i) {
+    return {
+      label: t.agent + " (" + t.total + ")",
+      borderColor: palette[i % palette.length],
+      backgroundColor: palette[i % palette.length],
+      data: attempts.map(function(att) { var r = lookup[t.agent + "|" + att + "|" + outcome]; return r && r.count > 0 ? r.avg_talk : null; }),
+      spanGaps: true,
+      tension: 0.2
+    };
+  });
+  qaDestroyChart("attemptsChart");
+  qaCharts.attemptsChart = new Chart(document.getElementById("qaAttemptsChart"), {
+    type: "line",
+    data: { labels: attempts.map(function(a) { return "Attempt " + a; }), datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { title: { display: true, text: "Avg Talk (s) for " + outcome }, beginAtZero: true } },
+      plugins: {
+        legend: { position: "right" },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } }
+      }
+    }
+  });
+}
+
+// --- Sub-tab 5: Agent Deep Dive ------------------------------
+
+function renderQaScorecard() {
+  var d = qaData();
+  var byCode = d.talk_time_by_agent_code || [];
+  var baseline = d.talk_time_team_code_baseline || [];
+
+  var agentsSet = {};
+  byCode.forEach(function(r) { agentsSet[r.agent] = true; });
+  var agents = Object.keys(agentsSet).sort();
+  var sel = document.getElementById("qaScorecardAgentSelect");
+  var currentVal = sel.value || agents[0];
+  var options = "";
+  agents.forEach(function(a) { options += '<option value="' + a + '">' + a + '</option>'; });
+  sel.innerHTML = options;
+  sel.value = agents.indexOf(currentVal) >= 0 ? currentVal : agents[0];
+  var agent = sel.value;
+
+  var baseByCode = {};
+  baseline.forEach(function(b) { baseByCode[b.code] = b; });
+
+  var myRows = byCode.filter(function(r) { return r.agent === agent; });
+  myRows.sort(function(a, b) { return b.count - a.count; });
+
+  // Metric strip
+  var totalCalls = 0, totalTalk = 0, longestCode = "—", longestAvg = 0, longestCount = 0;
+  myRows.forEach(function(r) { totalCalls += r.count; totalTalk += r.avg_talk * r.count; if (r.avg_talk > longestAvg) { longestAvg = r.avg_talk; longestCode = r.code; longestCount = r.count; } });
+  var strip = document.getElementById("qaScorecardMetricStrip");
+  var skewed = (d.skewed_combos || []).filter(function(c) { return c.agent === agent; }).length;
+  strip.innerHTML =
+    '<div class="qa-metric-tile"><div class="label">Total Calls</div><div class="value">' + totalCalls.toLocaleString() + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Avg Talk</div><div class="value">' + (totalCalls ? qaSecs(totalTalk / totalCalls) : "—") + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Longest Avg Code</div><div class="value">' + longestCode + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value ' + (skewed > 0 ? "warn" : "") + '">' + skewed + '</div></div>';
+
+  // Table
+  var body = "";
+  myRows.forEach(function(r) {
+    var team = baseByCode[r.code];
+    var teamAvg = (team && team.count >= 20) ? team.avg_talk : null;
+    var dev = teamAvg !== null ? ((r.avg_talk - teamAvg) / teamAvg) * 100 : null;
+    var devStr = dev !== null ? ((dev > 0 ? "+" : "") + dev.toFixed(1) + "%") : "—";
+    var devColor = dev === null ? "var(--bb-brown-light)" : (Math.abs(dev) >= 25 ? (dev > 0 ? "var(--bb-coral)" : "var(--bb-navy)") : "var(--bb-brown)");
+    var flag = '<span class="qa-flag-badge clean">clean</span>';
+    if (r.count >= 5 && teamAvg !== null && Math.abs(dev) >= 25) {
+      flag = dev > 0 ? '<span class="qa-flag-badge skew-high">Too Long</span>' : '<span class="qa-flag-badge skew-low">Too Short</span>';
+    }
+    // Outcome lookup from Airtable formula (mirror it in JS)
+    var outcome = qaOutcomeForCode(r.code);
+    body += '<tr>' +
+      '<td><strong>' + r.code + '</strong></td>' +
+      '<td>' + outcome + '</td>' +
+      '<td>' + r.count + '</td>' +
+      '<td>' + qaSecs(r.avg_talk) + '</td>' +
+      '<td>' + (teamAvg !== null ? qaSecs(teamAvg) : "—") + '</td>' +
+      '<td style="color:' + devColor + ';"><strong>' + devStr + '</strong></td>' +
+      '<td>' + flag + '</td>' +
+      '</tr>';
+  });
+  if (!body) body = '<tr><td colspan="7" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No calls with talk time for this agent.</td></tr>';
+  document.getElementById("qaScorecardBody").innerHTML = body;
+  document.getElementById("qaScorecardHeader").textContent = "Per-code talk time vs team — " + agent;
+
+  // Populate code selector for trend
+  var codeSel = document.getElementById("qaScorecardCodeSelect");
+  var currentCode = codeSel.value;
+  var codeOptions = "";
+  myRows.forEach(function(r) { codeOptions += '<option value="' + r.code + '">' + r.code + ' (' + r.count + ' calls)</option>'; });
+  codeSel.innerHTML = codeOptions;
+  if (myRows.some(function(r) { return r.code === currentCode; })) codeSel.value = currentCode;
+  renderQaScorecardTrend();
+}
+
+// Outcome mapping mirrors Airtable formula (fldToO3nbhJXwkX9d)
+var QA_OUTCOME_MAP = {
+  "SALE": "Sale", "SALEOPTIN": "Sale", "REACTSALE": "Sale",
+  "CALLBACK": "Convertible", "PAYISSUE": "Convertible", "FREEZSPACE": "Convertible", "FUSSY": "Convertible", "HEALTH": "Convertible", "NI": "Convertible", "MEDIFOOD": "Convertible", "TOOEXP": "Convertible",
+  "MAXTO": "Not Spoken", "LIVEANS": "Not Spoken", "XFER": "Not Spoken", "SYSDROP": "Not Spoken", "NOCPA": "Not Spoken", "SYSANSMACH": "Not Spoken", "SYSOI": "Not Spoken", "SYSBUSY": "Not Spoken", "AGAM": "Not Spoken", "SYSNOANS": "Not Spoken", "YANK": "Not Spoken", "CBNA": "Not Spoken", "ABANDON": "Not Spoken",
+  "DNC": "Bad Data", "NOSALEOPIN": "Bad Data", "WRONGNO": "Bad Data", "VMINBOUND": "Bad Data", "LANGBAR": "Bad Data", "UNDER18": "Bad Data", "NODOG": "Bad Data", "TPSDNC": "Bad Data", "DOGDIED": "Bad Data", "VULNERABLE": "Bad Data", "EXISTING": "Bad Data", "NADELIVERY": "Bad Data",
+  "AUDIOISSUE": "N/A", "HANGUP": "N/A", "INBOUND": "N/A", "NOTENTERED": "N/A", "TECHISSUE": "N/A"
+};
+function qaOutcomeForCode(code) { return QA_OUTCOME_MAP[code] || "Unknown"; }
+
+function renderQaScorecardTrend() {
+  var d = qaData();
+  var weekly = d.talk_time_weekly_by_code || [];
+  var baseline = d.talk_time_team_code_baseline || [];
+  var agent = document.getElementById("qaScorecardAgentSelect").value;
+  var code = document.getElementById("qaScorecardCodeSelect").value;
+  if (!agent || !code) { qaDestroyChart("scoreTrend"); return; }
+
+  var mine = weekly.filter(function(r) { return r.agent === agent && r.code === code; });
+  mine.sort(function(a, b) { return (a.week || "").localeCompare(b.week || ""); });
+  var labels = mine.map(function(r) { return r.week; });
+  var data = mine.map(function(r) { return r.avg_talk; });
+
+  var teamAvg = null;
+  baseline.forEach(function(b) { if (b.code === code && b.count >= 20) teamAvg = b.avg_talk; });
+
+  var datasets = [{ label: agent, borderColor: "#A43260", backgroundColor: "#A43260", data: data, tension: 0.2 }];
+  if (teamAvg !== null) {
+    datasets.push({ label: "Team avg (" + qaSecs(teamAvg) + ")", data: labels.map(function() { return teamAvg; }), borderColor: "rgba(82,42,16,0.5)", borderDash: [5, 5], pointRadius: 0, fill: false });
+  }
+
+  qaDestroyChart("scoreTrend");
+  qaCharts.scoreTrend = new Chart(document.getElementById("qaScorecardTrendChart"), {
+    type: "line",
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { title: { display: true, text: "Avg Talk (s)" }, beginAtZero: true } },
+      plugins: { legend: { position: "top" }, tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } } }
+    }
+  });
+}
+
 
 // ===== INIT =====
 function init() {
