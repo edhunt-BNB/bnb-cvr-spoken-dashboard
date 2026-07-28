@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """
-update_data.py  v2.3
+update_data.py  v2.4
 
 Reads telesales lead data from Airtable and produces data.json
 for a GitHub Pages dashboard.
+
+Changes from v2.3:
+- Added MIN_CALLS_PER_AGENT floor (default 20) applied across every talk-time
+  diagnostic output. A "qualifying agent" is one with at least MIN_CALLS_PER_AGENT
+  records that have Talk Time > 0 in the current 13-week window. Non-qualifying
+  names (misattributed calls, test entries, ex-agents with a single record) are
+  excluded from the heatmap, deviation table, suspicious calls, outcome bars,
+  attempts analysis, scorecard and team baselines. This prevents dialer
+  attribution noise from cluttering agent-level analysis.
 
 Changes from v2.2:
 - Extended penetration pass to also carry Talk Time, Result Code,
   Agent name, Lead Total Attempts, last_call_date so talk time
   diagnostics can be computed from the same fetch (no extra API pass).
-- New aggregate_talk_time() emits diagnostics for the Talk Time QA tab:
-    talk_time_by_agent_code
-    talk_time_by_agent_outcome
-    talk_time_by_attempts_outcome
-    outcome_by_attempt
-    talk_time_weekly_by_code
-    hangup_over_60s
-    skewed_combos
+- New aggregate_talk_time() emits diagnostics for the Talk Time QA tab.
 - No PII (customer name, phone) is written to data.json. Individual
   suspicious calls carry only the Airtable record_id for click-through
   to the authenticated Airtable base.
@@ -74,6 +76,7 @@ SKEW_MIN_CALLS = 5                 # minimum calls per (agent, code) to be eligi
 SKEW_MIN_TEAM_CALLS = 20           # minimum team calls for that code to compute a team baseline
 SKEW_MIN_TEAM_AVG = 5              # seconds; ignore team baselines below this to avoid tiny-number noise
 SUSPICIOUS_SAMPLE_CAP = 50         # cap sample records per flagged combo
+MIN_CALLS_PER_AGENT = 20           # agent-level floor: agents below this are excluded from all talk-time diagnostics
 
 
 def log(msg):
@@ -588,6 +591,32 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
     hangup_over_60s = []
     parsed_count = 0
 
+    # ---------------------------------------------------------------
+    # PASS 1: count records per agent to determine the qualifying set.
+    # Non-qualifying agents (below MIN_CALLS_PER_AGENT) are excluded
+    # from every talk-time output so dialer attribution noise (single
+    # calls attributed to non-agents / ex-agents / test users) does
+    # not clutter the analysis.
+    # ---------------------------------------------------------------
+    _pre_agent_count = defaultdict(int)
+    for record in raw_records:
+        fields = record.get("fields", {})
+        first_name = (fields.get("Agent First Name") or "").strip()
+        last_name = (fields.get("Agent Last Name") or "").strip()
+        if not first_name and not last_name:
+            continue
+        talk_raw = fields.get("Talk Time")
+        try:
+            talk = float(talk_raw) if talk_raw is not None else None
+        except (ValueError, TypeError):
+            talk = None
+        if talk is None or talk <= 0:
+            continue
+        _pre_agent_count[(first_name + " " + last_name).strip()] += 1
+
+    qualifying_agents = {a for a, n in _pre_agent_count.items() if n >= MIN_CALLS_PER_AGENT}
+    excluded_agent_names = sorted(a for a, n in _pre_agent_count.items() if n < MIN_CALLS_PER_AGENT)
+
     for record in raw_records:
         record_id = record.get("id") or ""
         fields = record.get("fields", {})
@@ -597,6 +626,8 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         if not first_name and not last_name:
             continue
         agent = (first_name + " " + last_name).strip()
+        if agent not in qualifying_agents:
+            continue
 
         # Talk Time is a duration in seconds (Airtable Duration field).
         # Skip records with no talk time so we don't skew averages toward 0.
@@ -804,6 +835,9 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "skew_min_calls": SKEW_MIN_CALLS,
             "skew_min_team_calls": SKEW_MIN_TEAM_CALLS,
             "sample_cap": SUSPICIOUS_SAMPLE_CAP,
+            "min_calls_per_agent": MIN_CALLS_PER_AGENT,
+            "qualifying_agents": len(qualifying_agents),
+            "excluded_agent_names": excluded_agent_names,
             "airtable_base_id": AIRTABLE_BASE_ID,
             "airtable_table_id": AIRTABLE_TABLE_ID,
         },
