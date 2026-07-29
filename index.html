@@ -572,6 +572,12 @@ tr:hover td { background: var(--bb-cream); }
 
     <div class="sub-panel" id="sub-suspicious">
       <div class="qa-metric-strip" id="qaSuspiciousMetricStrip"></div>
+      <p style="color:var(--bb-brown-light);font-size:12px;padding-bottom:10px;"><strong>Agent flags.</strong> Click a tile to filter both tables below to only that agent's flagged calls. Click "Clear filter" to reset.</p>
+      <div id="qaSuspTiles" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px;"></div>
+      <div id="qaSuspFilterBar" style="display:none;padding:10px 16px;background:rgba(255,225,128,0.4);border-radius:8px;margin-bottom:16px;font-size:13px;color:var(--bb-brown);align-items:center;">
+        <span id="qaSuspFilterLabel"></span>
+        <button onclick="clearSuspAgentFilter()" style="margin-left:12px;padding:3px 10px;border:1px solid rgba(82,42,16,0.2);background:#fff;border-radius:6px;font-size:11px;cursor:pointer;font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;color:var(--bb-berry);">Clear filter</button>
+      </div>
       <div class="view-toggle-bar">
         <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Sort by:</label>
         <div class="view-toggle" id="qaSuspSortToggle">
@@ -580,12 +586,12 @@ tr:hover td { background: var(--bb-cream); }
         </div>
       </div>
       <div class="data-table-wrapper">
-        <h3>HANGUP calls with talk time over 60 seconds</h3>
-        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Every call coded HANGUP but with more than a minute of talk time. Click the record link to open in Airtable.</p>
+        <h3>HANGUP or AGAM calls with talk time over 60 seconds</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Any call coded HANGUP or AGAM but with more than a minute of talk time. Masked phone shows the first 6 digits so you can cross-reference in the dialer log. Click "Open in Airtable" for the full record.</p>
         <div class="table-scroll">
           <table id="qaHangupTable">
             <thead><tr>
-              <th>Date</th><th>Agent</th><th>Talk Time</th><th>Outcome</th><th>Record</th>
+              <th>Date</th><th>Agent</th><th>Rule</th><th>Talk Time</th><th>Outcome</th><th>Phone (masked)</th><th>Record</th>
             </tr></thead>
             <tbody id="qaHangupBody"></tbody>
           </table>
@@ -593,11 +599,24 @@ tr:hover td { background: var(--bb-cream); }
       </div>
       <div class="data-table-wrapper">
         <h3>Skewed (Agent x Result Code) combos — 25%+ deviation from team, 5+ calls</h3>
-        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Combos flagged where the agent's average talk time is well above or below the team average for that code. Click Expand to see the underlying calls (up to 50).</p>
+        <div style="padding:0 24px 12px;">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Result Outcome:</label>
+            <div class="view-toggle" id="qaSkewOutcomeToggle" style="flex-wrap:wrap;">
+              <button class="active" data-outcome="__all__" onclick="setSkewOutcomeFilter('__all__')">All</button>
+              <button data-outcome="Sale" onclick="setSkewOutcomeFilter('Sale')">Sale</button>
+              <button data-outcome="Convertible" onclick="setSkewOutcomeFilter('Convertible')">Convertible</button>
+              <button data-outcome="Bad Data" onclick="setSkewOutcomeFilter('Bad Data')">Bad Data</button>
+              <button data-outcome="Not Spoken" onclick="setSkewOutcomeFilter('Not Spoken')">Not Spoken</button>
+              <button data-outcome="N/A" onclick="setSkewOutcomeFilter('N/A')">N/A</button>
+            </div>
+          </div>
+        </div>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Combos flagged where the agent's average talk time is well above or below the team average for that code. Click Expand to see up to 50 individual calls with date, masked phone, and Airtable click-through.</p>
         <div class="table-scroll">
           <table id="qaSkewTable">
             <thead><tr>
-              <th style="width:32px;"></th><th>Agent</th><th>Result Code</th><th>Calls</th><th>Agent Avg</th><th>Team Avg</th><th>Deviation</th>
+              <th style="width:32px;"></th><th>Agent</th><th>Result Code</th><th>Outcome</th><th>Calls</th><th>Agent Avg</th><th>Team Avg</th><th>Deviation</th>
             </tr></thead>
             <tbody id="qaSkewBody"></tbody>
           </table>
@@ -612,7 +631,13 @@ tr:hover td { background: var(--bb-cream); }
       </div>
       <div class="chart-container">
         <h3>Efficiency Scatter — Avg Talk Time vs Sale %</h3>
-        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Each dot is one agent. Bubble size = call volume. Dashed lines = team medians. Top-left quadrant = efficient closers. Bottom-right = talking a lot without closing.</p>
+        <div class="qa-info-banner" style="margin: 0 24px 12px;">
+          <strong>How to read this chart.</strong> Each dot is one agent. X = their average talk time (seconds). Y = their Sale conversion rate. Bubble size = total call volume. Dashed lines = team medians, dividing the chart into four quadrants:
+          <br><strong>Top-left</strong> (short talk, high sale %): efficient closers.
+          <br><strong>Top-right</strong> (long talk, high sale %): consultative closers.
+          <br><strong>Bottom-left</strong> (short talk, low sale %): may be dispositioning too fast without qualifying.
+          <br><strong>Bottom-right</strong> (long talk, low sale %): talking a lot without closing. This is the quadrant to worry about.
+        </div>
         <div class="chart-wrapper" style="height:480px;"><canvas id="qaEfficiencyScatter"></canvas></div>
       </div>
       <div class="chart-container">
@@ -623,6 +648,20 @@ tr:hover td { background: var(--bb-cream); }
         </div>
         <div class="chart-wrapper" style="height:400px;"><canvas id="qaOutcomeHistogram"></canvas></div>
       </div>
+      <div class="chart-container">
+        <h3>Conversion by Call Length</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">For each minute-long bucket (5-6 min, 6-7 min, ..., 15+ min), the Sale conversion rate of the selected agents. Team average shown as a dashed line for reference.</p>
+        <div class="agent-picker-container" style="margin:0 24px 16px;">
+          <h4>Select Agents to Chart</h4>
+          <div class="agent-checkboxes" id="qaConvAgentPicker"></div>
+          <div class="picker-actions">
+            <button onclick="qaConvSelectTop5()">Top 5 by volume</button>
+            <button onclick="qaConvSelectAll()">Select All</button>
+            <button onclick="qaConvSelectNone()">Clear All</button>
+          </div>
+        </div>
+        <div class="chart-wrapper" style="height:440px;"><canvas id="qaConvByLength"></canvas></div>
+      </div>
     </div>
 
     <div class="sub-panel" id="sub-attempts">
@@ -632,14 +671,25 @@ tr:hover td { background: var(--bb-cream); }
         <div class="chart-wrapper" style="height:380px;"><canvas id="qaOutcomeByAttempt"></canvas></div>
       </div>
       <div class="chart-container">
-        <h3>Avg talk time by attempt, per agent</h3>
+        <h3>Avg talk time by attempt, per agent (minutes)</h3>
         <div class="view-toggle-bar">
           <label style="font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:600;font-size:13px;color:var(--bb-brown);">Outcome:</label>
           <select class="agent-dropdown" id="qaAttemptOutcomeSelect" onchange="renderQaAttemptsChart()">
             <option value="Sale">Sale</option>
             <option value="Convertible">Convertible</option>
             <option value="Bad Data">Bad Data</option>
+            <option value="Not Spoken">Not Spoken</option>
+            <option value="N/A">N/A</option>
           </select>
+        </div>
+        <div class="agent-picker-container" style="margin:0 24px 16px;">
+          <h4>Select Agents to Chart</h4>
+          <div class="agent-checkboxes" id="qaAttemptsAgentPicker"></div>
+          <div class="picker-actions">
+            <button onclick="qaAttemptsSelectTop5()">Top 5 by volume</button>
+            <button onclick="qaAttemptsSelectAll()">Select All</button>
+            <button onclick="qaAttemptsSelectNone()">Clear All</button>
+          </div>
         </div>
         <div class="chart-wrapper" style="height:440px;"><canvas id="qaAttemptsChart"></canvas></div>
       </div>
@@ -678,7 +728,10 @@ tr:hover td { background: var(--bb-cream); }
 var REAL_DATA = null;
 
 function loadData() {
-  return fetch('./data.json')
+  // Cache-buster: forces the browser to fetch a fresh copy of data.json on
+  // every page load. Without this, browsers happily reuse a cached copy from
+  // the previous day, which hides pipeline updates until the user hard-refreshes.
+  return fetch('./data.json?v=' + Date.now())
     .then(function(response) {
       if (!response.ok) throw new Error("HTTP " + response.status);
       return response.json();
@@ -1930,6 +1983,13 @@ var qaSubTab = "team";
 var qaSuspiciousSort = "date";
 var qaSkewExpanded = {}; // idx -> true when expanded
 var qaCharts = {};
+var qaSuspAgentFilter = null;         // null = show all; otherwise filter to this agent's flagged calls
+var qaSkewOutcomeFilter = "__all__";   // filter chip: __all__, Sale, Convertible, Bad Data, Not Spoken, N/A
+var qaConvSelectedAgents = {};         // agent name -> true when selected in the conversion picker
+var qaConvPickerInitialised = false;
+var qaAttemptsSelectedAgents = {};     // agent name -> true when selected in the attempts picker
+var qaAttemptsPickerInitialised = false;
+var QA_OUTCOME_ORDER = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A", "Unknown"];
 
 // --- Helpers -------------------------------------------------
 
@@ -2027,13 +2087,18 @@ function renderQaTeamView() {
     '<div class="qa-metric-tile"><div class="label">Agents</div><div class="value">' + Object.keys(agentSet).length + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">Result Codes</div><div class="value">' + Object.keys(codeSet).length + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">HANGUP >60s</div><div class="value warn">' + ((d.hangup_over_60s || []).length) + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">AGAM >60s</div><div class="value warn">' + ((d.agam_over_60s || []).length) + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value warn">' + ((d.skewed_combos || []).length) + '</div></div>';
 
-  // Sort agents alphabetically, codes by team volume desc
+  // Sort agents alphabetically. Sort codes by outcome group (Sale, Convertible,
+  // Bad Data, Not Spoken, N/A, Unknown), then by team volume desc within group.
   var agents = Object.keys(agentSet).sort();
   var baselineByCode = {};
   baseline.forEach(function(b) { baselineByCode[b.code] = b; });
   var codes = Object.keys(codeSet).sort(function(a, b) {
+    var oa = QA_OUTCOME_ORDER.indexOf(qaOutcomeForCode(a));
+    var ob = QA_OUTCOME_ORDER.indexOf(qaOutcomeForCode(b));
+    if (oa !== ob) return oa - ob;
     var ca = (baselineByCode[a] && baselineByCode[a].count) || 0;
     var cb = (baselineByCode[b] && baselineByCode[b].count) || 0;
     return cb - ca;
@@ -2129,79 +2194,147 @@ function toggleSkewDrilldown(idx) {
   renderQaSuspicious();
 }
 
+function setSuspAgentFilter(agent) {
+  qaSuspAgentFilter = (qaSuspAgentFilter === agent) ? null : agent;  // click-again toggles off
+  qaSkewExpanded = {};
+  renderQaSuspicious();
+}
+function clearSuspAgentFilter() {
+  qaSuspAgentFilter = null;
+  qaSkewExpanded = {};
+  renderQaSuspicious();
+}
+function setSkewOutcomeFilter(outcome) {
+  qaSkewOutcomeFilter = outcome;
+  var btns = document.querySelectorAll("#qaSkewOutcomeToggle button");
+  for (var i = 0; i < btns.length; i++) btns[i].classList.toggle("active", btns[i].getAttribute("data-outcome") === outcome);
+  qaSkewExpanded = {};
+  renderQaSuspicious();
+}
+
+function qaPhonePill(masked) {
+  if (!masked) return '<span style="color:var(--bb-brown-light);font-style:italic;">no number</span>';
+  return '<span style="font-family:monospace;font-size:12px;letter-spacing:0.5px;background:var(--bb-cream);padding:3px 8px;border-radius:6px;border:1px solid rgba(82,42,16,0.08);">' + masked + '</span>';
+}
+
 function renderQaSuspicious() {
   var d = qaData();
-  var hangups = (d.hangup_over_60s || []).slice();
-  var combos = (d.skewed_combos || []).slice();
+  var allHangups = (d.hangup_over_60s || []).slice();
+  var allAgams = (d.agam_over_60s || []).slice();
+  var allCombos = (d.skewed_combos || []).slice();
+  var tileRows = (d.suspicious_tile_counts || []).slice();
 
   // Metric strip
   var strip = document.getElementById("qaSuspiciousMetricStrip");
-  var highSkew = combos.filter(function(c) { return c.direction === "high"; }).length;
-  var lowSkew = combos.filter(function(c) { return c.direction === "low"; }).length;
+  var highSkew = allCombos.filter(function(c) { return c.direction === "high"; }).length;
+  var lowSkew = allCombos.filter(function(c) { return c.direction === "low"; }).length;
   strip.innerHTML =
-    '<div class="qa-metric-tile"><div class="label">HANGUP >60s</div><div class="value warn">' + hangups.length + '</div></div>' +
-    '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value warn">' + combos.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">HANGUP >60s</div><div class="value warn">' + allHangups.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">AGAM >60s</div><div class="value warn">' + allAgams.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value warn">' + allCombos.length + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">Talking Too Long</div><div class="value">' + highSkew + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">Talking Too Short</div><div class="value">' + lowSkew + '</div></div>';
 
-  // Sort hangups
-  if (qaSuspiciousSort === "agent") {
-    hangups.sort(function(a, b) { return (a.agent || "").localeCompare(b.agent || "") || (b.date || "").localeCompare(a.date || ""); });
+  // Agent tiles — clickable filter
+  var tilesHtml = "";
+  if (!tileRows.length) {
+    tilesHtml = '<div style="color:var(--bb-brown-light);font-size:12px;font-style:italic;">No agents have flagged calls.</div>';
   } else {
-    hangups.sort(function(a, b) { return (b.date || "").localeCompare(a.date || "") || (a.agent || "").localeCompare(b.agent || ""); });
+    tileRows.forEach(function(t) {
+      var active = qaSuspAgentFilter === t.agent;
+      var borderColor = active ? "var(--bb-berry)" : "rgba(82,42,16,0.08)";
+      var bgColor = active ? "rgba(164,50,96,0.06)" : "#fff";
+      tilesHtml += '<button onclick="setSuspAgentFilter(' + JSON.stringify(t.agent).replace(/"/g, '&quot;') + ')" style="text-align:left;background:' + bgColor + ';padding:12px 14px;border:2px solid ' + borderColor + ';border-radius:10px;cursor:pointer;box-shadow:0 1px 3px rgba(82,42,16,0.06);font-family:inherit;">'
+        + '<div style="font-weight:700;color:var(--bb-brown);font-size:13px;margin-bottom:6px;">' + t.agent + '</div>'
+        + '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px;">'
+        + (t.hangup > 0 ? '<span class="qa-flag-badge hangup">' + t.hangup + ' HANGUP</span>' : '')
+        + (t.agam > 0 ? '<span class="qa-flag-badge hangup">' + t.agam + ' AGAM</span>' : '')
+        + (t.skew > 0 ? '<span class="qa-flag-badge skew-high">' + t.skew + ' skew</span>' : '')
+        + '</div></button>';
+    });
   }
-  var hbody = "";
-  if (hangups.length === 0) {
-    hbody = '<tr><td colspan="5" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No HANGUP calls exceed the 60s threshold — clean.</td></tr>';
+  document.getElementById("qaSuspTiles").innerHTML = tilesHtml;
+
+  // Filter bar
+  var fbar = document.getElementById("qaSuspFilterBar");
+  var flabel = document.getElementById("qaSuspFilterLabel");
+  if (qaSuspAgentFilter) {
+    fbar.style.display = "flex";
+    flabel.innerHTML = 'Showing flagged calls for <strong>' + qaSuspAgentFilter + '</strong> only.';
   } else {
-    hangups.forEach(function(r) {
-      hbody += '<tr>' +
-        '<td>' + (r.date || "—") + '</td>' +
-        '<td><strong>' + r.agent + '</strong></td>' +
-        '<td>' + qaSecs(r.talk) + ' <span class="qa-flag-badge hangup">HANGUP</span></td>' +
-        '<td>' + r.outcome + '</td>' +
-        '<td><a class="qa-link" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener">Open in Airtable →</a></td>' +
-        '</tr>';
+    fbar.style.display = "none";
+  }
+
+  // Apply agent filter for hangup+agam table
+  var flagRows = allHangups.map(function(r) { return Object.assign({}, r, {rule: "HANGUP"}); })
+    .concat(allAgams.map(function(r) { return Object.assign({}, r, {rule: "AGAM"}); }));
+  if (qaSuspAgentFilter) flagRows = flagRows.filter(function(r) { return r.agent === qaSuspAgentFilter; });
+
+  if (qaSuspiciousSort === "agent") {
+    flagRows.sort(function(a, b) { return (a.agent || "").localeCompare(b.agent || "") || (b.date || "").localeCompare(a.date || ""); });
+  } else {
+    flagRows.sort(function(a, b) { return (b.date || "").localeCompare(a.date || "") || (a.agent || "").localeCompare(b.agent || ""); });
+  }
+
+  var hbody = "";
+  if (flagRows.length === 0) {
+    hbody = '<tr><td colspan="7" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No HANGUP or AGAM calls exceed the 60s threshold' + (qaSuspAgentFilter ? ' for ' + qaSuspAgentFilter : '') + '.</td></tr>';
+  } else {
+    flagRows.forEach(function(r) {
+      hbody += '<tr>'
+        + '<td>' + (r.date || "—") + '</td>'
+        + '<td><strong>' + r.agent + '</strong></td>'
+        + '<td><span class="qa-flag-badge hangup">' + r.rule + '</span></td>'
+        + '<td>' + qaSecs(r.talk) + '</td>'
+        + '<td>' + r.outcome + '</td>'
+        + '<td>' + qaPhonePill(r.phone_masked) + '</td>'
+        + '<td><a class="qa-link" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener">Open in Airtable →</a></td>'
+        + '</tr>';
     });
   }
   document.getElementById("qaHangupBody").innerHTML = hbody;
 
-  // Sort skew combos
+  // Apply agent + outcome filter for skew combos table
+  var combos = allCombos.slice();
+  if (qaSuspAgentFilter) combos = combos.filter(function(c) { return c.agent === qaSuspAgentFilter; });
+  if (qaSkewOutcomeFilter !== "__all__") combos = combos.filter(function(c) { return qaOutcomeForCode(c.code) === qaSkewOutcomeFilter; });
+
   if (qaSuspiciousSort === "agent") {
     combos.sort(function(a, b) { return (a.agent || "").localeCompare(b.agent || "") || (b.deviation_pct || 0) - (a.deviation_pct || 0); });
   } else {
-    // "date" -> most extreme deviation first (proxy for "most recent to look at")
     combos.sort(function(a, b) { return Math.abs(b.deviation_pct || 0) - Math.abs(a.deviation_pct || 0); });
   }
 
   var sbody = "";
   if (combos.length === 0) {
-    sbody = '<tr><td colspan="7" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No (Agent x Code) combos exceed the 25% deviation threshold — clean.</td></tr>';
+    sbody = '<tr><td colspan="8" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No (Agent x Code) combos match the current filters.</td></tr>';
   } else {
     combos.forEach(function(c, idx) {
       var expanded = !!qaSkewExpanded[idx];
       var arrow = expanded ? "−" : "+";
       var badge = c.direction === "high" ? '<span class="qa-flag-badge skew-high">Too Long</span>' : '<span class="qa-flag-badge skew-low">Too Short</span>';
       var sign = c.deviation_pct > 0 ? "+" : "";
-      sbody += '<tr>' +
-        '<td><button class="qa-expand-btn" onclick="toggleSkewDrilldown(' + idx + ')">' + arrow + '</button></td>' +
-        '<td><strong>' + c.agent + '</strong></td>' +
-        '<td>' + c.code + ' ' + badge + '</td>' +
-        '<td>' + c.count + '</td>' +
-        '<td>' + qaSecs(c.agent_avg) + '</td>' +
-        '<td>' + qaSecs(c.team_avg) + '</td>' +
-        '<td><strong style="color:' + (c.direction === "high" ? "var(--bb-coral)" : "var(--bb-navy)") + ';">' + sign + c.deviation_pct.toFixed(1) + '%</strong></td>' +
-        '</tr>';
+      sbody += '<tr>'
+        + '<td><button class="qa-expand-btn" onclick="toggleSkewDrilldown(' + idx + ')">' + arrow + '</button></td>'
+        + '<td><strong>' + c.agent + '</strong></td>'
+        + '<td>' + c.code + ' ' + badge + '</td>'
+        + '<td>' + qaOutcomeForCode(c.code) + '</td>'
+        + '<td>' + c.count + '</td>'
+        + '<td>' + qaSecs(c.agent_avg) + '</td>'
+        + '<td>' + qaSecs(c.team_avg) + '</td>'
+        + '<td><strong style="color:' + (c.direction === "high" ? "var(--bb-coral)" : "var(--bb-navy)") + ';">' + sign + c.deviation_pct.toFixed(1) + '%</strong></td>'
+        + '</tr>';
       if (expanded) {
         var grid = "";
         (c.sample_records || []).forEach(function(r) {
-          grid += '<a class="qa-drilldown-item" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">' +
-                  '<span>' + (r.date || "—") + '</span>' +
-                  '<span class="talk">' + qaSecs(r.talk) + '</span>' +
-                  '</a>';
+          grid += '<a class="qa-drilldown-item" href="' + qaAirtableUrl(r.record_id) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">'
+            + '<span style="display:flex;flex-direction:column;gap:2px;"><span>' + (r.date || "—") + '</span>'
+            + '<span style="font-family:monospace;font-size:10px;color:var(--bb-brown-light);">' + (r.phone_masked || "") + '</span></span>'
+            + '<span class="talk">' + qaSecs(r.talk) + '</span>'
+            + '</a>';
         });
         var note = c.sample_capped ? '<div style="font-size:11px;color:var(--bb-brown-light);margin-bottom:8px;">Showing 50 of ' + c.count + ' calls (sorted by most recent).</div>' : '<div style="font-size:11px;color:var(--bb-brown-light);margin-bottom:8px;">All ' + c.count + ' calls.</div>';
-        sbody += '<tr class="qa-drilldown-row"><td colspan="7">' + note + '<div class="qa-drilldown-grid">' + grid + '</div></td></tr>';
+        sbody += '<tr class="qa-drilldown-row"><td colspan="8">' + note + '<div class="qa-drilldown-grid">' + grid + '</div></td></tr>';
       }
     });
   }
@@ -2256,8 +2389,19 @@ function renderQaOutcomeAnalysis() {
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: { y: { title: { display: true, text: "Avg Talk (s)" }, beginAtZero: true }, x: { ticks: { maxRotation: 60, minRotation: 45, autoSkip: false } } },
-      plugins: { legend: { position: "top" }, tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } } }
-    }
+      plugins: {
+        legend: { position: "top" },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } },
+        datalabels: {
+          anchor: "end", align: "top", offset: 2, clamp: true,
+          font: { size: 9, family: "'IBM Plex Sans Condensed', sans-serif", weight: "600" },
+          color: "#522A10",
+          formatter: function(v) { if (v === null || v === undefined) return ""; return qaSecs(v); },
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] !== null; }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
   });
 
   // ---- Efficiency scatter ----
@@ -2330,6 +2474,140 @@ function renderQaOutcomeAnalysis() {
   });
 
   renderQaOutcomeHistogram();
+  renderQaConversionByLength();
+}
+
+// ---- Agent picker helpers (shared by attempts + conversion charts) ----
+function qaRenderAgentPicker(containerId, agents, selectedMap, onToggleFnName) {
+  var html = "";
+  agents.forEach(function(a) {
+    var checked = selectedMap[a] ? "checked" : "";
+    var cls = selectedMap[a] ? "agent-checkbox-label checked" : "agent-checkbox-label";
+    var escaped = a.replace(/"/g, "&quot;");
+    html += '<label class="' + cls + '" data-agent="' + escaped + '"><input type="checkbox" ' + checked + ' onchange="' + onToggleFnName + '(&quot;' + escaped + '&quot;)"> ' + a + '</label>';
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+function qaRepaintAgentPicker(containerId, selectedMap) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var labels = container.querySelectorAll(".agent-checkbox-label");
+  labels.forEach(function(lbl) {
+    var agent = lbl.getAttribute("data-agent");
+    var isChecked = !!selectedMap[agent];
+    var input = lbl.querySelector("input");
+    if (input) input.checked = isChecked;
+    lbl.classList.toggle("checked", isChecked);
+  });
+}
+
+// ---- Conversion by Call Length chart ----
+function qaConvToggle(name) {
+  if (qaConvSelectedAgents[name]) delete qaConvSelectedAgents[name];
+  else qaConvSelectedAgents[name] = true;
+  qaRepaintAgentPicker("qaConvAgentPicker", qaConvSelectedAgents);
+  renderQaConversionByLength();
+}
+function qaConvSelectAll() {
+  var d = qaData(); var rows = d.conversion_by_talk_length || [];
+  rows.forEach(function(r) { qaConvSelectedAgents[r.agent] = true; });
+  qaRepaintAgentPicker("qaConvAgentPicker", qaConvSelectedAgents);
+  renderQaConversionByLength();
+}
+function qaConvSelectNone() {
+  qaConvSelectedAgents = {};
+  qaRepaintAgentPicker("qaConvAgentPicker", qaConvSelectedAgents);
+  renderQaConversionByLength();
+}
+function qaConvSelectTop5() {
+  var d = qaData(); var rows = d.conversion_by_talk_length || [];
+  var totals = {};
+  rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.total; });
+  qaConvSelectedAgents = {};
+  Object.keys(totals).sort(function(a, b) { return totals[b] - totals[a]; }).slice(0, 5).forEach(function(a) { qaConvSelectedAgents[a] = true; });
+  qaRepaintAgentPicker("qaConvAgentPicker", qaConvSelectedAgents);
+  renderQaConversionByLength();
+}
+function renderQaConversionByLength() {
+  var d = qaData();
+  var rows = d.conversion_by_talk_length || [];
+  var teamRows = d.conversion_by_talk_length_team || [];
+  var buckets = ["5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15+"];
+
+  // Initialise picker on first render for this data
+  if (!qaConvPickerInitialised) {
+    var aset = {};
+    rows.forEach(function(r) { aset[r.agent] = true; });
+    var agents = Object.keys(aset).sort();
+    var totals = {};
+    rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.total; });
+    agents.slice().sort(function(a, b) { return (totals[b] || 0) - (totals[a] || 0); }).slice(0, 5).forEach(function(a) { qaConvSelectedAgents[a] = true; });
+    qaRenderAgentPicker("qaConvAgentPicker", agents, qaConvSelectedAgents, "qaConvToggle");
+    qaConvPickerInitialised = true;
+  }
+
+  var lookup = {};
+  rows.forEach(function(r) { lookup[r.agent + "|" + r.minute] = r; });
+  var teamLookup = {};
+  teamRows.forEach(function(r) { teamLookup[r.minute] = r; });
+
+  var picked = Object.keys(qaConvSelectedAgents).filter(function(a) { return qaConvSelectedAgents[a]; }).sort();
+
+  var datasets = picked.map(function(a, i) {
+    return {
+      label: a,
+      borderColor: QA_PALETTE[i % QA_PALETTE.length],
+      backgroundColor: QA_PALETTE[i % QA_PALETTE.length],
+      data: buckets.map(function(b) { var r = lookup[a + "|" + b]; return r && r.total > 0 ? r.sale_pct : null; }),
+      spanGaps: true,
+      tension: 0.2,
+      pointRadius: 4
+    };
+  });
+  // Team average line
+  datasets.push({
+    label: "Team average",
+    borderColor: "rgba(82,42,16,0.55)",
+    backgroundColor: "rgba(82,42,16,0.05)",
+    borderDash: [6, 4],
+    data: buckets.map(function(b) { var r = teamLookup[b]; return r && r.total > 0 ? r.sale_pct : null; }),
+    pointRadius: 3,
+    spanGaps: true
+  });
+
+  qaDestroyChart("convByLength");
+  qaCharts.convByLength = new Chart(document.getElementById("qaConvByLength"), {
+    type: "line",
+    data: { labels: buckets.map(function(b) { return b + (b === "15+" ? " min" : "-" + (parseInt(b, 10) + 1) + " min"); }), datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { title: { display: true, text: "Sale conversion %" }, beginAtZero: true, ticks: { callback: function(v) { return v + "%"; } } },
+        x: { title: { display: true, text: "Call length" } }
+      },
+      plugins: {
+        legend: { position: "right" },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var v = ctx.parsed.y;
+              var label = ctx.dataset.label;
+              if (v === null || v === undefined) return label + ": no data";
+              // Look up N for this agent+bucket
+              var bucket = buckets[ctx.dataIndex];
+              if (label === "Team average") {
+                var t = teamLookup[bucket];
+                return label + ": " + v.toFixed(1) + "% (" + (t ? t.sales + "/" + t.total : "?") + ")";
+              } else {
+                var r = lookup[label + "|" + bucket];
+                return label + ": " + v.toFixed(1) + "% (" + (r ? r.sales + "/" + r.total : "?") + ")";
+              }
+            }
+          }
+        }
+      }
+    }
+  });
 }
 
 function renderQaOutcomeHistogram() {
@@ -2338,11 +2616,11 @@ function renderQaOutcomeHistogram() {
   var sel = document.getElementById("qaHistAgentSelect");
   var picked = sel ? sel.value : "__team__";
   var outcomes = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A"];
-  var bins = ["bin_0_30", "bin_30_60", "bin_60_120", "bin_120_300", "bin_300_plus"];
-  var binLabels = ["0-30s", "30-60s", "1-2m", "2-5m", "5m+"];
+  var bins = ["bin_0_1m", "bin_1_3m", "bin_3_5m", "bin_5_10m", "bin_10m_plus"];
+  var binLabels = ["0-1m", "1-3m", "3-5m", "5-10m", "10m+"];
 
   // Aggregate
-  var agg = {}; outcomes.forEach(function(o) { agg[o] = { bin_0_30: 0, bin_30_60: 0, bin_60_120: 0, bin_120_300: 0, bin_300_plus: 0 }; });
+  var agg = {}; outcomes.forEach(function(o) { agg[o] = { bin_0_1m: 0, bin_1_3m: 0, bin_3_5m: 0, bin_5_10m: 0, bin_10m_plus: 0 }; });
   rows.forEach(function(r) {
     if (picked !== "__team__" && r.agent !== picked) return;
     if (!agg[r.outcome]) return;
@@ -2369,24 +2647,24 @@ function renderQaOutcomeHistogram() {
 
 // --- Sub-tab 4: Attempts Analysis ----------------------------
 
+var QA_ATTEMPTS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"];
+var QA_PALETTE = ["#A43260", "#10507C", "#ED6961", "#2E7D32", "#F1AEAF", "#80254A", "#9BC3FE", "#522A10", "#FFD54D", "#B0B0B0", "#663399", "#FF7F50", "#4682B4", "#20B2AA", "#DAA520", "#8B4513", "#6A5ACD", "#008B8B"];
+
 function renderQaAttempts() {
   var d = qaData();
   var teamRows = d.outcome_by_attempt || [];
-  var agentRows = d.talk_time_by_attempts_outcome || [];
-
-  var attempts = ["1", "2", "3", "4", "5+"];
   var outcomes = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A"];
 
-  // ---- Team outcome by attempt (stacked bar) ----
+  // ---- Team outcome by attempt (stacked bar, extended to 10+) ----
   var teamLookup = {};
   teamRows.forEach(function(r) { teamLookup[r.attempts_bin + "|" + r.outcome] = r.count; });
   var teamDatasets = outcomes.map(function(o) {
-    return { label: o, backgroundColor: QA_OUTCOME_COLORS[o], data: attempts.map(function(a) { return teamLookup[a + "|" + o] || 0; }) };
+    return { label: o, backgroundColor: QA_OUTCOME_COLORS[o], data: QA_ATTEMPTS.map(function(a) { return teamLookup[a + "|" + o] || 0; }) };
   });
   qaDestroyChart("obyAttempt");
   qaCharts.obyAttempt = new Chart(document.getElementById("qaOutcomeByAttempt"), {
     type: "bar",
-    data: { labels: attempts.map(function(a) { return "Attempt " + a; }), datasets: teamDatasets },
+    data: { labels: QA_ATTEMPTS.map(function(a) { return "Attempt " + a; }), datasets: teamDatasets },
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, title: { display: true, text: "Call Count" } } },
@@ -2394,6 +2672,49 @@ function renderQaAttempts() {
     }
   });
 
+  // Ensure agent checkbox picker is populated
+  if (!qaAttemptsPickerInitialised) {
+    var rows = d.talk_time_by_attempts_outcome || [];
+    var aset = {};
+    rows.forEach(function(r) { aset[r.agent] = true; });
+    var agents = Object.keys(aset).sort();
+    // Default: top 5 agents by total call volume across all outcomes
+    var totals = {};
+    rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.count; });
+    var top = agents.slice().sort(function(a, b) { return (totals[b] || 0) - (totals[a] || 0); }).slice(0, 5);
+    top.forEach(function(a) { qaAttemptsSelectedAgents[a] = true; });
+    qaRenderAgentPicker("qaAttemptsAgentPicker", agents, qaAttemptsSelectedAgents, "qaAttemptsToggle");
+    qaAttemptsPickerInitialised = true;
+  }
+
+  renderQaAttemptsChart();
+}
+
+function qaAttemptsToggle(name) {
+  if (qaAttemptsSelectedAgents[name]) delete qaAttemptsSelectedAgents[name];
+  else qaAttemptsSelectedAgents[name] = true;
+  qaRepaintAgentPicker("qaAttemptsAgentPicker", qaAttemptsSelectedAgents);
+  renderQaAttemptsChart();
+}
+function qaAttemptsSelectAll() {
+  var d = qaData(); var rows = d.talk_time_by_attempts_outcome || [];
+  rows.forEach(function(r) { qaAttemptsSelectedAgents[r.agent] = true; });
+  qaRepaintAgentPicker("qaAttemptsAgentPicker", qaAttemptsSelectedAgents);
+  renderQaAttemptsChart();
+}
+function qaAttemptsSelectNone() {
+  qaAttemptsSelectedAgents = {};
+  qaRepaintAgentPicker("qaAttemptsAgentPicker", qaAttemptsSelectedAgents);
+  renderQaAttemptsChart();
+}
+function qaAttemptsSelectTop5() {
+  var d = qaData();
+  var rows = d.talk_time_by_attempts_outcome || [];
+  var totals = {};
+  rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.count; });
+  qaAttemptsSelectedAgents = {};
+  Object.keys(totals).sort(function(a, b) { return totals[b] - totals[a]; }).slice(0, 5).forEach(function(a) { qaAttemptsSelectedAgents[a] = true; });
+  qaRepaintAgentPicker("qaAttemptsAgentPicker", qaAttemptsSelectedAgents);
   renderQaAttemptsChart();
 }
 
@@ -2402,44 +2723,34 @@ function renderQaAttemptsChart() {
   var rows = d.talk_time_by_attempts_outcome || [];
   var sel = document.getElementById("qaAttemptOutcomeSelect");
   var outcome = sel ? sel.value : "Sale";
-  var attempts = ["1", "2", "3", "4", "5+"];
-
-  var agentsSet = {};
-  rows.forEach(function(r) { if (r.outcome === outcome) agentsSet[r.agent] = true; });
-  var agents = Object.keys(agentsSet).sort();
 
   var lookup = {};
   rows.forEach(function(r) { lookup[r.agent + "|" + r.attempts_bin + "|" + r.outcome] = r; });
 
-  // One line per agent (up to top 15 by total volume for readability)
-  var totals = agents.map(function(a) {
-    var t = 0; attempts.forEach(function(att) { var r = lookup[a + "|" + att + "|" + outcome]; if (r) t += r.count; });
-    return { agent: a, total: t };
-  });
-  totals.sort(function(a, b) { return b.total - a.total; });
-  var top = totals.slice(0, 15);
+  var agents = Object.keys(qaAttemptsSelectedAgents).filter(function(a) { return qaAttemptsSelectedAgents[a]; }).sort();
 
-  var palette = ["#A43260", "#10507C", "#ED6961", "#2E7D32", "#F1AEAF", "#80254A", "#9BC3FE", "#522A10", "#FFD54D", "#B0B0B0", "#663399", "#FF7F50", "#4682B4", "#20B2AA", "#DAA520"];
-  var datasets = top.map(function(t, i) {
+  var datasets = agents.map(function(a, i) {
+    // Convert seconds to minutes on the y-axis
     return {
-      label: t.agent + " (" + t.total + ")",
-      borderColor: palette[i % palette.length],
-      backgroundColor: palette[i % palette.length],
-      data: attempts.map(function(att) { var r = lookup[t.agent + "|" + att + "|" + outcome]; return r && r.count > 0 ? r.avg_talk : null; }),
+      label: a,
+      borderColor: QA_PALETTE[i % QA_PALETTE.length],
+      backgroundColor: QA_PALETTE[i % QA_PALETTE.length],
+      data: QA_ATTEMPTS.map(function(att) { var r = lookup[a + "|" + att + "|" + outcome]; return r && r.count > 0 ? r.avg_talk / 60 : null; }),
       spanGaps: true,
       tension: 0.2
     };
   });
+
   qaDestroyChart("attemptsChart");
   qaCharts.attemptsChart = new Chart(document.getElementById("qaAttemptsChart"), {
     type: "line",
-    data: { labels: attempts.map(function(a) { return "Attempt " + a; }), datasets: datasets },
+    data: { labels: QA_ATTEMPTS.map(function(a) { return "Attempt " + a; }), datasets: datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
-      scales: { y: { title: { display: true, text: "Avg Talk (s) for " + outcome }, beginAtZero: true } },
+      scales: { y: { title: { display: true, text: "Avg Talk (min) for " + outcome }, beginAtZero: true } },
       plugins: {
         legend: { position: "right" },
-        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } }
+        tooltip: { callbacks: { label: function(ctx) { var s = ctx.parsed.y * 60; return ctx.dataset.label + ": " + qaSecs(s); } } }
       }
     }
   });
@@ -2467,11 +2778,10 @@ function renderQaScorecard() {
   baseline.forEach(function(b) { baseByCode[b.code] = b; });
 
   var myRows = byCode.filter(function(r) { return r.agent === agent; });
-  myRows.sort(function(a, b) { return b.count - a.count; });
 
   // Metric strip
-  var totalCalls = 0, totalTalk = 0, longestCode = "—", longestAvg = 0, longestCount = 0;
-  myRows.forEach(function(r) { totalCalls += r.count; totalTalk += r.avg_talk * r.count; if (r.avg_talk > longestAvg) { longestAvg = r.avg_talk; longestCode = r.code; longestCount = r.count; } });
+  var totalCalls = 0, totalTalk = 0, longestCode = "—", longestAvg = 0;
+  myRows.forEach(function(r) { totalCalls += r.count; totalTalk += r.avg_talk * r.count; if (r.avg_talk > longestAvg) { longestAvg = r.avg_talk; longestCode = r.code; } });
   var strip = document.getElementById("qaScorecardMetricStrip");
   var skewed = (d.skewed_combos || []).filter(function(c) { return c.agent === agent; }).length;
   strip.innerHTML =
@@ -2480,29 +2790,49 @@ function renderQaScorecard() {
     '<div class="qa-metric-tile"><div class="label">Longest Avg Code</div><div class="value">' + longestCode + '</div></div>' +
     '<div class="qa-metric-tile"><div class="label">Skewed Combos</div><div class="value ' + (skewed > 0 ? "warn" : "") + '">' + skewed + '</div></div>';
 
-  // Table
-  var body = "";
+  // Group rows by Outcome, ordered Sale > Convertible > Bad Data > Not Spoken > N/A > Unknown
+  var byOutcome = {};
+  QA_OUTCOME_ORDER.forEach(function(o) { byOutcome[o] = []; });
   myRows.forEach(function(r) {
-    var team = baseByCode[r.code];
-    var teamAvg = (team && team.count >= 20) ? team.avg_talk : null;
-    var dev = teamAvg !== null ? ((r.avg_talk - teamAvg) / teamAvg) * 100 : null;
-    var devStr = dev !== null ? ((dev > 0 ? "+" : "") + dev.toFixed(1) + "%") : "—";
-    var devColor = dev === null ? "var(--bb-brown-light)" : (Math.abs(dev) >= 25 ? (dev > 0 ? "var(--bb-coral)" : "var(--bb-navy)") : "var(--bb-brown)");
-    var flag = '<span class="qa-flag-badge clean">clean</span>';
-    if (r.count >= 5 && teamAvg !== null && Math.abs(dev) >= 25) {
-      flag = dev > 0 ? '<span class="qa-flag-badge skew-high">Too Long</span>' : '<span class="qa-flag-badge skew-low">Too Short</span>';
-    }
-    // Outcome lookup from Airtable formula (mirror it in JS)
-    var outcome = qaOutcomeForCode(r.code);
-    body += '<tr>' +
-      '<td><strong>' + r.code + '</strong></td>' +
-      '<td>' + outcome + '</td>' +
-      '<td>' + r.count + '</td>' +
-      '<td>' + qaSecs(r.avg_talk) + '</td>' +
-      '<td>' + (teamAvg !== null ? qaSecs(teamAvg) : "—") + '</td>' +
-      '<td style="color:' + devColor + ';"><strong>' + devStr + '</strong></td>' +
-      '<td>' + flag + '</td>' +
-      '</tr>';
+    var o = qaOutcomeForCode(r.code);
+    if (!byOutcome[o]) byOutcome[o] = [];
+    byOutcome[o].push(r);
+  });
+
+  var outcomeColorMap = {
+    "Sale": "#2E7D32", "Convertible": "#A43260", "Bad Data": "#ED6961",
+    "Not Spoken": "#9BC3FE", "N/A": "#B0B0B0", "Unknown": "#E0E0E0"
+  };
+
+  var body = "";
+  QA_OUTCOME_ORDER.forEach(function(o) {
+    var group = byOutcome[o];
+    if (!group || !group.length) return;
+    group.sort(function(a, b) { return b.count - a.count; });
+    body += '<tr style="background:' + outcomeColorMap[o] + '20;">'
+      + '<td colspan="7" style="padding:10px 16px;font-family:\'IBM Plex Sans Condensed\',sans-serif;font-weight:700;color:' + outcomeColorMap[o] + ';text-transform:uppercase;letter-spacing:0.5px;font-size:11px;">'
+      + o + ' — ' + group.length + ' codes, ' + group.reduce(function(s, r) { return s + r.count; }, 0) + ' calls'
+      + '</td></tr>';
+    group.forEach(function(r) {
+      var team = baseByCode[r.code];
+      var teamAvg = (team && team.count >= 20) ? team.avg_talk : null;
+      var dev = teamAvg !== null ? ((r.avg_talk - teamAvg) / teamAvg) * 100 : null;
+      var devStr = dev !== null ? ((dev > 0 ? "+" : "") + dev.toFixed(1) + "%") : "—";
+      var devColor = dev === null ? "var(--bb-brown-light)" : (Math.abs(dev) >= 25 ? (dev > 0 ? "var(--bb-coral)" : "var(--bb-navy)") : "var(--bb-brown)");
+      var flag = '<span class="qa-flag-badge clean">clean</span>';
+      if (r.count >= 5 && teamAvg !== null && Math.abs(dev) >= 25) {
+        flag = dev > 0 ? '<span class="qa-flag-badge skew-high">Too Long</span>' : '<span class="qa-flag-badge skew-low">Too Short</span>';
+      }
+      body += '<tr>'
+        + '<td><strong>' + r.code + '</strong></td>'
+        + '<td>' + o + '</td>'
+        + '<td>' + r.count + '</td>'
+        + '<td>' + qaSecs(r.avg_talk) + '</td>'
+        + '<td>' + (teamAvg !== null ? qaSecs(teamAvg) : "—") + '</td>'
+        + '<td style="color:' + devColor + ';"><strong>' + devStr + '</strong></td>'
+        + '<td>' + flag + '</td>'
+        + '</tr>';
+    });
   });
   if (!body) body = '<tr><td colspan="7" style="text-align:center;color:var(--bb-brown-light);padding:24px;">No calls with talk time for this agent.</td></tr>';
   document.getElementById("qaScorecardBody").innerHTML = body;

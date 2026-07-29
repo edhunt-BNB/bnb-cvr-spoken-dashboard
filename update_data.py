@@ -1,27 +1,33 @@
 #!/usr/bin/env python3
 """
-update_data.py  v2.4
+update_data.py  v2.5
 
 Reads telesales lead data from Airtable and produces data.json
 for a GitHub Pages dashboard.
 
+Changes from v2.4:
+- New talk-time bins for the Outcome Analysis histogram:
+    0-1m, 1-3m, 3-5m, 5-10m, 10m+ (was 0-30s / 30-60s / 1-2m / 2-5m / 5m+)
+- Attempts analysis extended: bins now 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10+
+- New AGAM > 60s rule added to Suspicious Calls (same shape as HANGUP > 60s)
+- New conversion_by_talk_length section: per (agent, minute_bucket) for buckets
+  5..14 and 15+, tracks total calls and Sale outcomes. Feeds a new chart
+  showing conversion rate by call duration.
+- Suspicious call drilldowns now include a MASKED phone snippet
+  (first 6 digits, remainder masked with *) plus the call date. Full phone
+  still requires the Airtable record click-through. Compromise between PII
+  safety and Ed's need to cross-reference calls in the dialer log.
+- Suspicious agent tiles: aggregate flag counts per (agent, rule) for the UI.
+
 Changes from v2.3:
 - Added MIN_CALLS_PER_AGENT floor (default 20) applied across every talk-time
-  diagnostic output. A "qualifying agent" is one with at least MIN_CALLS_PER_AGENT
-  records that have Talk Time > 0 in the current 13-week window. Non-qualifying
-  names (misattributed calls, test entries, ex-agents with a single record) are
-  excluded from the heatmap, deviation table, suspicious calls, outcome bars,
-  attempts analysis, scorecard and team baselines. This prevents dialer
-  attribution noise from cluttering agent-level analysis.
+  diagnostic output.
 
 Changes from v2.2:
 - Extended penetration pass to also carry Talk Time, Result Code,
   Agent name, Lead Total Attempts, last_call_date so talk time
   diagnostics can be computed from the same fetch (no extra API pass).
 - New aggregate_talk_time() emits diagnostics for the Talk Time QA tab.
-- No PII (customer name, phone) is written to data.json. Individual
-  suspicious calls carry only the Airtable record_id for click-through
-  to the authenticated Airtable base.
 """
 
 import json
@@ -46,6 +52,8 @@ CONVERTIBLE_CODES = ["PAYISSUE", "FREEZSPACE", "HEALTH", "CALLBACK", "MEDIFOOD",
 FILTER_FORMULA = 'OR({Result Outcome}="Sale",{Result Outcome}="Bad Data",{Result Outcome}="Convertible")'
 
 # Widened penetration-pass fields: adds fields needed for talk-time diagnostics
+# Phone Num is fetched but only a masked snippet (first 6 digits) is written to
+# data.json - the full number never leaves the pipeline environment.
 PENETRATION_FIELDS = [
     "Original List ID",
     "Result Outcome",
@@ -56,6 +64,7 @@ PENETRATION_FIELDS = [
     "Result Code",
     "Lead Total Attempts",
     "last_call_date",
+    "Phone Num",
 ]
 
 FIELDS = [
@@ -71,12 +80,15 @@ FIELDS = [
 
 # Talk-time diagnostics config
 HANGUP_TALK_TIME_THRESHOLD = 60   # seconds
+AGAM_TALK_TIME_THRESHOLD = 60     # seconds; AGAM calls with talk > this flag as suspicious
 SKEW_THRESHOLD_PCT = 25            # % deviation vs team avg
 SKEW_MIN_CALLS = 5                 # minimum calls per (agent, code) to be eligible for skew flag
 SKEW_MIN_TEAM_CALLS = 20           # minimum team calls for that code to compute a team baseline
 SKEW_MIN_TEAM_AVG = 5              # seconds; ignore team baselines below this to avoid tiny-number noise
 SUSPICIOUS_SAMPLE_CAP = 50         # cap sample records per flagged combo
 MIN_CALLS_PER_AGENT = 20           # agent-level floor: agents below this are excluded from all talk-time diagnostics
+CONVERSION_MIN_MINUTES = 5         # conversion-by-length starts at 5-minute calls
+CONVERSION_MAX_MINUTES = 15        # 15+ becomes the final bucket
 
 
 def log(msg):
@@ -525,30 +537,58 @@ def aggregate_penetration(raw_records, cutoff_weeks, cutoff_months):
 # --------------------------------------------------------------------
 
 def _attempts_bin(attempts):
-    """Bucket Lead Total Attempts into display bins."""
+    """Bucket Lead Total Attempts into display bins.
+    v2.5 extends the range: 1..10 explicit, then 10+ for the long tail.
+    """
     if attempts is None:
         return None
     if attempts <= 1:
         return "1"
-    if attempts == 2:
-        return "2"
-    if attempts == 3:
-        return "3"
-    if attempts == 4:
-        return "4"
-    return "5+"
+    if attempts >= 11:
+        return "10+"
+    return str(attempts)
 
 
 def _talk_bin(t):
-    if t < 30:
-        return "0-30"
+    """v2.5 bins: 0-1m / 1-3m / 3-5m / 5-10m / 10m+ (in seconds)."""
     if t < 60:
-        return "30-60"
-    if t < 120:
-        return "60-120"
+        return "0-1m"
+    if t < 180:
+        return "1-3m"
     if t < 300:
-        return "120-300"
-    return "300+"
+        return "3-5m"
+    if t < 600:
+        return "5-10m"
+    return "10m+"
+
+
+def _conversion_bucket(talk_seconds):
+    """Bucket a talk time (seconds) into a minute-integer bucket for the
+    conversion-by-length chart. Returns None if the call is below the
+    minimum (5 minutes). Buckets 5..14 map to their integer minute value;
+    anything at or above 15 minutes maps to '15+'.
+    """
+    if talk_seconds is None or talk_seconds < CONVERSION_MIN_MINUTES * 60:
+        return None
+    minutes = int(talk_seconds // 60)
+    if minutes >= CONVERSION_MAX_MINUTES:
+        return "15+"
+    return str(minutes)
+
+
+def _mask_phone(phone_str):
+    """Return the first 6 numeric digits of a phone number followed by asterisks
+    for the remainder. Anything non-numeric is stripped before masking.
+    Never emits fewer than 6 digits.
+    """
+    if not phone_str:
+        return ""
+    digits = "".join(c for c in str(phone_str) if c.isdigit())
+    if not digits:
+        return ""
+    if len(digits) <= 6:
+        return digits
+    return digits[:6] + "*" * (len(digits) - 6)
 
 
 def _round(x, n=1):
@@ -572,7 +612,10 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
       outcome_by_attempt
       talk_time_weekly_by_code
       hangup_over_60s
+      agam_over_60s
       skewed_combos
+      conversion_by_talk_length
+      suspicious_tile_counts
       talk_time_meta
     """
     # (agent, code) -> list of records: {t, date, rid}
@@ -587,8 +630,13 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
     weekly_code_agg = defaultdict(list)
     # code -> [t] (team baseline)
     team_code_talks = defaultdict(list)
+    # (agent, minute_bucket) -> {"total": N, "sales": M} — for conversion_by_talk_length
+    conv_by_length = defaultdict(lambda: {"total": 0, "sales": 0})
+    # (minute_bucket) -> {"total": N, "sales": M} — team total for the same
+    conv_by_length_team = defaultdict(lambda: {"total": 0, "sales": 0})
 
     hangup_over_60s = []
+    agam_over_60s = []
     parsed_count = 0
 
     # ---------------------------------------------------------------
@@ -654,6 +702,7 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         last_call_str = (fields.get("last_call_date") or "").strip()[:10]
         last_call_date = parse_date_utc(last_call_str) if last_call_str else None
         last_call_week_key = get_monday_of_week(last_call_date).isoformat() if last_call_date else None
+        phone_masked = _mask_phone(fields.get("Phone Num", ""))
 
         parsed_count += 1
 
@@ -662,6 +711,7 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "t": talk,
             "date": last_call_str,
             "rid": record_id,
+            "phone": phone_masked,
         })
         team_code_talks[code].append(talk)
 
@@ -679,6 +729,15 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         if last_call_week_key and last_call_week_key in cutoff_weeks:
             weekly_code_agg[(agent, last_call_week_key, code)].append(talk)
 
+        # --- conversion by talk length (min bucket) ---
+        conv_bucket = _conversion_bucket(talk)
+        if conv_bucket is not None:
+            conv_by_length[(agent, conv_bucket)]["total"] += 1
+            conv_by_length_team[conv_bucket]["total"] += 1
+            if outcome == "Sale":
+                conv_by_length[(agent, conv_bucket)]["sales"] += 1
+                conv_by_length_team[conv_bucket]["sales"] += 1
+
         # --- HANGUP > 60s flag ---
         if code == "HANGUP" and talk > HANGUP_TALK_TIME_THRESHOLD:
             hangup_over_60s.append({
@@ -688,6 +747,19 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
                 "outcome": outcome,
                 "talk": int(talk),
                 "record_id": record_id,
+                "phone_masked": phone_masked,
+            })
+
+        # --- AGAM > 60s flag ---
+        if code == "AGAM" and talk > AGAM_TALK_TIME_THRESHOLD:
+            agam_over_60s.append({
+                "date": last_call_str,
+                "agent": agent,
+                "code": code,
+                "outcome": outcome,
+                "talk": int(talk),
+                "record_id": record_id,
+                "phone_masked": phone_masked,
             })
 
     # --- Build talk_time_by_agent_code rows ---
@@ -742,6 +814,7 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "date": r["date"],
             "talk": int(r["t"]),
             "record_id": r["rid"],
+            "phone_masked": r.get("phone", ""),
         } for r in sorted_recs[:SUSPICIOUS_SAMPLE_CAP]]
         skewed_combos.append({
             "agent": agent,
@@ -768,11 +841,11 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "count": len(talks),
             "avg_talk": _round(sum(talks) / len(talks), 1),
             "median_talk": _round(median(talks), 1),
-            "bin_0_30": bins.get("0-30", 0),
-            "bin_30_60": bins.get("30-60", 0),
-            "bin_60_120": bins.get("60-120", 0),
-            "bin_120_300": bins.get("120-300", 0),
-            "bin_300_plus": bins.get("300+", 0),
+            "bin_0_1m": bins.get("0-1m", 0),
+            "bin_1_3m": bins.get("1-3m", 0),
+            "bin_3_5m": bins.get("3-5m", 0),
+            "bin_5_10m": bins.get("5-10m", 0),
+            "bin_10m_plus": bins.get("10m+", 0),
         })
 
     # --- talk_time_by_attempts_outcome (per agent) ---
@@ -806,8 +879,52 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "avg_talk": _round(sum(talks) / len(talks), 1),
         })
 
-    # --- HANGUP >60s: sort by date desc for default view ---
+    # --- HANGUP >60s and AGAM >60s: sort by date desc for default view ---
     hangup_over_60s.sort(key=lambda x: (x["date"] or "", x["agent"]), reverse=True)
+    agam_over_60s.sort(key=lambda x: (x["date"] or "", x["agent"]), reverse=True)
+
+    # --- Suspicious tile counts: per (agent, rule) counts for header tiles ---
+    tile_counts = defaultdict(lambda: {"hangup": 0, "agam": 0, "skew": 0})
+    for r in hangup_over_60s:
+        tile_counts[r["agent"]]["hangup"] += 1
+    for r in agam_over_60s:
+        tile_counts[r["agent"]]["agam"] += 1
+    for c in skewed_combos:
+        tile_counts[c["agent"]]["skew"] += 1
+    tile_rows = []
+    for agent, cnts in tile_counts.items():
+        tile_rows.append({
+            "agent": agent,
+            "hangup": cnts["hangup"],
+            "agam": cnts["agam"],
+            "skew": cnts["skew"],
+            "total": cnts["hangup"] + cnts["agam"] + cnts["skew"],
+        })
+    # Sort by total desc, then agent name
+    tile_rows.sort(key=lambda x: (-x["total"], x["agent"]))
+
+    # --- Conversion by talk length ---
+    conv_rows = []
+    for (agent, bucket), c in sorted(conv_by_length.items()):
+        total = c["total"]
+        sales = c["sales"]
+        conv_rows.append({
+            "agent": agent,
+            "minute": bucket,
+            "total": total,
+            "sales": sales,
+            "sale_pct": _round(100.0 * sales / total, 1) if total else None,
+        })
+    conv_team_rows = []
+    for bucket, c in sorted(conv_by_length_team.items(), key=lambda x: (0 if x[0] != "15+" else 1, x[0])):
+        total = c["total"]
+        sales = c["sales"]
+        conv_team_rows.append({
+            "minute": bucket,
+            "total": total,
+            "sales": sales,
+            "sale_pct": _round(100.0 * sales / total, 1) if total else None,
+        })
 
     # --- Team baselines (for client-side deviation shading) ---
     team_baseline_rows = []
@@ -827,15 +944,22 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         "outcome_by_attempt": outcome_by_attempt_rows,
         "talk_time_weekly_by_code": weekly_code_rows,
         "hangup_over_60s": hangup_over_60s,
+        "agam_over_60s": agam_over_60s,
         "skewed_combos": skewed_combos,
+        "suspicious_tile_counts": tile_rows,
+        "conversion_by_talk_length": conv_rows,
+        "conversion_by_talk_length_team": conv_team_rows,
         "talk_time_meta": {
             "records_with_talk_time": parsed_count,
             "hangup_threshold_seconds": HANGUP_TALK_TIME_THRESHOLD,
+            "agam_threshold_seconds": AGAM_TALK_TIME_THRESHOLD,
             "skew_threshold_pct": SKEW_THRESHOLD_PCT,
             "skew_min_calls": SKEW_MIN_CALLS,
             "skew_min_team_calls": SKEW_MIN_TEAM_CALLS,
             "sample_cap": SUSPICIOUS_SAMPLE_CAP,
             "min_calls_per_agent": MIN_CALLS_PER_AGENT,
+            "conversion_min_minutes": CONVERSION_MIN_MINUTES,
+            "conversion_max_minutes": CONVERSION_MAX_MINUTES,
             "qualifying_agents": len(qualifying_agents),
             "excluded_agent_names": excluded_agent_names,
             "airtable_base_id": AIRTABLE_BASE_ID,
@@ -926,7 +1050,10 @@ def main():
         + " by_attempts_outcome=" + str(len(output["talk_time_by_attempts_outcome"]))
         + " weekly_by_code=" + str(len(output["talk_time_weekly_by_code"]))
         + " hangup60=" + str(len(output["hangup_over_60s"]))
+        + " agam60=" + str(len(output["agam_over_60s"]))
         + " skewed_combos=" + str(len(output["skewed_combos"]))
+        + " tiles=" + str(len(output["suspicious_tile_counts"]))
+        + " conv_len_rows=" + str(len(output["conversion_by_talk_length"]))
     )
 
 
