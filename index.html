@@ -650,7 +650,7 @@ tr:hover td { background: var(--bb-cream); }
       </div>
       <div class="chart-container">
         <h3>Conversion by Call Length</h3>
-        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">For each minute-long bucket (5-6 min, 6-7 min, ..., 15+ min), the Sale conversion rate of the selected agents. Team average shown as a dashed line for reference.</p>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">For each minute-long bucket, the value plotted is <strong>(Sale calls in that bucket) / (all calls in that bucket) × 100</strong>. So a value of 30% at "6-7 min" for an agent means 30% of the calls they took that lasted 6-7 minutes ended in a Sale. This is NOT their overall sale rate. Team average shown as a dashed line for reference.</p>
         <div class="agent-picker-container" style="margin:0 24px 16px;">
           <h4>Select Agents to Chart</h4>
           <div class="agent-checkboxes" id="qaConvAgentPicker"></div>
@@ -2593,7 +2593,6 @@ function renderQaConversionByLength() {
               var v = ctx.parsed.y;
               var label = ctx.dataset.label;
               if (v === null || v === undefined) return label + ": no data";
-              // Look up N for this agent+bucket
               var bucket = buckets[ctx.dataIndex];
               if (label === "Team average") {
                 var t = teamLookup[bucket];
@@ -2604,6 +2603,13 @@ function renderQaConversionByLength() {
               }
             }
           }
+        },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] !== null; },
+          color: function(ctx) { return ctx.dataset.label === "Team average" ? "rgba(82,42,16,0.6)" : ctx.dataset.borderColor; },
+          anchor: "end", align: "top", offset: 4,
+          font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" },
+          formatter: function(v) { return v === null ? "" : Math.round(v) + "%"; }
         }
       }
     }
@@ -2640,7 +2646,18 @@ function renderQaOutcomeHistogram() {
         x: { stacked: true, title: { display: true, text: "Talk Time Bin" } },
         y: { stacked: true, title: { display: true, text: "Call Count" }, beginAtZero: true }
       },
-      plugins: { legend: { position: "top" }, title: { display: true, text: (picked === "__team__" ? "All Agents" : picked) } }
+      plugins: {
+        legend: { position: "top" },
+        title: { display: true, text: (picked === "__team__" ? "All Agents" : picked) },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 15; },
+          color: "#fff",
+          font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" },
+          anchor: "center",
+          align: "center",
+          formatter: function(v) { return v.toLocaleString(); }
+        }
+      }
     }
   });
 }
@@ -2668,7 +2685,17 @@ function renderQaAttempts() {
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, title: { display: true, text: "Call Count" } } },
-      plugins: { legend: { position: "top" } }
+      plugins: {
+        legend: { position: "top" },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] >= 80; },
+          color: "#fff",
+          font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" },
+          anchor: "center",
+          align: "center",
+          formatter: function(v) { return v.toLocaleString(); }
+        }
+      }
     }
   });
 
@@ -2750,7 +2777,14 @@ function renderQaAttemptsChart() {
       scales: { y: { title: { display: true, text: "Avg Talk (min) for " + outcome }, beginAtZero: true } },
       plugins: {
         legend: { position: "right" },
-        tooltip: { callbacks: { label: function(ctx) { var s = ctx.parsed.y * 60; return ctx.dataset.label + ": " + qaSecs(s); } } }
+        tooltip: { callbacks: { label: function(ctx) { var s = ctx.parsed.y * 60; return ctx.dataset.label + ": " + qaSecs(s); } } },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] !== null; },
+          color: function(ctx) { return ctx.dataset.borderColor; },
+          anchor: "end", align: "top", offset: 4,
+          font: { family: "IBM Plex Sans Condensed", size: 9, weight: "bold" },
+          formatter: function(v) { return v === null ? "" : v.toFixed(1) + "m"; }
+        }
       }
     }
   });
@@ -2869,14 +2903,20 @@ function renderQaScorecardTrend() {
   var mine = weekly.filter(function(r) { return r.agent === agent && r.code === code; });
   mine.sort(function(a, b) { return (a.week || "").localeCompare(b.week || ""); });
   var labels = mine.map(function(r) { return r.week; });
-  var data = mine.map(function(r) { return r.avg_talk; });
+  // Convert seconds to minutes for the Y-axis; keep original seconds for tooltip
+  var data = mine.map(function(r) { return r.avg_talk / 60; });
 
-  var teamAvg = null;
-  baseline.forEach(function(b) { if (b.code === code && b.count >= 20) teamAvg = b.avg_talk; });
+  var teamAvgSec = null;
+  baseline.forEach(function(b) { if (b.code === code && b.count >= 20) teamAvgSec = b.avg_talk; });
+  var teamAvgMin = teamAvgSec !== null ? teamAvgSec / 60 : null;
 
-  var datasets = [{ label: agent, borderColor: "#A43260", backgroundColor: "#A43260", data: data, tension: 0.2 }];
-  if (teamAvg !== null) {
-    datasets.push({ label: "Team avg (" + qaSecs(teamAvg) + ")", data: labels.map(function() { return teamAvg; }), borderColor: "rgba(82,42,16,0.5)", borderDash: [5, 5], pointRadius: 0, fill: false });
+  var datasets = [{ label: agent, borderColor: "#A43260", backgroundColor: "#A43260", data: data, tension: 0.2, pointRadius: 4 }];
+  if (teamAvgMin !== null) {
+    datasets.push({
+      label: "Team avg (" + qaSecs(teamAvgSec) + ")",
+      data: labels.map(function() { return teamAvgMin; }),
+      borderColor: "rgba(82,42,16,0.5)", borderDash: [5, 5], pointRadius: 0, fill: false
+    });
   }
 
   qaDestroyChart("scoreTrend");
@@ -2885,8 +2925,18 @@ function renderQaScorecardTrend() {
     data: { labels: labels, datasets: datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
-      scales: { y: { title: { display: true, text: "Avg Talk (s)" }, beginAtZero: true } },
-      plugins: { legend: { position: "top" }, tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ": " + qaSecs(ctx.parsed.y); } } } }
+      scales: { y: { title: { display: true, text: "Avg Talk (min)" }, beginAtZero: true } },
+      plugins: {
+        legend: { position: "top" },
+        tooltip: { callbacks: { label: function(ctx) { var secs = ctx.parsed.y * 60; return ctx.dataset.label + ": " + qaSecs(secs); } } },
+        datalabels: {
+          display: function(ctx) { return ctx.datasetIndex === 0 && ctx.dataset.data[ctx.dataIndex] !== null; },
+          color: "#522A10",
+          anchor: "end", align: "top", offset: 4,
+          font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" },
+          formatter: function(v) { return v === null ? "" : v.toFixed(1) + "m"; }
+        }
+      }
     }
   });
 }
