@@ -554,6 +554,7 @@ tr:hover td { background: var(--bb-cream); }
       <button data-sub="outcome" onclick="setQaSubTab('outcome')">Outcome Analysis</button>
       <button data-sub="attempts" onclick="setQaSubTab('attempts')">Attempts Analysis</button>
       <button data-sub="scorecard" onclick="setQaSubTab('scorecard')">Agent Deep Dive</button>
+      <button data-sub="weekly" onclick="setQaSubTab('weekly')">Weekly Sale Trend</button>
     </div>
 
     <div class="sub-panel active" id="sub-team">
@@ -719,6 +720,32 @@ tr:hover td { background: var(--bb-cream); }
           <select class="agent-dropdown" id="qaScorecardCodeSelect" onchange="renderQaScorecardTrend()"></select>
         </div>
         <div class="chart-wrapper" style="height:380px;"><canvas id="qaScorecardTrendChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-weekly">
+      <div class="qa-info-banner">
+        <strong>Weekly Sale Trend.</strong> Chart 1 shows the average talk time on Sale-outcome calls per week (Monday-Sunday, by Last Call Date). Chart 2 shows daily average talk time across all outcomes for the most recently completed Mon-Sun week. Business week numbers follow the BNB internal convention (Week 1 starts Monday 29 Dec 2025).
+      </div>
+      <div class="qa-metric-strip" id="qaWeeklyMetricStrip"></div>
+      <div class="agent-picker-container" style="margin:0 0 20px;">
+        <h4>Select Agents</h4>
+        <div class="agent-checkboxes" id="qaWeeklyAgentPicker"></div>
+        <div class="picker-actions">
+          <button onclick="qaWeeklySelectTop5()">Top 5 by Sale volume</button>
+          <button onclick="qaWeeklySelectAll()">Select All</button>
+          <button onclick="qaWeeklySelectNone()">Clear All</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h3>Weekly average talk time on Sale-outcome calls</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Y-axis is minutes. Team average across all agents shown as a dashed line for reference. Small numbers below the agent legend are total Sale calls for that agent across the window.</p>
+        <div class="chart-wrapper" style="height:420px;"><canvas id="qaWeeklySaleChart"></canvas></div>
+      </div>
+      <div class="chart-container">
+        <h3 id="qaDailyChartTitle">Daily average talk time — last completed week</h3>
+        <p style="padding:0 24px 12px;color:var(--bb-brown-light);font-size:12px;">Y-axis is minutes. One bar per selected agent per day. Days with zero calls across all selected agents are hidden (weekends usually).</p>
+        <div class="chart-wrapper" style="height:400px;"><canvas id="qaWeeklyDailyChart"></canvas></div>
       </div>
     </div>
   </div>
@@ -1989,6 +2016,10 @@ var qaConvSelectedAgents = {};         // agent name -> true when selected in th
 var qaConvPickerInitialised = false;
 var qaAttemptsSelectedAgents = {};     // agent name -> true when selected in the attempts picker
 var qaAttemptsPickerInitialised = false;
+var qaWklySelectedAgents = {};         // agent name -> true when selected in the weekly trend picker
+var qaWklyPickerInitialised = false;
+// Business week epoch: BNB internal convention — Week 1 starts Monday 29 Dec 2025
+var QA_WEEK_EPOCH = new Date("2025-12-29T00:00:00Z");
 var QA_OUTCOME_ORDER = ["Sale", "Convertible", "Bad Data", "Not Spoken", "N/A", "Unknown"];
 
 // --- Helpers -------------------------------------------------
@@ -2068,6 +2099,7 @@ function renderQa() {
   else if (qaSubTab === "outcome") renderQaOutcomeAnalysis();
   else if (qaSubTab === "attempts") renderQaAttempts();
   else if (qaSubTab === "scorecard") renderQaScorecard();
+  else if (qaSubTab === "weekly") renderQaWeeklySaleTrend();
 }
 
 // --- Sub-tab 1: Team View (Heatmap + Deviation) --------------
@@ -2934,6 +2966,189 @@ function renderQaScorecardTrend() {
           color: "#522A10",
           anchor: "end", align: "top", offset: 4,
           font: { family: "IBM Plex Sans Condensed", size: 10, weight: "bold" },
+          formatter: function(v) { return v === null ? "" : v.toFixed(1) + "m"; }
+        }
+      }
+    }
+  });
+}
+
+// --- Sub-tab 6: Weekly Sale Trend ----------------------------
+
+function qaBusinessWeek(mondayIsoStr) {
+  // Return the BNB business week number (Week 1 = Monday 29 Dec 2025).
+  var d = new Date(mondayIsoStr + "T00:00:00Z");
+  var days = Math.floor((d - QA_WEEK_EPOCH) / 86400000);
+  return Math.floor(days / 7) + 1;
+}
+
+function qaWeeklyToggle(name) {
+  if (qaWklySelectedAgents[name]) delete qaWklySelectedAgents[name];
+  else qaWklySelectedAgents[name] = true;
+  qaRepaintAgentPicker("qaWeeklyAgentPicker", qaWklySelectedAgents);
+  renderQaWeeklySaleTrend();
+}
+function qaWeeklySelectAll() {
+  var d = qaData(); var rows = d.talk_time_weekly_sale_by_agent || [];
+  rows.forEach(function(r) { qaWklySelectedAgents[r.agent] = true; });
+  qaRepaintAgentPicker("qaWeeklyAgentPicker", qaWklySelectedAgents);
+  renderQaWeeklySaleTrend();
+}
+function qaWeeklySelectNone() {
+  qaWklySelectedAgents = {};
+  qaRepaintAgentPicker("qaWeeklyAgentPicker", qaWklySelectedAgents);
+  renderQaWeeklySaleTrend();
+}
+function qaWeeklySelectTop5() {
+  var d = qaData(); var rows = d.talk_time_weekly_sale_by_agent || [];
+  var totals = {};
+  rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.count; });
+  qaWklySelectedAgents = {};
+  Object.keys(totals).sort(function(a, b) { return totals[b] - totals[a]; }).slice(0, 5).forEach(function(a) { qaWklySelectedAgents[a] = true; });
+  qaRepaintAgentPicker("qaWeeklyAgentPicker", qaWklySelectedAgents);
+  renderQaWeeklySaleTrend();
+}
+
+function renderQaWeeklySaleTrend() {
+  var d = qaData();
+  var rows = d.talk_time_weekly_sale_by_agent || [];
+  var dailyRows = d.talk_time_last_week_daily || [];
+  var meta = d.talk_time_meta || {};
+  var weekStart = meta.last_completed_week_start;
+  var weekEnd = meta.last_completed_week_end;
+
+  // Initialise picker on first render (top 5 by Sale volume)
+  if (!qaWklyPickerInitialised) {
+    var aset = {};
+    rows.forEach(function(r) { aset[r.agent] = true; });
+    var agents = Object.keys(aset).sort();
+    var totals = {};
+    rows.forEach(function(r) { totals[r.agent] = (totals[r.agent] || 0) + r.count; });
+    agents.slice().sort(function(a, b) { return (totals[b] || 0) - (totals[a] || 0); }).slice(0, 5).forEach(function(a) { qaWklySelectedAgents[a] = true; });
+    qaRenderAgentPicker("qaWeeklyAgentPicker", agents, qaWklySelectedAgents, "qaWeeklyToggle");
+    qaWklyPickerInitialised = true;
+  }
+
+  // Metric strip: which week is Chart 2 covering, and total Sale calls in the window
+  var totalSaleCalls = rows.reduce(function(s, r) { return s + r.count; }, 0);
+  var picked = Object.keys(qaWklySelectedAgents).filter(function(a) { return qaWklySelectedAgents[a]; });
+  var pickedSaleCalls = rows.filter(function(r) { return qaWklySelectedAgents[r.agent]; }).reduce(function(s, r) { return s + r.count; }, 0);
+  var pickedDailyCalls = dailyRows.filter(function(r) { return qaWklySelectedAgents[r.agent]; }).reduce(function(s, r) { return s + r.count; }, 0);
+  var weekLabel = (weekStart && weekEnd) ? (weekStart + " → " + weekEnd) : "—";
+  var weekNo = weekStart ? qaBusinessWeek(weekStart) : "—";
+  document.getElementById("qaWeeklyMetricStrip").innerHTML =
+    '<div class="qa-metric-tile"><div class="label">Last completed week</div><div class="value">Week ' + weekNo + '</div><div style="font-size:11px;color:var(--bb-brown-light);margin-top:2px;">' + weekLabel + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Agents Selected</div><div class="value">' + picked.length + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Their Sale Calls (window)</div><div class="value">' + pickedSaleCalls.toLocaleString() + '</div></div>' +
+    '<div class="qa-metric-tile"><div class="label">Their Calls Last Week</div><div class="value">' + pickedDailyCalls.toLocaleString() + '</div></div>';
+
+  document.getElementById("qaDailyChartTitle").textContent = "Daily average talk time — Week " + weekNo + " (" + weekLabel + ")";
+
+  // Unique weeks across the data, ISO sorted asc
+  var weekSet = {};
+  rows.forEach(function(r) { weekSet[r.week] = true; });
+  var weeks = Object.keys(weekSet).sort();
+  var weekLabels = weeks.map(function(w) { return "Week " + qaBusinessWeek(w); });
+
+  // ---- Chart 1: weekly Sale talk time, one line per selected agent + team avg ----
+  var lookup = {};
+  rows.forEach(function(r) { lookup[r.agent + "|" + r.week] = r; });
+
+  // Team weekly avg (weighted by count)
+  var teamByWeek = {};
+  weeks.forEach(function(w) {
+    var sum = 0, n = 0;
+    rows.forEach(function(r) { if (r.week === w) { sum += (r.avg_talk || 0) * r.count; n += r.count; } });
+    teamByWeek[w] = n > 0 ? (sum / n) / 60 : null; // minutes
+  });
+
+  var chart1Datasets = picked.map(function(a, i) {
+    return {
+      label: a,
+      borderColor: QA_PALETTE[i % QA_PALETTE.length],
+      backgroundColor: QA_PALETTE[i % QA_PALETTE.length],
+      data: weeks.map(function(w) { var r = lookup[a + "|" + w]; return r && r.count > 0 ? r.avg_talk / 60 : null; }),
+      spanGaps: true, tension: 0.2, pointRadius: 4
+    };
+  });
+  chart1Datasets.push({
+    label: "Team average",
+    borderColor: "rgba(82,42,16,0.5)",
+    backgroundColor: "rgba(82,42,16,0.05)",
+    borderDash: [6, 4],
+    data: weeks.map(function(w) { return teamByWeek[w]; }),
+    pointRadius: 3, spanGaps: true
+  });
+
+  qaDestroyChart("weeklySale");
+  qaCharts.weeklySale = new Chart(document.getElementById("qaWeeklySaleChart"), {
+    type: "line",
+    data: { labels: weekLabels, datasets: chart1Datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { title: { display: true, text: "Avg Sale talk time (min)" }, beginAtZero: true },
+        x: { title: { display: true, text: "Business week (Mon-Sun by Last Call Date)" } }
+      },
+      plugins: {
+        legend: { position: "right" },
+        tooltip: { callbacks: { label: function(ctx) { var s = ctx.parsed.y * 60; return ctx.dataset.label + ": " + qaSecs(s); } } },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.label !== "Team average" && ctx.dataset.data[ctx.dataIndex] !== null; },
+          color: function(ctx) { return ctx.dataset.borderColor; },
+          anchor: "end", align: "top", offset: 4,
+          font: { family: "'Bricolage Grotesque'", size: 9, weight: "bold" },
+          formatter: function(v) { return v === null ? "" : v.toFixed(1) + "m"; }
+        }
+      }
+    }
+  });
+
+  // ---- Chart 2: last completed week, days of the week grouped bars per agent ----
+  // Filter to picked agents; determine which days have any data
+  var dayLookup = {};
+  dailyRows.forEach(function(r) {
+    if (qaWklySelectedAgents[r.agent]) {
+      dayLookup[r.agent + "|" + r.day_iso] = r;
+    }
+  });
+  var dayNames = { 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat", 7: "Sun" };
+  var daysPresent = [];
+  for (var di = 1; di <= 7; di++) {
+    var anyCall = false;
+    for (var i = 0; i < picked.length; i++) {
+      if (dayLookup[picked[i] + "|" + di]) { anyCall = true; break; }
+    }
+    if (anyCall) daysPresent.push(di);
+  }
+
+  var chart2Datasets = picked.map(function(a, i) {
+    return {
+      label: a,
+      backgroundColor: QA_PALETTE[i % QA_PALETTE.length],
+      borderColor: QA_PALETTE[i % QA_PALETTE.length],
+      data: daysPresent.map(function(di) { var r = dayLookup[a + "|" + di]; return r && r.count > 0 ? r.avg_talk / 60 : null; })
+    };
+  });
+
+  qaDestroyChart("weeklyDaily");
+  qaCharts.weeklyDaily = new Chart(document.getElementById("qaWeeklyDailyChart"), {
+    type: "bar",
+    data: { labels: daysPresent.map(function(di) { return dayNames[di]; }), datasets: chart2Datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { title: { display: true, text: "Avg talk time (min)" }, beginAtZero: true },
+        x: { title: { display: true, text: "Day of last completed week" } }
+      },
+      plugins: {
+        legend: { position: "top" },
+        tooltip: { callbacks: { label: function(ctx) { var v = ctx.parsed.y; if (v === null) return ctx.dataset.label + ": no calls"; var s = v * 60; var r = dayLookup[ctx.dataset.label + "|" + daysPresent[ctx.dataIndex]]; return ctx.dataset.label + ": " + qaSecs(s) + " (" + (r ? r.count : 0) + " calls)"; } } },
+        datalabels: {
+          display: function(ctx) { return ctx.dataset.data[ctx.dataIndex] !== null; },
+          color: "#fff",
+          anchor: "center", align: "center",
+          font: { family: "'Bricolage Grotesque'", size: 10, weight: "bold" },
           formatter: function(v) { return v === null ? "" : v.toFixed(1) + "m"; }
         }
       }

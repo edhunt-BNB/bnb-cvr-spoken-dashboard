@@ -1,9 +1,19 @@
 #!/usr/bin/env python3
 """
-update_data.py  v2.5
+update_data.py  v2.6
 
 Reads telesales lead data from Airtable and produces data.json
 for a GitHub Pages dashboard.
+
+Changes from v2.5:
+- New weekly Sale-outcome talk time aggregation for the Weekly Sale Trend sub-tab:
+    talk_time_weekly_sale_by_agent (agent, week_start, count, avg_talk in seconds)
+- New daily talk time for the last fully completed Monday-Sunday week:
+    talk_time_last_week_daily (agent, day_of_week_iso 1-7, count, avg_talk in seconds)
+- talk_time_meta now carries last_completed_week_start and last_completed_week_end
+  so the front-end can label Chart 2 with the exact date range it is showing.
+- Business week numbering (BNB internal: Week 1 starts Monday 29 Dec 2025) is
+  computed client-side from the ISO Monday date; not stored in data.json.
 
 Changes from v2.4:
 - New talk-time bins for the Outcome Analysis histogram:
@@ -634,6 +644,17 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
     conv_by_length = defaultdict(lambda: {"total": 0, "sales": 0})
     # (minute_bucket) -> {"total": N, "sales": M} — team total for the same
     conv_by_length_team = defaultdict(lambda: {"total": 0, "sales": 0})
+    # (agent, week_start_iso) -> [t] — Sale-outcome talks only, for Weekly Sale Trend chart 1
+    sale_weekly_agg = defaultdict(list)
+    # (agent, day_of_week_iso 1..7) -> [t] — all-outcome talks in last completed Mon-Sun week
+    daily_last_week_agg = defaultdict(list)
+
+    # Compute the last fully completed Mon-Sun week (relative to the pipeline run's date)
+    today = datetime.date.today()
+    days_to_current_monday = today.weekday()  # Mon=0, Sun=6
+    current_monday = today - datetime.timedelta(days=days_to_current_monday)
+    last_week_monday = current_monday - datetime.timedelta(days=7)
+    last_week_sunday = last_week_monday + datetime.timedelta(days=6)
 
     hangup_over_60s = []
     agam_over_60s = []
@@ -728,6 +749,16 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         # --- weekly by code ---
         if last_call_week_key and last_call_week_key in cutoff_weeks:
             weekly_code_agg[(agent, last_call_week_key, code)].append(talk)
+
+        # --- weekly Sale-outcome only (feeds Chart 1 of Weekly Sale Trend) ---
+        if outcome == "Sale" and last_call_week_key and last_call_week_key in cutoff_weeks:
+            sale_weekly_agg[(agent, last_call_week_key)].append(talk)
+
+        # --- daily last completed week (feeds Chart 2 of Weekly Sale Trend) ---
+        if last_call_date is not None and last_week_monday <= last_call_date <= last_week_sunday:
+            # weekday() returns 0-6 (Mon=0). Convert to ISO 1-7 (Mon=1..Sun=7)
+            day_iso = last_call_date.weekday() + 1
+            daily_last_week_agg[(agent, day_iso)].append(talk)
 
         # --- conversion by talk length (min bucket) ---
         conv_bucket = _conversion_bucket(talk)
@@ -879,6 +910,26 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "avg_talk": _round(sum(talks) / len(talks), 1),
         })
 
+    # --- talk_time_weekly_sale_by_agent (Chart 1: Sale-outcome talk time by week) ---
+    sale_weekly_rows = []
+    for (agent, wk), talks in sorted(sale_weekly_agg.items()):
+        sale_weekly_rows.append({
+            "agent": agent,
+            "week": wk,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+        })
+
+    # --- talk_time_last_week_daily (Chart 2: all-outcome talk by day for last completed week) ---
+    daily_last_week_rows = []
+    for (agent, day_iso), talks in sorted(daily_last_week_agg.items()):
+        daily_last_week_rows.append({
+            "agent": agent,
+            "day_iso": day_iso,
+            "count": len(talks),
+            "avg_talk": _round(sum(talks) / len(talks), 1),
+        })
+
     # --- HANGUP >60s and AGAM >60s: sort by date desc for default view ---
     hangup_over_60s.sort(key=lambda x: (x["date"] or "", x["agent"]), reverse=True)
     agam_over_60s.sort(key=lambda x: (x["date"] or "", x["agent"]), reverse=True)
@@ -946,6 +997,8 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
         "hangup_over_60s": hangup_over_60s,
         "agam_over_60s": agam_over_60s,
         "skewed_combos": skewed_combos,
+        "talk_time_weekly_sale_by_agent": sale_weekly_rows,
+        "talk_time_last_week_daily": daily_last_week_rows,
         "suspicious_tile_counts": tile_rows,
         "conversion_by_talk_length": conv_rows,
         "conversion_by_talk_length_team": conv_team_rows,
@@ -964,6 +1017,8 @@ def aggregate_talk_time(raw_records, cutoff_weeks):
             "excluded_agent_names": excluded_agent_names,
             "airtable_base_id": AIRTABLE_BASE_ID,
             "airtable_table_id": AIRTABLE_TABLE_ID,
+            "last_completed_week_start": last_week_monday.isoformat(),
+            "last_completed_week_end": last_week_sunday.isoformat(),
         },
     }
 
